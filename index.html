@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO | OFFICIAL SHOP</title>
+    <title>FUOCO AMICO | SHOP</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #ff3a3a; }
@@ -13,54 +13,60 @@
             overflow: hidden; font-family: sans-serif; 
             touch-action: none; -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
-            background-color: #2e4a1e;
-            background-image: url('sfondo_pongo.PNG'); 
-            background-size: cover; background-position: center; background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: #2e4a1e url('sfondo_pongo.PNG') center/cover no-repeat fixed;
         }
 
-        img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
+        img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.6)); }
         .header-btn, .brand-pongo, .draggable-img, .btn-qty, .btn-black, .btn-clear, .apple-pay-btn { pointer-events: auto !important; }
 
+        /* HEADER - RITORNATO GIGANTE */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); z-index: 9999; height: 120px; 
+            padding: 30px; position: fixed; top: 0; width: calc(100% - 60px); z-index: 9999; height: 130px; 
         }
-        .header-btn { width: 110px; height: 110px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .header-btn { width: 115px; height: 115px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .header-btn:active { transform: scale(1.4) rotate(10deg); }
-        .logo-central { width: 180px; }
+        .logo-central { width: 190px; }
 
+        /* SHOP FLOOR */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
-        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 200; transform: translate3d(0,0,0); }
-        .item-container img { width: 220px; height: auto; }
-        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 10px; margin-top: 8px; background: #000; color: #fff; padding: 6px 12px; border: 3px solid #000; }
+        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 200; }
+        .item-container img { width: 230px; height: auto; }
+        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 11px; margin-top: 10px; background: #000; color: #fff; padding: 7px 14px; border: 3px solid #000; }
 
+        /* TANK ANIMATION */
         @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.6) rotate(-25deg); } 100% { transform: scale(1); } }
         .masticando { animation: tankEat 0.6s ease-out; }
 
-        footer { position: fixed; bottom: 5px; width: 100%; text-align: center; z-index: 50; }
-        .brand-pongo { width: 400px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .brand-pongo:active { transform: scale(1.2) rotate(-3deg); }
+        /* FOOTER - SEMPRE VISIBILE IN BASSO */
+        footer { position: fixed; bottom: 8px; width: 100%; text-align: center; z-index: 50; height: 80px; }
+        .brand-pongo { width: 420px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        /* Reazione al tocco/passaggio */
+        .brand-pongo:active, .brand-pongo:hover { transform: scale(1.15) rotate(-3deg); filter: drop-shadow(0 0 15px var(--brand-red)); }
 
-        #checkout-panel { display: none; position: fixed; bottom: 130px; left: 50%; transform: translateX(-50%); z-index: 9000; text-align: center; }
+        /* PANNELLO CHECKOUT - POSIZIONATO SOPRA IL FOOTER */
+        #checkout-panel { 
+            display: none; position: fixed; bottom: 150px; left: 50%; 
+            transform: translateX(-50%); z-index: 9000; text-align: center; 
+        }
         .subtotal-box { background: #fff; border: 4px solid #000; padding: 12px; font-family: 'Press Start 2P'; font-size: 11px; margin-bottom: 12px; box-shadow: 6px 6px 0 #000; }
-        .panel-buttons { display: flex; gap: 10px; justify-content: center; }
+        .panel-buttons { display: flex; gap: 12px; justify-content: center; }
         
-        .btn-black { background: #000; color: #fff; padding: 20px; border: none; font-family: 'Press Start 2P'; font-size: 11px; box-shadow: 6px 6px 0 var(--brand-red); width: 180px; cursor: pointer; }
-        .btn-clear { background: #fff; color: #000; padding: 20px; border: 4px solid #000; font-family: 'Press Start 2P'; font-size: 11px; box-shadow: 6px 6px 0 #000; width: 120px; cursor: pointer; }
+        .btn-black { background: #000; color: #fff; padding: 22px; border: none; font-family: 'Press Start 2P'; font-size: 12px; box-shadow: 7px 7px 0 var(--brand-red); width: 200px; cursor: pointer; }
+        .btn-clear { background: #fff; color: #000; padding: 22px; border: 4px solid #000; font-family: 'Press Start 2P'; font-size: 11px; box-shadow: 7px 7px 0 #000; width: 130px; cursor: pointer; }
 
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 20000; display: none; flex-direction: column; align-items: center; padding-top: 40px; overflow-y: auto; }
-        .cart-summary { width: 90%; border: 4px solid #000; background: #f2f2f2; padding: 15px; margin-bottom: 25px; box-sizing: border-box; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; font-family: 'Press Start 2P'; font-size: 9px; margin: 15px 0; border-bottom: 2px solid #000; padding-bottom: 10px; }
-        .qty-controls { display: flex; align-items: center; gap: 10px; }
-        .btn-qty { background: #000; color: #fff; border: none; padding: 8px 12px; font-family: 'Press Start 2P'; cursor: pointer; }
+        /* OVERLAYS */
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 20000; display: none; flex-direction: column; align-items: center; padding-top: 50px; overflow-y: auto; }
+        .cart-summary { width: 90%; border: 4px solid #000; background: #f2f2f2; padding: 15px; margin-bottom: 30px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; font-family: 'Press Start 2P'; font-size: 10px; margin: 15px 0; border-bottom: 2px solid #000; padding-bottom: 12px; }
+        .btn-qty { background: #000; color: #fff; border: none; padding: 10px 14px; font-family: 'Press Start 2P'; cursor: pointer; }
         
-        .payment-form { width: 85%; display: flex; flex-direction: column; gap: 12px; padding-bottom: 60px; }
-        .payment-form input { padding: 18px; border: 3px solid #000; font-size: 16px; font-family: sans-serif; border-radius: 0; -webkit-appearance: none; }
-        .apple-pay-btn { background: #000; color: #fff; padding: 18px; border-radius: 12px; font-weight: bold; font-size: 22px; display: flex; align-items: center; justify-content: center; border: none; }
+        .payment-form { width: 85%; display: flex; flex-direction: column; gap: 15px; padding-bottom: 80px; }
+        .payment-form input { padding: 18px; border: 3px solid #000; font-size: 16px; border-radius: 0; }
+        .apple-pay-btn { background: #000; color: #fff; padding: 20px; border-radius: 12px; font-weight: bold; font-size: 24px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
 
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 30000; }
-        .bar { width: 250px; height: 25px; border: 5px solid #000; margin-top: 25px; }
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 30000; display: none; flex-direction: column; justify-content: center; align-items: center; }
+        .bar { width: 260px; height: 26px; border: 5px solid #000; margin-top: 30px; }
         .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
     </style>
 </head>
@@ -79,11 +85,11 @@
             <img src="image_cap.PNG" class="draggable-img">
             <span class="price-tag">45€</span>
         </div>
-        <div class="item-container" style="top:32%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
+        <div class="item-container" style="top:35%; left:53%;" data-price="65" data-id="tee" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img">
             <span class="price-tag">65€</span>
         </div>
-        <div class="item-container" style="top:58%; left:32%;" data-price="90" data-id="jeans" data-name="JEANS">
+        <div class="item-container" style="top:58%; left:30%;" data-price="90" data-id="jeans" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img">
             <span class="price-tag">90€</span>
         </div>
@@ -118,10 +124,12 @@
         <button class="btn-black" onclick="closePages()" style="width:200px">INDIETRO</button>
     </div>
 
-    <footer><img src="brand_name.png" class="brand-pongo gnam-hover"></footer>
+    <footer>
+        <img src="brand_name.png" class="brand-pongo gnam-hover">
+    </footer>
 
     <div id="loading-screen">
-        <div style="font-family:'Press Start 2P'; font-size:12px; text-align:center;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
+        <div style="font-family:'Press Start 2P'; font-size:14px; text-align:center;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
         <div class="bar"><div id="fill-bar" class="fill"></div></div>
     </div>
 
@@ -130,7 +138,7 @@
         const gnam = document.getElementById('gnam-sound');
         let cart = {};
 
-        // Sblocco audio su mobile
+        // Sblocco audio
         document.body.addEventListener('touchstart', () => {
             gnam.play().then(() => { gnam.pause(); gnam.currentTime = 0; });
         }, {once: true});
@@ -138,8 +146,11 @@
         function showPage(id) { document.getElementById(id).style.display = 'flex'; gnam.play(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
+        // Suono per tutte le icone interattive
         document.querySelectorAll('.gnam-hover').forEach(el => {
-            el.addEventListener('touchstart', () => { gnam.currentTime = 0; gnam.play(); });
+            const playSuono = () => { gnam.currentTime = 0; gnam.play(); };
+            el.addEventListener('touchstart', playSuono);
+            el.addEventListener('mouseenter', playSuono);
         });
 
         interact('.item-container').draggable({
@@ -158,7 +169,7 @@
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const id = item.getAttribute('data-id');
-                gnam.play();
+                gnam.currentTime = 0; gnam.play();
                 if(cart[id]) { cart[id].qty++; } else { 
                     cart[id] = {name: item.getAttribute('data-name'), price: parseInt(item.getAttribute('data-price')), qty: 1}; 
                 }
@@ -171,8 +182,7 @@
         function clearCart() {
             cart = {};
             document.querySelectorAll('.item-container').forEach(el => {
-                el.style.display = 'flex'; el.style.opacity = '1'; el.style.transform = 'translate3d(0,0,0)'; el.style.zIndex = '200';
-                el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
+                el.style.display = 'flex'; el.style.opacity = '1'; el.style.transform = 'translate3d(0,0,0)'; el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
             });
             updateUI();
         }
