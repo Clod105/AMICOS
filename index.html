@@ -3,51 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO</title>
+    <title>FUOCO AMICO | SHOP</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #ff3a3a; }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #fff; font-family: sans-serif; touch-action: none; }
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            overflow: hidden; background: #fff; font-family: sans-serif; 
+            touch-action: none; -webkit-tap-highlight-color: transparent;
+        }
 
-        /* HEADER FIX */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); z-index: 1000; height: 80px; }
-        .header-btn { width: 75px; height: 75px; cursor: pointer; transition: 0.2s; z-index: 1100; position: relative; }
-        .logo-central { width: 130px; height: auto; }
+        /* HEADER STABILE */
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); 
+            z-index: 9999; height: 80px; transform: translateZ(0); 
+        }
+        .header-btn { 
+            width: 75px; height: 75px; cursor: pointer; transition: 0.2s; 
+            object-fit: contain; -webkit-user-drag: none;
+        }
+        .logo-central { width: 130px; }
 
-        /* SHOP FLOOR & VESTITI */
-        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 10; visibility: visible !important; }
-        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: grab; z-index: 50; }
-        .item-container img { width: 180px; height: auto; pointer-events: none; -webkit-user-drag: none; border-radius: 10px; }
+        /* SHOP FLOOR */
+        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
+        
+        .item-container { 
+            position: absolute; display: flex; flex-direction: column; 
+            align-items: center; z-index: 200; transform: translateZ(0);
+            will-change: transform;
+        }
+        .item-container img { 
+            width: 180px; height: auto; pointer-events: none; 
+            -webkit-user-drag: none; filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.05));
+        }
         
         .price-tag { 
             font-family: 'Press Start 2P', cursive; font-size: 10px; margin-top: 10px; 
             background: #000; color: #fff; padding: 6px 10px; border: 2px solid #000;
+            pointer-events: none;
         }
 
-        /* TANK ANIMATION */
-        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2) rotate(-20deg); } 100% { transform: scale(1); } }
-        .masticando { animation: tankEat 0.7s ease-out; }
+        /* ANIMAZIONE TANK */
+        @keyframes tankEat { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.8) rotate(-15deg); } 
+            100% { transform: scale(1); } 
+        }
+        .masticando { animation: tankEat 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-        /* FORM CHECKOUT ORIGINALE */
+        /* FORM CHECKOUT */
         #order-form { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: white; z-index: 6000; flex-direction: column; align-items: center; justify-content: center; 
+            background: white; z-index: 10000; flex-direction: column; align-items: center; 
+            padding-top: 50px; overflow-y: auto;
         }
-        .form-content { width: 85%; display: flex; flex-direction: column; gap: 10px; }
-        input { padding: 15px; border: 4px solid #000; font-size: 16px; width: 100%; box-sizing: border-box; }
-        .btn-black { background: #000; color: #fff; padding: 18px; border: none; font-family: 'Press Start 2P'; font-size: 11px; margin-top: 15px; box-shadow: 6px 6px 0 var(--brand-red); cursor: pointer; }
-
-        /* OVERLAYS */
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        #checkout-panel { display: none; position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); z-index: 100; }
+        .form-content { width: 85%; display: flex; flex-direction: column; gap: 15px; }
+        input, select { 
+            padding: 15px; border: 4px solid #000; font-size: 16px; width: 100%; 
+            box-sizing: border-box; background: #fff; border-radius: 0;
+        }
+        
+        .btn-black { 
+            background: #000; color: #fff; padding: 18px; border: none; 
+            font-family: 'Press Start 2P'; font-size: 11px; margin-top: 20px; 
+            box-shadow: 6px 6px 0 var(--brand-red); width: 100%;
+        }
 
         /* LOADING */
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9000; }
+        #loading-screen { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: white; display: none; flex-direction: column; 
+            justify-content: center; align-items: center; z-index: 20000; 
+        }
         .bar { width: 220px; height: 20px; border: 4px solid #000; margin-top: 25px; }
         .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
 
         footer { position: fixed; bottom: 25px; width: 100%; text-align: center; z-index: 50; }
-        .brand-pongo { width: 320px; transition: 0.3s; }
+        .brand-pongo { width: 320px; animation: bounce 3s infinite ease-in-out; }
+        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        #checkout-panel { display: none; position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); z-index: 900; }
     </style>
 </head>
 <body>
@@ -65,7 +101,7 @@
             <img src="image_cap.png">
             <span class="price-tag">CAP 45€</span>
         </div>
-        <div class="item-container" style="top:38%; left:55%;" data-price="65">
+        <div class="item-container" style="top:40%; left:55%;" data-price="65">
             <img src="image_tee.png">
             <span class="price-tag">TEE 65€</span>
         </div>
@@ -82,24 +118,16 @@
     <div id="order-form">
         <div class="form-content">
             <h2 style="font-family:'Press Start 2P'; font-size:12px; text-align:center;">TOTAL: <span id="total-price">0</span>€</h2>
-            <input type="text" placeholder="NOME E COGNOME">
-            <input type="text" placeholder="INDIRIZZO SPEDIZIONE">
-            <input type="text" placeholder="CITTA' E CAP">
+            <input type="text" placeholder="FULL NAME">
+            <input type="text" placeholder="ADDRESS">
             <input type="email" placeholder="EMAIL">
-            <button class="btn-black" onclick="finishOrder()">INVIA ORDINE</button>
-            <p onclick="location.reload()" style="text-align:center; cursor:pointer;">Annulla</p>
+            <select id="pay-method">
+                <option value="paypal">PAYPAL</option>
+                <option value="card">CREDIT CARD</option>
+            </select>
+            <button class="btn-black" onclick="finishOrder()">CONFIRM & PAY</button>
+            <p onclick="location.reload()" style="text-align:center; cursor:pointer; font-size:12px;">Cancel</p>
         </div>
-    </div>
-
-    <div id="page-contatti" class="overlay-page">
-        <h2 style="font-family:'Press Start 2P';">CONTACT</h2>
-        <p>@fuocoamico</p>
-        <button class="btn-black" onclick="closePages()">BACK</button>
-    </div>
-
-    <div id="page-special" class="overlay-page">
-        <h2 style="font-family:'Press Start 2P'; color:red;">COLLECTION</h2>
-        <button class="btn-black" onclick="closePages()">CLOSE</button>
     </div>
 
     <footer>
@@ -116,32 +144,48 @@
         const gnam = document.getElementById('gnam-sound');
         let total = 0;
 
-        function showPage(id) { document.getElementById(id).style.display = 'flex'; gnam.play(); }
-        function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
+        // Attiva audio su iPhone al primo tocco ovunque
+        document.body.addEventListener('touchstart', function() {
+            gnam.play().then(() => { gnam.pause(); gnam.currentTime = 0; });
+        }, {once: true});
+
         function showForm() { document.getElementById('order-form').style.display = 'flex'; }
 
-        // Drag & Drop con Fix Visibilità
+        // Gestione drag stabile
         interact('.item-container').draggable({
-            listeners: { move(event) {
-                const t = event.target;
-                const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
-                const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
-                t.style.transform = `translate(${x}px, ${y}px)`;
-                t.setAttribute('data-x', x);
-                t.setAttribute('data-y', y);
-                t.style.zIndex = 3000;
-            }, end(event) { event.target.style.zIndex = 50; }}
+            inertia: true,
+            listeners: {
+                move(event) {
+                    const t = event.target;
+                    const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
+                    const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
+                    t.style.transform = `translate3d(${x}px, ${y}px, 0)`; // translate3d forza la visibilità
+                    t.setAttribute('data-x', x);
+                    t.setAttribute('data-y', y);
+                    t.style.zIndex = 5000;
+                },
+                end(event) { event.target.style.zIndex = 200; }
+            }
         });
 
+        // Drop nel tank
         interact('#tank-cart').dropzone({
-            accept: '.item-container', overlap: 0.15,
+            accept: '.item-container',
+            overlap: 0.1,
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const tank = event.target;
+                gnam.currentTime = 0;
                 gnam.play();
-                item.style.display = 'none';
+                
+                item.style.transition = 'all 0.4s';
+                item.style.transform += ' scale(0)';
+                item.style.opacity = '0';
+                setTimeout(() => item.remove(), 400);
+
                 tank.classList.add('masticando');
                 setTimeout(() => tank.classList.remove('masticando'), 700);
+                
                 total += parseInt(item.getAttribute('data-price'));
                 document.getElementById('total-price').innerText = total;
                 document.getElementById('checkout-panel').style.display = 'block';
@@ -153,7 +197,7 @@
             let w = 0;
             const inv = setInterval(() => {
                 w += 5; document.getElementById('fill-bar').style.width = w + '%';
-                if(w >= 100) { clearInterval(inv); alert("ORDINE INVIATO!"); location.reload(); }
+                if(w >= 100) { clearInterval(inv); alert("ORDER SENT!"); location.reload(); }
             }, 50);
         }
     </script>
