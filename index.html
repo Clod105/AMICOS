@@ -17,43 +17,72 @@
         img { pointer-events: none; -webkit-user-drag: none; }
         .header-btn, .brand-pongo, .draggable-img { pointer-events: auto !important; }
 
+        /* HEADER - ICONE PIÙ GRANDI */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); 
-            z-index: 9999; height: 80px; 
+            padding: 25px; position: fixed; top: 0; width: calc(100% - 50px); 
+            z-index: 9999; height: 100px; 
         }
         .header-btn { 
-            width: 75px; height: 75px; cursor: pointer; 
+            width: 85px; height: 85px; cursor: pointer; 
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             object-fit: contain;
         }
-        .header-btn:active { transform: scale(1.3) rotate(5deg); }
-        .logo-central { width: 130px; }
+        .header-btn:active { transform: scale(1.4) rotate(8deg); }
+        .logo-central { width: 150px; }
 
+        /* SHOP FLOOR - ARTICOLI CENTRATI */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
-        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 200; transform: translate3d(0,0,0); }
-        .item-container img { width: 180px; height: auto; }
-        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 10px; margin-top: 10px; background: #000; color: #fff; padding: 6px 10px; border: 2px solid #000; }
+        .item-container { 
+            position: absolute; display: flex; flex-direction: column; 
+            align-items: center; z-index: 200; transform: translate3d(0,0,0); 
+        }
+        .item-container img { width: 190px; height: auto; }
+        .price-tag { 
+            font-family: 'Press Start 2P', cursive; font-size: 11px; margin-top: 10px; 
+            background: #000; color: #fff; padding: 7px 12px; border: 3px solid #000; 
+        }
 
-        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(1.9) rotate(-15deg); } 100% { transform: scale(1); } }
+        /* TANK ANIMATION */
+        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.2) rotate(-20deg); } 100% { transform: scale(1); } }
         .masticando { animation: tankEat 0.6s ease-out; }
 
+        /* OVERLAYS */
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .form-content { width: 85%; display: flex; flex-direction: column; gap: 15px; }
-        input, select { padding: 15px; border: 4px solid #000; font-size: 16px; width: 100%; box-sizing: border-box; background: #fff; border-radius: 0; }
+        input, select { padding: 18px; border: 4px solid #000; font-size: 16px; width: 100%; box-sizing: border-box; background: #fff; border-radius: 0; }
         
-        .btn-black { background: #000; color: #fff; padding: 18px; border: none; font-family: 'Press Start 2P'; font-size: 11px; margin-top: 20px; box-shadow: 6px 6px 0 var(--brand-red); width: 100%; cursor: pointer; }
+        /* TASTO CHECKOUT & COUNTER */
+        #checkout-panel { 
+            display: none; position: fixed; bottom: 130px; left: 50%; 
+            transform: translateX(-50%); z-index: 900; text-align: center;
+        }
+        .btn-black { 
+            background: #000; color: #fff; padding: 20px; border: none; 
+            font-family: 'Press Start 2P'; font-size: 12px; 
+            box-shadow: 7px 7px 0 var(--brand-red); width: 220px; cursor: pointer; 
+        }
+        .cart-counter {
+            font-family: 'Press Start 2P'; font-size: 10px; margin-bottom: 10px;
+            color: #000; display: block;
+        }
 
+        /* FOOTER ANIMATO */
+        footer { position: fixed; bottom: 30px; width: 100%; text-align: center; z-index: 50; }
+        .brand-pongo { 
+            width: 340px; transition: 0.3s;
+            animation: modeling 4s infinite ease-in-out;
+        }
+        .brand-pongo:active { transform: scale(1.15) rotate(-2deg); }
+        @keyframes modeling { 
+            0%, 100% { transform: scale(1) skew(0deg); } 
+            50% { transform: scale(1.06, 0.94) skew(2deg); } 
+        }
+
+        /* LOADING */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 20000; }
-        .bar { width: 220px; height: 20px; border: 4px solid #000; margin-top: 25px; }
+        .bar { width: 240px; height: 22px; border: 4px solid #000; margin-top: 25px; }
         .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
-
-        footer { position: fixed; bottom: 25px; width: 100%; text-align: center; z-index: 50; }
-        .brand-pongo { width: 320px; animation: modeling 4s infinite; transition: 0.3s; }
-        .brand-pongo:active { transform: scale(1.1); }
-        @keyframes modeling { 0%, 100% { transform: scale(1) skew(0deg); } 50% { transform: scale(1.05) skew(1deg); } }
-
-        #checkout-panel { display: none; position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); z-index: 900; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -67,21 +96,22 @@
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" style="top:25%; left:10%;" data-price="45">
+        <div class="item-container" style="top:28%; left:15%;" data-price="45">
             <img src="image_cap.PNG" class="draggable-img">
             <span class="price-tag">CAP 45€</span>
         </div>
-        <div class="item-container" style="top:40%; left:55%;" data-price="65">
+        <div class="item-container" style="top:32%; left:55%;" data-price="65">
             <img src="image_tee.PNG" class="draggable-img">
             <span class="price-tag">TEE 65€</span>
         </div>
-        <div class="item-container" style="top:65%; left:15%;" data-price="90">
+        <div class="item-container" style="top:62%; left:35%;" data-price="90">
             <img src="image_jeans.PNG" class="draggable-img">
             <span class="price-tag">JEANS 90€</span>
         </div>
     </main>
 
     <div id="checkout-panel">
+        <span class="cart-counter">TOTAL: <span id="temp-total">0</span>€</span>
         <button class="btn-black" onclick="showForm()">CHECKOUT OK</button>
     </div>
 
@@ -93,22 +123,22 @@
 
     <div id="page-special" class="overlay-page">
         <h2 style="font-family:'Press Start 2P'; color:red;">COLLECTION</h2>
-        <p>AREA RISERVATA</p>
+        <p>PRIVATE AREA</p>
         <button class="btn-black" onclick="closePages()" style="width:200px">CLOSE</button>
     </div>
 
     <div id="order-form" class="overlay-page">
         <div class="form-content">
-            <h2 style="font-family:'Press Start 2P'; font-size:12px;">TOTAL: <span id="total-price">0</span>€</h2>
+            <h2 style="font-family:'Press Start 2P'; font-size:14px;">TOTAL ORDER: <span id="final-total">0</span>€</h2>
             <input type="text" placeholder="FULL NAME">
-            <input type="text" placeholder="ADDRESS">
+            <input type="text" placeholder="SHIPPING ADDRESS">
             <input type="email" placeholder="EMAIL">
             <select id="pay-method">
                 <option value="paypal">PAYPAL</option>
                 <option value="card">CREDIT CARD</option>
             </select>
-            <button class="btn-black" onclick="finishOrder()">CONFIRM & PAY</button>
-            <p onclick="location.reload()" style="cursor:pointer;">Cancel</p>
+            <button class="btn-black" onclick="finishOrder()">PAY NOW</button>
+            <p onclick="location.reload()" style="cursor:pointer; font-size:12px;">Back to Shop</p>
         </div>
     </div>
 
@@ -117,7 +147,7 @@
     </footer>
 
     <div id="loading-screen">
-        <div style="font-family:'Press Start 2P'; font-size:10px; text-align:center;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
+        <div style="font-family:'Press Start 2P'; font-size:11px; text-align:center;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
         <div class="bar"><div id="fill-bar" class="fill"></div></div>
     </div>
 
@@ -162,16 +192,18 @@
                 const tank = event.target;
                 gnam.currentTime = 0; gnam.play();
                 
-                item.style.transition = 'all 0.4s ease-in';
+                // SPARIRE IMMEDIATAMENTE
+                item.style.transition = 'all 0.3s ease-in';
                 item.style.transform += ' scale(0)';
                 item.style.opacity = '0';
-                setTimeout(() => item.remove(), 400);
+                setTimeout(() => item.remove(), 300);
 
                 tank.classList.add('masticando');
-                setTimeout(() => tank.classList.remove('masticando'), 700);
+                setTimeout(() => tank.classList.remove('masticando'), 600);
                 
                 total += parseInt(item.getAttribute('data-price'));
-                document.getElementById('total-price').innerText = total;
+                document.getElementById('temp-total').innerText = total;
+                document.getElementById('final-total').innerText = total;
                 document.getElementById('checkout-panel').style.display = 'block';
             }
         });
