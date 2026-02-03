@@ -3,85 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO | Master Performance</title>
+    <title>FUOCO AMICO | FRIENDLYFIRE MASTER</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        :root { --brand-red: #ff3a3a; }
+        :root { --brand-red: #ff3a3a; --pixel-border: 4px solid #000; }
         
-        /* OTTIMIZZAZIONE FLUIDITÀ */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: none; user-select: none; }
 
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             overflow: hidden; font-family: 'Press Start 2P', cursive;
-            background: #2e4a1e url('sfondo_pongo.PNG') repeat fixed center;
-            background-size: 450px;
+            background-color: #2e4a1e;
         }
 
-        /* RIMOZIONE TOTALE LOGHI ESTERNI */
-        iframe, [id*="gemini"], [class*="gemini"], svg, .gc-icon { display: none !important; pointer-events: none !important; }
+        /* LAYER BACKGROUND */
+        #bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('sfondo_pongo.PNG') repeat fixed center;
+            background-size: 450px; z-index: -1;
+        }
+
+        /* KILLER RESIDUI SISTEMA */
+        iframe, [id*="gemini"], [class*="gemini"], .gc-icon, svg { display: none !important; }
 
         header { 
             display: flex; justify-content: space-between; padding: 10px 25px; 
             position: fixed; top: 0; left: 0; right: 0; z-index: 10000;
         }
-        .header-btn { width: 85px; height: 85px; cursor: pointer; transform: translateZ(0); }
+        .header-btn { width: 80px; height: 80px; object-fit: contain; cursor: pointer; }
 
-        /* SLIDER IPHONE STYLE - GPU ACCELERATED */
+        /* SLIDER IPHONE GRID */
         #main-slider {
             width: 300vw; height: 100vh; display: flex;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform; transform: translateZ(0);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            background: transparent;
         }
         .shop-page {
             width: 100vw; height: 100vh; display: grid;
             grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
-            padding: 110px 20px 160px 20px; gap: 10px;
+            padding: 100px 15px 150px 15px; gap: 10px; background: transparent;
         }
 
         .item-container { 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transform: translateZ(0); cursor: grab;
+            will-change: transform; cursor: grab;
         }
-        .item-container img { width: 90px; height: auto; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
+        .item-container img { width: 85px; height: auto; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); pointer-events: none; }
         .price-tag { font-size: 7px; margin-top: 5px; background: #000; color: #fff; padding: 4px; border: 2px solid #000; }
         .sold-out { filter: grayscale(1); opacity: 0.5; pointer-events: none !important; }
 
-        /* NAV & UI PIXEL */
+        /* NAV ARROWS PIXEL NERE */
         .nav-btn {
             position: fixed; top: 50%; transform: translateY(-50%);
             background: #000; color: #fff; border: 3px solid #fff; padding: 15px 10px;
-            z-index: 11000; font-family: 'Press Start 2P'; font-size: 12px; cursor: pointer;
+            z-index: 11000; font-family: 'Press Start 2P'; font-size: 14px;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.5); cursor: pointer; display: none;
         }
 
         .btn-pixel {
             background: #000; color: #fff; border: none; padding: 12px;
-            font-family: 'Press Start 2P'; font-size: 10px;
+            font-family: 'Press Start 2P'; font-size: 9px;
             box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer;
         }
 
-        footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; z-index: 10000; pointer-events: none; }
-        .brand-pongo-float { width: 220px; pointer-events: auto; cursor: pointer; }
+        footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; z-index: 10000; pointer-events: none; padding-bottom: 5px; }
+        .brand-pongo-float { width: 210px; pointer-events: auto; cursor: pointer; }
         .legal-ticker { width: 100%; overflow: hidden; font-size: 6px; color: #eee; background: rgba(0,0,0,0.5); padding: 5px 0; }
         .ticker-content { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
         @keyframes ticker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* CHECKOUT POPUP TRASCINABILE */
+        /* CHECKOUT PANEL */
         #checkout-panel {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 25000; background: #fff; border: 4px solid #000; padding: 25px;
+            z-index: 25000; background: #fff; border: var(--pixel-border); padding: 25px;
             box-shadow: 10px 10px 0 #000; text-align: center; cursor: move;
         }
 
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 35000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-
-        @keyframes gnam { 0% { transform: scale(1); } 50% { transform: scale(2.4); } 100% { transform: scale(1); } }
-        .masticando { animation: gnam 0.5s ease; }
+        
+        @keyframes masticando { 0% { transform: scale(1); } 50% { transform: scale(2.4); } 100% { transform: scale(1); } }
+        .masticando { animation: masticando 0.5s ease; }
+        @keyframes vomitando { 0% { transform: scale(1); } 50% { transform: scale(3) rotate(10deg); } 100% { transform: scale(1); } }
+        .vomitando { animation: vomitando 0.7s ease; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
+    <div id="bg-layer"></div>
 
     <header>
         <img src="mondo_pongo.PNG" class="header-btn" onclick="showPage('page-contatti')">
@@ -89,8 +98,8 @@
         <img src="tank_header.PNG" class="header-btn" id="tank-cart">
     </header>
 
-    <button id="prev-btn" class="nav-btn" onclick="moveSlide(-1)" style="left: 5px; display:none;">&lt;</button>
-    <button id="next-btn" class="nav-btn" onclick="moveSlide(1)" style="right: 5px; display:none;">&gt;</button>
+    <button id="prev-btn" class="nav-btn" onclick="moveSlide(-1)" style="left: 5px;">&lt;</button>
+    <button id="next-btn" class="nav-btn" onclick="moveSlide(1)" style="right: 5px;">&gt;</button>
 
     <div id="main-slider">
         <div id="p1" class="shop-page"></div>
@@ -99,33 +108,40 @@
     </div>
 
     <div id="checkout-panel">
-        <div style="font-size:10px; margin-bottom:10px; color:#000;">CARRELLO PIENO</div>
+        <div style="font-size:9px; margin-bottom:10px; color:#000; border-bottom:2px solid #000; padding-bottom:5px;">FRIENDLYFIRE CART</div>
         <div style="font-size:12px; margin-bottom:15px; color:#000;">TOTALE: <span id="temp-total">0</span>€</div>
-        <div style="display:flex; gap:10px;">
-            <button class="btn-pixel" style="background:#fff; color:#000; border:2px solid #000;" onclick="spitOutItems()">RESET</button>
+        <div style="display:flex; gap:10px; justify-content:center;">
+            <button class="btn-pixel" style="background:#fff; color:#000; border:2px solid #000; box-shadow:3px 3px 0 #000;" onclick="spitOutItems()">SVUOTA</button>
             <button class="btn-pixel" onclick="showCheckout()">PAGA</button>
         </div>
     </div>
 
     <footer>
         <img src="brand_name.png" class="brand-pongo-float" id="brand-logo">
-        <div class="legal-ticker">
-            <div class="ticker-content">Made in Italy for the world. Win alone ©️ 2026-2036</div>
-        </div>
+        <div class="legal-ticker"><div class="ticker-content">All rights reserved fuocoamico (friendlyfire) ©️ 2026. Made in Italy for the world. Win alone</div></div>
     </footer>
 
     <div id="page-admin" class="overlay-page" style="background:#111; color:#fff; overflow-y:auto; text-align:left;">
-        <h3 style="color:red">DATABASE</h3>
+        <h3 style="color:red">DATABASE DROP</h3>
+        <div style="border:1px solid #444; padding:10px; margin-bottom:15px;">
+            BG URL: <input type="text" id="db-bg-input" value="sfondo_pongo.PNG" style="width:130px; background:#333; color:#fff; border:none; padding:5px;">
+        </div>
         <div id="db-list"></div>
-        <button class="btn-pixel" onclick="addItem()">+ ICONA</button>
-        <button class="btn-pixel" onclick="saveDB()" style="background:green;">SALVA TUTTO</button>
-        <button class="btn-pixel" onclick="closePages()" style="background:#fff; color:#000;">ESCI</button>
+        <button class="btn-pixel" onclick="addItem()" style="background:blue; margin-top:10px; width:100%;">+ NUOVA ICONA</button>
+        <button class="btn-pixel" onclick="saveDB()" style="background:green; margin-top:10px; width:100%;">SALVA DATABASE</button>
+        <button class="btn-pixel" onclick="closePages()" style="background:#fff; color:#000; margin-top:10px; width:100%;">ESCI</button>
     </div>
 
     <div id="page-contatti" class="overlay-page">
         <h1 style="color:red;">FRIENDLYFIRE</h1>
         <p>IG: @FUOCOAMICO</p>
         <button class="btn-pixel" onclick="closePages()">BACK</button>
+    </div>
+
+    <div id="checkout-final" class="overlay-page">
+        <div id="cart-list" style="width:90%; border:3px solid #000; padding:10px; margin-bottom:15px; font-size:8px;"></div>
+        <button class="btn-pixel" style="width:80%;">CONFERMA ORDINE</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">TORNA</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
@@ -159,15 +175,15 @@
             updateArrows(); initDrag();
         }
 
-        function updateArrows() {
-            document.getElementById('prev-btn').style.display = currentSlide > 0 ? 'block' : 'none';
-            document.getElementById('next-btn').style.display = itemsData.length > (currentSlide + 1) * 12 ? 'block' : 'none';
-        }
-
         function moveSlide(dir) {
             currentSlide = Math.max(0, Math.min(2, currentSlide + dir));
             slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
-            playGnam();
+            updateArrows(); playGnam();
+        }
+
+        function updateArrows() {
+            document.getElementById('prev-btn').style.display = currentSlide > 0 ? 'block' : 'none';
+            document.getElementById('next-btn').style.display = itemsData.length > (currentSlide + 1) * 12 ? 'block' : 'none';
         }
 
         function initDrag() {
@@ -177,10 +193,14 @@
                         const t = event.target;
                         const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
                         const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
-                        t.style.transform = `translate(${x}px, ${y}px) translateZ(0)`;
+                        t.style.transform = `translate(${x}px, ${y}px)`;
                         t.setAttribute('data-x', x); t.setAttribute('data-y', y);
                     },
-                    end(event) { event.target.style.transform = 'translate(0,0) translateZ(0)'; event.target.setAttribute('data-x', 0); event.target.setAttribute('data-y', 0); }
+                    end(event) { 
+                        event.target.style.transform = 'translate(0,0)';
+                        event.target.setAttribute('data-x', 0);
+                        event.target.setAttribute('data-y', 0);
+                    }
                 }
             }).dropzone({
                 accept: '.item-container',
@@ -188,7 +208,7 @@
                     const from = event.relatedTarget.getAttribute('data-index');
                     const to = event.target.getAttribute('data-index');
                     const temp = itemsData[from]; itemsData[from] = itemsData[to]; itemsData[to] = temp;
-                    renderShop();
+                    renderShop(); // LOGICA SWAP OUTFIT
                 }
             });
 
@@ -198,8 +218,9 @@
                     const idx = event.relatedTarget.getAttribute('data-index');
                     playGnam();
                     if(!cart[idx]) cart[idx] = {...itemsData[idx], qty: 1}; else cart[idx].qty++;
-                    renderShop(); updateUI();
                     tank.classList.add('masticando'); setTimeout(()=>tank.classList.remove('masticando'), 500);
+                    renderShop(); // RISUCCHIO
+                    updateUI();
                 }
             });
 
@@ -214,31 +235,62 @@
             });
         }
 
-        function spitOutItems() { cart = {}; renderShop(); updateUI(); playGnam(); }
+        function spitOutItems() { 
+            cart = {}; tank.classList.add('vomitando');
+            setTimeout(() => { tank.classList.remove('vomitando'); renderShop(); }, 700);
+            updateUI(); playGnam(); 
+        }
+
         function updateUI() {
             let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
             document.getElementById('temp-total').innerText = total;
             document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
         }
 
+        function showCheckout() {
+            const list = document.getElementById('cart-list'); list.innerHTML = '';
+            for(let k in cart) {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span>ITEM x${cart[k].qty}</span><span>${cart[k].price * cart[k].qty}€</span>
+                </div>`;
+            }
+            showPage('checkout-final');
+        }
+
+        let clicks = 0;
         document.getElementById('master-logo').addEventListener('click', () => {
-            if(prompt("PASS") === "FRIENDLYFIRE26") openAdmin();
+            clicks++;
+            if(clicks >= 3) {
+                if(prompt("PASS") === "FRIENDLYFIRE26") openAdmin();
+                clicks = 0;
+            } else {
+                setTimeout(() => { if(clicks > 0 && clicks < 3) { alert("RARITÀ IN ARRIVO!"); clicks = 0; } }, 400);
+            }
         });
 
         function openAdmin() {
             const list = document.getElementById('db-list'); list.innerHTML = '';
             itemsData.forEach((item, i) => {
-                list.innerHTML += `<div style="font-size:6px; margin-bottom:5px;">IMG: <input id="db-i-${i}" value="${item.img}" style="width:60px;"> €: <input id="db-p-${i}" value="${item.price}" style="width:25px;"> <button onclick="itemsData.splice(${i},1); openAdmin();">X</button></div>`;
+                list.innerHTML += `<div style="font-size:7px; border-bottom:1px solid #444; padding:5px;">
+                    IMG: <input id="db-i-${i}" value="${item.img}" style="width:60px;"> €: <input id="db-p-${i}" value="${item.price}" style="width:30px;">
+                    STK: <input id="db-s-${i}" value="${item.stock || 10}" style="width:25px;">
+                    <button onclick="itemsData.splice(${i},1); openAdmin();" style="color:red; background:none; border:none;">[X]</button>
+                </div>`;
             });
             showPage('page-admin');
         }
 
+        function addItem() { itemsData.push({ id: Date.now(), price: 0, stock: 10, img: 'placeholder.png' }); openAdmin(); }
+        
         function saveDB() {
             itemsData.forEach((item, i) => {
                 item.img = document.getElementById(`db-i-${i}`).value;
                 item.price = parseInt(document.getElementById(`db-p-${i}`).value);
+                item.stock = parseInt(document.getElementById(`db-s-${i}`).value);
             });
-            renderShop(); closePages();
+            const newBg = document.getElementById('db-bg-input').value;
+            if(newBg) document.getElementById('bg-layer').style.backgroundImage = `url('${newBg}')`;
+            renderShop(); closePages(); alert("SITO AGGIORNATO!");
         }
 
         renderShop();
