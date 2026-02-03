@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO | OFFICIAL SHOP</title>
+    <title>FUOCO AMICO | SHOP</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #ff3a3a; }
@@ -17,38 +17,34 @@
             background-size: 450px;
         }
 
-        /* FIX VISIBILITÀ */
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
         .header-btn, .brand-pongo, .draggable-img, .btn-qty, .btn-black, .btn-clear { pointer-events: auto !important; }
 
-        /* HEADER: SIMMETRICO E PULITO */
+        /* HEADER */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 25px; position: fixed; top: 0; left: 0; right: 0; 
-            z-index: 9999; height: 110px;
+            padding: 10px 25px; position: fixed; top: 0; left: 0; right: 0; 
+            z-index: 9999; height: 100px;
         }
         .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         .header-btn:active { transform: scale(1.25); }
-        .logo-central { width: 170px; height: auto; }
+        .logo-central { width: 160px; height: auto; }
 
-        /* ARTICOLI: RIMPICCIOLITI E DISTANZIATI */
+        /* VESTITI RIMPICCIOLITI */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
         .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 200; }
-        .item-container img { width: 190px; height: auto; }
-        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 9px; margin-top: 5px; background: #000; color: #fff; padding: 5px 10px; border: 3px solid #000; }
+        .item-container img { width: 175px; height: auto; }
+        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
 
-        /* TANK ANIMATION */
-        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.4) rotate(-15deg); } 100% { transform: scale(1); } }
-        .masticando { animation: tankEat 0.6s ease-out; }
+        /* FOOTER BRAND NAME */
+        footer { position: fixed; bottom: 2px; left: 0; right: 0; text-align: center; z-index: 50; }
+        .brand-pongo { width: 320px; max-width: 80%; cursor: pointer; transition: 0.2s ease; }
+        /* Animazione al tocco/passaggio cursore */
+        .brand-pongo:active, .brand-pongo:hover { transform: scale(1.2) rotate(-2deg); }
 
-        /* FOOTER: REATTIVO AL TOCCO */
-        footer { position: fixed; bottom: 5px; left: 0; right: 0; text-align: center; z-index: 50; }
-        .brand-pongo { width: 340px; max-width: 85%; cursor: pointer; transition: 0.2s ease; }
-        .brand-pongo:active { transform: scale(1.1) rotate(-2deg); filter: drop-shadow(0 0 12px var(--brand-red)); }
-
-        /* PANEL CHECKOUT: RIMPICCIOLITO E ORDINATO */
+        /* PANEL CHECKOUT */
         #checkout-panel { 
-            display: none; position: fixed; bottom: 80px; left: 50%; 
+            display: none; position: fixed; bottom: 95px; left: 50%; 
             transform: translateX(-50%); z-index: 9000; text-align: center; width: 90%;
         }
         .subtotal-box { 
@@ -57,19 +53,13 @@
             margin-bottom: 8px; box-shadow: 4px 4px 0 #000; 
         }
         .panel-buttons { display: flex; gap: 8px; justify-content: center; }
-        
-        .btn-black { background: #000; color: #fff; padding: 16px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); width: 160px; cursor: pointer; }
-        .btn-clear { background: #fff; color: #000; padding: 16px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 9px; box-shadow: 4px 4px 0 #000; width: 100px; cursor: pointer; }
+        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); width: 150px; cursor: pointer; }
+        .btn-clear { background: #fff; color: #000; padding: 15px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 9px; box-shadow: 4px 4px 0 #000; width: 90px; cursor: pointer; }
 
-        /* OVERLAY PAGAMENTO */
+        /* OVERLAYS */
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 20000; display: none; flex-direction: column; align-items: center; padding-top: 40px; }
         .cart-summary { width: 90%; border: 3px solid #000; background: #f2f2f2; padding: 15px; margin-bottom: 20px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; font-family: 'Press Start 2P'; font-size: 9px; margin: 8px 0; border-bottom: 2px solid #000; padding-bottom: 8px; }
-        .btn-qty { background: #000; color: #fff; border: none; padding: 6px 10px; font-family: 'Press Start 2P'; font-size: 10px; }
-        
-        .payment-form { width: 85%; display: flex; flex-direction: column; gap: 10px; }
-        .payment-form input { padding: 14px; border: 3px solid #000; font-size: 14px; }
-        .apple-pay-btn { background: #000; color: #fff; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 18px; border: none; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -83,13 +73,13 @@
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" style="top:20%; left:12%;" data-price="45" data-id="cap" data-name="CAP">
+        <div class="item-container" style="top:22%; left:12%;" data-price="45" data-id="cap" data-name="CAP">
             <img src="image_cap.PNG" class="draggable-img"><span class="price-tag">45€</span>
         </div>
-        <div class="item-container" style="top:35%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
+        <div class="item-container" style="top:38%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img"><span class="price-tag">65€</span>
         </div>
-        <div class="item-container" style="top:58%; left:32%;" data-price="90" data-id="jeans" data-name="JEANS">
+        <div class="item-container" style="top:60%; left:30%;" data-price="90" data-id="jeans" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img"><span class="price-tag">90€</span>
         </div>
     </main>
@@ -105,11 +95,8 @@
     <div id="checkout-page" class="overlay-page">
         <h2 style="font-family:'Press Start 2P'; font-size:12px;">CARRELLO</h2>
         <div class="cart-summary" id="cart-list"></div>
-        <div class="payment-form">
-            <input type="text" placeholder="DATI SPEDIZIONE">
-            <input type="text" placeholder="NUMERO CARTA">
-            <button class="btn-black" style="width:100%" onclick="finishOrder()">PAGA <span id="final-total">0</span>€</button>
-            <button class="apple-pay-btn" onclick="finishOrder()"> Pay</button>
+        <div style="width:85%; display:flex; flex-direction:column; gap:10px;">
+            <button class="btn-black" style="width:100%" onclick="alert('ORDINE INVIATO!')">PAGA <span id="final-total">0</span>€</button>
             <p onclick="closePages()" style="cursor:pointer; font-family:'Press Start 2P'; font-size:9px; text-align:center;">INDIETRO</p>
         </div>
     </div>
@@ -157,15 +144,13 @@
                     cart[id] = {name: item.getAttribute('data-name'), price: parseInt(item.getAttribute('data-price')), qty: 1}; 
                 }
                 item.style.display = 'none'; updateUI();
-                event.target.classList.add('masticando');
-                setTimeout(() => event.target.classList.remove('masticando'), 600);
             }
         });
 
         function clearCart() {
             cart = {};
             document.querySelectorAll('.item-container').forEach(el => {
-                el.style.display = 'flex'; el.style.opacity = '1'; el.style.transform = 'translate3d(0,0,0)';
+                el.style.display = 'flex'; el.style.transform = 'translate3d(0,0,0)';
                 el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
             });
             updateUI();
@@ -181,17 +166,12 @@
         function showCheckout() {
             const list = document.getElementById('cart-list'); list.innerHTML = '';
             for(let k in cart) {
-                list.innerHTML += `<div class="cart-item"><span>${cart[k].name}</span><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${k}',-1)">-</button><span>${cart[k].qty}</span><button class="btn-qty" onclick="changeQty('${k}',1)">+</button></div><span>${cart[k].price * cart[k].qty}€</span></div>`;
+                list.innerHTML += `<div class="cart-item"><span>${cart[k].name}</span> <span>${cart[k].qty}x</span> <span>${cart[k].price * cart[k].qty}€</span></div>`;
             }
             document.getElementById('checkout-page').style.display = 'flex';
         }
 
-        function changeQty(id, delta) {
-            cart[id].qty += delta; if(cart[id].qty <= 0) delete cart[id];
-            updateUI(); if(Object.keys(cart).length === 0) { closePages(); clearCart(); } else { showCheckout(); }
-        }
-
-        function finishOrder() { alert("ORDINE INVIATO!"); location.reload(); }
+        function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
     </script>
 </body>
 </html>
