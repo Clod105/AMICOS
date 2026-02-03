@@ -11,102 +11,72 @@
             margin: 0; padding: 0; width: 100%; height: 100%; 
             overflow: hidden; background: #fff; font-family: sans-serif; 
             touch-action: none; -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
         }
 
-        /* HEADER STABILE */
+        img { pointer-events: none; -webkit-user-drag: none; }
+        .header-btn, .brand-pongo, .draggable-img { pointer-events: auto !important; }
+
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); 
-            z-index: 9999; height: 80px; transform: translateZ(0); 
+            z-index: 9999; height: 80px; 
         }
         .header-btn { 
-            width: 75px; height: 75px; cursor: pointer; transition: 0.2s; 
-            object-fit: contain; -webkit-user-drag: none;
+            width: 75px; height: 75px; cursor: pointer; 
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            object-fit: contain;
         }
+        .header-btn:active { transform: scale(1.3) rotate(5deg); }
         .logo-central { width: 130px; }
 
-        /* SHOP FLOOR */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
-        
-        .item-container { 
-            position: absolute; display: flex; flex-direction: column; 
-            align-items: center; z-index: 200; transform: translateZ(0);
-            will-change: transform;
-        }
-        .item-container img { 
-            width: 180px; height: auto; pointer-events: none; 
-            -webkit-user-drag: none; filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.05));
-        }
-        
-        .price-tag { 
-            font-family: 'Press Start 2P', cursive; font-size: 10px; margin-top: 10px; 
-            background: #000; color: #fff; padding: 6px 10px; border: 2px solid #000;
-            pointer-events: none;
-        }
+        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 200; transform: translate3d(0,0,0); }
+        .item-container img { width: 180px; height: auto; }
+        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 10px; margin-top: 10px; background: #000; color: #fff; padding: 6px 10px; border: 2px solid #000; }
 
-        /* ANIMAZIONE TANK */
-        @keyframes tankEat { 
-            0% { transform: scale(1); } 
-            50% { transform: scale(1.8) rotate(-15deg); } 
-            100% { transform: scale(1); } 
-        }
-        .masticando { animation: tankEat 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(1.9) rotate(-15deg); } 100% { transform: scale(1); } }
+        .masticando { animation: tankEat 0.6s ease-out; }
 
-        /* FORM CHECKOUT */
-        #order-form { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: white; z-index: 10000; flex-direction: column; align-items: center; 
-            padding-top: 50px; overflow-y: auto;
-        }
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .form-content { width: 85%; display: flex; flex-direction: column; gap: 15px; }
-        input, select { 
-            padding: 15px; border: 4px solid #000; font-size: 16px; width: 100%; 
-            box-sizing: border-box; background: #fff; border-radius: 0;
-        }
+        input, select { padding: 15px; border: 4px solid #000; font-size: 16px; width: 100%; box-sizing: border-box; background: #fff; border-radius: 0; }
         
-        .btn-black { 
-            background: #000; color: #fff; padding: 18px; border: none; 
-            font-family: 'Press Start 2P'; font-size: 11px; margin-top: 20px; 
-            box-shadow: 6px 6px 0 var(--brand-red); width: 100%;
-        }
+        .btn-black { background: #000; color: #fff; padding: 18px; border: none; font-family: 'Press Start 2P'; font-size: 11px; margin-top: 20px; box-shadow: 6px 6px 0 var(--brand-red); width: 100%; cursor: pointer; }
 
-        /* LOADING */
-        #loading-screen { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: white; display: none; flex-direction: column; 
-            justify-content: center; align-items: center; z-index: 20000; 
-        }
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 20000; }
         .bar { width: 220px; height: 20px; border: 4px solid #000; margin-top: 25px; }
         .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
 
         footer { position: fixed; bottom: 25px; width: 100%; text-align: center; z-index: 50; }
-        .brand-pongo { width: 320px; animation: bounce 3s infinite ease-in-out; }
-        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .brand-pongo { width: 320px; animation: modeling 4s infinite; transition: 0.3s; }
+        .brand-pongo:active { transform: scale(1.1); }
+        @keyframes modeling { 0%, 100% { transform: scale(1) skew(0deg); } 50% { transform: scale(1.05) skew(1deg); } }
 
         #checkout-panel { display: none; position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); z-index: 900; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
 
     <header>
-        <img src="mondo_pongo.png" class="header-btn" onclick="showPage('page-contatti')">
-        <img src="fuochini_centrali.png" class="header-btn logo-central" onclick="showPage('page-special')">
-        <img src="tank_header.png" class="header-btn" id="tank-cart">
+        <img src="mondo_pongo.PNG" class="header-btn gnam-hover" onclick="showPage('page-contatti')">
+        <img src="fuochini_centrali.png" class="header-btn logo-central gnam-hover" onclick="showPage('page-special')">
+        <img src="tank_header.PNG" class="header-btn gnam-hover" id="tank-cart">
     </header>
 
     <main id="shop-floor">
         <div class="item-container" style="top:25%; left:10%;" data-price="45">
-            <img src="image_cap.png">
+            <img src="image_cap.PNG" class="draggable-img">
             <span class="price-tag">CAP 45€</span>
         </div>
         <div class="item-container" style="top:40%; left:55%;" data-price="65">
-            <img src="image_tee.png">
+            <img src="image_tee.PNG" class="draggable-img">
             <span class="price-tag">TEE 65€</span>
         </div>
         <div class="item-container" style="top:65%; left:15%;" data-price="90">
-            <img src="image_jeans.png">
+            <img src="image_jeans.PNG" class="draggable-img">
             <span class="price-tag">JEANS 90€</span>
         </div>
     </main>
@@ -115,9 +85,21 @@
         <button class="btn-black" onclick="showForm()">CHECKOUT OK</button>
     </div>
 
-    <div id="order-form">
+    <div id="page-contatti" class="overlay-page">
+        <h2 style="font-family:'Press Start 2P';">CONTACT</h2>
+        <p>Instagram: @fuocoamico</p>
+        <button class="btn-black" onclick="closePages()" style="width:200px">BACK</button>
+    </div>
+
+    <div id="page-special" class="overlay-page">
+        <h2 style="font-family:'Press Start 2P'; color:red;">COLLECTION</h2>
+        <p>AREA RISERVATA</p>
+        <button class="btn-black" onclick="closePages()" style="width:200px">CLOSE</button>
+    </div>
+
+    <div id="order-form" class="overlay-page">
         <div class="form-content">
-            <h2 style="font-family:'Press Start 2P'; font-size:12px; text-align:center;">TOTAL: <span id="total-price">0</span>€</h2>
+            <h2 style="font-family:'Press Start 2P'; font-size:12px;">TOTAL: <span id="total-price">0</span>€</h2>
             <input type="text" placeholder="FULL NAME">
             <input type="text" placeholder="ADDRESS">
             <input type="email" placeholder="EMAIL">
@@ -126,16 +108,16 @@
                 <option value="card">CREDIT CARD</option>
             </select>
             <button class="btn-black" onclick="finishOrder()">CONFIRM & PAY</button>
-            <p onclick="location.reload()" style="text-align:center; cursor:pointer; font-size:12px;">Cancel</p>
+            <p onclick="location.reload()" style="cursor:pointer;">Cancel</p>
         </div>
     </div>
 
     <footer>
-        <img src="brand_name.png" class="brand-pongo">
+        <img src="brand_name.png" class="brand-pongo gnam-hover">
     </footer>
 
     <div id="loading-screen">
-        <div style="font-family:'Press Start 2P'; font-size:11px; text-align:center;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
+        <div style="font-family:'Press Start 2P'; font-size:10px; text-align:center;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
         <div class="bar"><div id="fill-bar" class="fill"></div></div>
     </div>
 
@@ -144,41 +126,43 @@
         const gnam = document.getElementById('gnam-sound');
         let total = 0;
 
-        // Attiva audio su iPhone al primo tocco ovunque
-        document.body.addEventListener('touchstart', function() {
+        document.body.addEventListener('touchstart', () => {
             gnam.play().then(() => { gnam.pause(); gnam.currentTime = 0; });
         }, {once: true});
 
+        function showPage(id) { document.getElementById(id).style.display = 'flex'; gnam.play(); }
         function showForm() { document.getElementById('order-form').style.display = 'flex'; }
+        function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
-        // Gestione drag stabile
+        document.querySelectorAll('.gnam-hover').forEach(el => {
+            const playG = () => { gnam.currentTime = 0; gnam.play().catch(()=>{}); };
+            el.addEventListener('mouseenter', playG);
+            el.addEventListener('touchstart', playG);
+        });
+
         interact('.item-container').draggable({
-            inertia: true,
             listeners: {
                 move(event) {
                     const t = event.target;
                     const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
                     const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
-                    t.style.transform = `translate3d(${x}px, ${y}px, 0)`; // translate3d forza la visibilità
-                    t.setAttribute('data-x', x);
-                    t.setAttribute('data-y', y);
+                    t.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                    t.setAttribute('data-x', x); t.setAttribute('data-y', y);
                     t.style.zIndex = 5000;
                 },
                 end(event) { event.target.style.zIndex = 200; }
             }
         });
 
-        // Drop nel tank
         interact('#tank-cart').dropzone({
             accept: '.item-container',
-            overlap: 0.1,
+            overlap: 0.15,
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const tank = event.target;
-                gnam.currentTime = 0;
-                gnam.play();
+                gnam.currentTime = 0; gnam.play();
                 
-                item.style.transition = 'all 0.4s';
+                item.style.transition = 'all 0.4s ease-in';
                 item.style.transform += ' scale(0)';
                 item.style.opacity = '0';
                 setTimeout(() => item.remove(), 400);
