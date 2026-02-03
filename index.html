@@ -14,29 +14,34 @@
             touch-action: none; background: #2e4a1e;
         }
 
+        /* KILLER TOTALE PER IL ROMBO E LAYER ESTERNI */
+        #gc-wrapper, .gc-icon, [id*="gemini"], [class*="gemini"], iframe, svg, .google-material-icons { 
+            display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; 
+        }
+
         #bg-layer {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: url('sfondo_pongo.PNG') repeat fixed; background-size: 450px;
             z-index: -1;
         }
 
-        /* MANUTENZIONE */
+        /* SCHERMATA MANUTENZIONE */
         #maintenance-screen {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: #000; color: var(--brand-red); z-index: 999999;
             display: none; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; font-size: 15px;
+            text-align: center;
         }
 
-        /* HEADER & ICONS */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 10px 25px; position: fixed; top: 0; left: 0; right: 0; 
             z-index: 10000; height: 100px;
         }
-        .header-btn { width: 90px; height: 90px; object-fit: contain; cursor: pointer; transition: 0.2s; }
+        .header-btn { width: 90px; height: 90px; object-fit: contain; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .header-btn:active { transform: scale(1.2) rotate(5deg); }
 
-        /* GRID IPHONE STYLE */
+        /* SLIDER IPHONE GRID */
         #main-slider {
             width: 300vw; height: 100vh; display: flex;
             transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
@@ -50,53 +55,56 @@
 
         .item-container { 
             display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; position: relative; z-index: 600;
+            justify-content: center; position: relative; z-index: 600; touch-action: none;
         }
-        .item-container img { width: 90px; height: auto; pointer-events: none; }
-        
-        /* SCALA DI GRIGI PER ESAURIMENTO */
-        .sold-out { filter: grayscale(1) !important; opacity: 0.5; pointer-events: none !important; }
-        .sold-out::after { content: "SOLD OUT"; position: absolute; font-size: 6px; background: #000; color: #fff; top:0; padding: 2px; }
-
+        .item-container img { width: 95px; height: auto; pointer-events: none; }
         .price-tag { font-size: 7px; margin-top: 5px; background: #000; color: #fff; padding: 4px; border: 2px solid #000; }
+        
+        /* SCALA DI GRIGI SOLD OUT */
+        .sold-out { filter: grayscale(1) !important; opacity: 0.5; pointer-events: none !important; }
 
-        /* BUTTONS PIXEL */
-        .btn-pixel {
-            background: #000; color: #fff; border: none; padding: 15px;
-            font-family: 'Press Start 2P'; font-size: 10px;
-            box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer;
+        /* BRAND & COPYRIGHT */
+        .brand-pongo-float { 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 240px; cursor: pointer; transition: 0.2s; z-index: 20000; pointer-events: auto;
         }
+        .brand-pongo-float:active { transform: translateX(-50%) scale(1.15) rotate(-3deg); }
 
-        /* ADMIN & DB */
-        .admin-box { background: #1a1a1a; color: #fff; overflow-y: auto; text-align: left; font-size: 7px; z-index: 1000000 !important; }
-        .admin-entry { border-bottom: 1px solid #444; padding: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
-        input { background: #333; color: #fff; border: 1px solid #555; padding: 5px; font-family: 'Press Start 2P'; font-size: 6px; }
+        .legal-ticker { position: fixed; bottom: 5px; width: 100%; overflow: hidden; font-size: 6px; color: var(--legal-gray); z-index: 19000; }
+
+        /* PIXEL UI */
+        .btn-pixel { background: #000; color: #fff; border: none; padding: 15px; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer; }
+        .btn-qty { background: #000; color: #fff; border: none; padding: 5px 10px; cursor: pointer; }
 
         #checkout-panel {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 25000; background: #fff; border: var(--pixel-border); padding: 25px;
-            box-shadow: 12px 12px 0 #000; text-align: center;
+            box-shadow: 12px 12px 0 #000; text-align: center; cursor: move;
         }
 
-        @keyframes gnam { 0% { transform: scale(1); } 50% { transform: scale(2.5); } 100% { transform: scale(1); } }
-        .masticando { animation: gnam 0.5s ease; }
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 35000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+
+        /* ANIMAZIONI TANK */
+        @keyframes masticando { 0% { transform: scale(1); } 50% { transform: scale(2.5); } 100% { transform: scale(1); } }
+        .masticando { animation: masticando 0.5s ease; }
+        @keyframes vomitando { 0% { transform: scale(1); } 50% { transform: scale(2.8) rotate(15deg); } 100% { transform: scale(1); } }
+        .vomitando { animation: vomitando 0.7s ease; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
     <div id="bg-layer"></div>
 
     <div id="maintenance-screen">
         <img src="fuochini_centrali.png" width="100"><br>
-        FRIENDLYFIRE<br>UNDER MAINTENANCE<br><br>
-        <span style="font-size: 8px;">DROP SOON...</span>
+        MAINTENANCE MODE<br>DROP SOON
     </div>
 
     <header>
-        <img src="mondo_pongo.PNG" class="header-btn" onclick="showPage('page-contatti')">
-        <img src="fuochini_centrali.png" class="header-btn" id="master-logo">
-        <img src="tank_header.PNG" class="header-btn" id="tank-cart">
+        <img src="mondo_pongo.PNG" class="header-btn gnam-hover" onclick="showPage('page-contatti')">
+        <img src="fuochini_centrali.png" class="header-btn logo-central gnam-hover" id="master-logo">
+        <img src="tank_header.PNG" class="header-btn gnam-hover" id="tank-cart">
     </header>
 
     <div id="main-slider">
@@ -106,62 +114,95 @@
     </div>
 
     <div id="checkout-panel">
-        <div style="font-size:10px; margin-bottom:15px;">CART</div>
-        <div style="font-size:14px; margin-bottom:20px;">TOTAL: <span id="temp-total">0</span>€</div>
-        <button class="btn-pixel" onclick="showCheckout()">CHECKOUT</button>
+        <div style="font-size:10px; margin-bottom:15px; border-bottom:3px solid #000; padding-bottom:10px;">CARRELLO</div>
+        <div style="font-size:14px; margin-bottom:20px;">TOTALE: <span id="temp-total">0</span>€</div>
+        <div style="display:flex; gap:10px;">
+            <button onclick="spitOutItems()" style="padding:10px; font-family:'Press Start 2P'; font-size:8px;">SVUOTA</button>
+            <button class="btn-pixel" onclick="showCheckout()">PAGA</button>
+        </div>
     </div>
 
-    <div id="page-admin" class="overlay-page admin-box">
-        <h2 style="color:var(--brand-red)">DATABASE CONFIG</h2>
-        <div style="background:#333; padding:15px; margin-bottom:20px; border:2px solid #fff;">
-            MANUTENZIONE: <button id="btn-maint" onclick="toggleMaint()" style="padding:10px; cursor:pointer;">OFF</button>
-            <br><br>
-            BG URL: <input type="text" id="admin-bg-url" placeholder="sfondo.png">
+    <img src="brand_name.png" class="brand-pongo-float gnam-hover" id="brand-anim">
+    <div class="legal-ticker">
+        <div style="white-space:nowrap; animation: ticker 25s linear infinite;">All rights reserved fuocoamico (friendlyfire) copyright ©️ 2026-2036. Made in Italy to the World. Win alone</div>
+    </div>
+
+    <div id="checkout-page" class="overlay-page">
+        <div style="font-size:10px; margin-bottom:15px;">IL TUO DROP</div>
+        <div id="cart-list" style="width:90%; max-height:150px; overflow-y:auto; border:2px solid #000; padding:10px; margin-bottom:15px;"></div>
+        <input type="text" placeholder="DATI SPEDIZIONE COMPLETI" style="width:85%; padding:12px; border:3px solid #000; font-family:'Press Start 2P'; font-size:7px;">
+        <div style="display:flex; margin:10px 0;">
+            <button class="btn-pixel" style="background:#eee; color:#000; font-size:7px; box-shadow:none;"> PAY</button>
+            <button class="btn-pixel" style="background:#eee; color:#000; font-size:7px; box-shadow:none; margin-left:10px;">CARTE</button>
         </div>
-        <div id="admin-items-list"></div>
-        <button class="btn-pixel" onclick="addItem()" style="background:blue; width:100%; margin-bottom:5px;">+ AGGIUNGI ARTICOLO</button>
-        <button class="btn-pixel" onclick="saveDatabase()" style="background:green; width:100%;">SALVA E PUBBLICA</button>
-        <button class="btn-pixel" onclick="closePages()" style="background:#fff; color:#000; width:100%; margin-top:10px;">ESCI</button>
+        <button class="btn-pixel" onclick="alert('ORDINE INVIATO!')" style="width:90%;">PAGA <span id="final-total">0</span>€</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:20px;">ANNULLA</p>
+    </div>
+
+    <div id="page-contatti" class="overlay-page">
+        <h1 style="color:var(--brand-red);">FRIENDLYFIRE</h1>
+        <p style="font-size:9px;">MONDO PONGO - IG: @FUOCOAMICO</p>
+        <button class="btn-pixel" onclick="closePages()" style="margin-top:20px;">CHIUDI</button>
+    </div>
+
+    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff; text-align:left; overflow-y:auto;">
+        <h2 style="color:var(--brand-red)">DATABASE</h2>
+        <div style="margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:10px;">
+            MANUTENZIONE: <button id="maint-toggle" onclick="toggleMaint()" style="padding:10px;">OFF</button>
+            BG URL: <input type="text" id="db-bg-url" style="width:100px;">
+        </div>
+        <div id="db-list"></div>
+        <button class="btn-pixel" onclick="addItem()" style="background:blue; width:100%; margin:10px 0;">[+] AGGIUNGI ICONA</button>
+        <button class="btn-pixel" onclick="saveDB()" style="background:green; width:100%;">SALVA E PUBBLICA</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
         const gnam = document.getElementById('gnam-sound');
         const tank = document.getElementById('tank-cart');
-        const slider = document.getElementById('main-slider');
-        let isMaintenance = false;
         let cart = {};
+        let isMaint = false;
         let itemsData = [
             { id: 0, name: 'CAP', price: 45, stock: 10, img: 'image_cap.PNG' },
-            { id: 1, name: 'TEE', price: 65, stock: 0, img: 'image_tee.PNG' } // Esempio sold out
+            { id: 1, name: 'TEE', price: 65, stock: 5, img: 'image_tee.PNG' },
+            { id: 2, name: 'JEANS', price: 90, stock: 15, img: 'image_jeans.PNG' }
         ];
 
         function playGnam() { gnam.currentTime = 0; gnam.play().catch(()=>{}); }
         function showPage(id) { document.getElementById(id).style.display = 'flex'; playGnam(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
+        document.querySelectorAll('.gnam-hover').forEach(el => { el.addEventListener('click', playGnam); });
+
+        // DATABASE LOGIC
+        let clicks = 0;
+        document.getElementById('master-logo').addEventListener('click', () => {
+            clicks++;
+            if(clicks >= 3) {
+                if(prompt("PASS") === "FRIENDLYFIRE26") openAdmin();
+                clicks = 0;
+            } else { setTimeout(() => { if(clicks > 0 && clicks < 3) { alert("RARITÀ IN ARRIVO!"); clicks = 0; } }, 400); }
+        });
+
         function renderShop() {
             [1,2,3].forEach(p => document.getElementById(`p${p}`).innerHTML = '');
-            itemsData.forEach((item, index) => {
-                const pageNum = Math.floor(index / 12) + 1;
+            itemsData.forEach((item, i) => {
+                const pageNum = Math.floor(i / 12) + 1;
                 if(pageNum > 3) return;
-                const container = document.getElementById(`p${pageNum}`);
-                
-                // Applicazione scala di grigi se stock <= 0
-                const soldClass = item.stock <= 0 ? 'sold-out' : '';
-                
-                container.innerHTML += `
-                <div class="item-container ${soldClass}" id="item-${index}" data-index="${index}">
+                const sold = item.stock <= 0 ? 'sold-out' : '';
+                document.getElementById(`p${pageNum}`).innerHTML += `
+                <div class="item-container ${sold}" id="item-${i}" data-index="${i}">
                     <img src="${item.img}">
                     <span class="price-tag">${item.price}€</span>
                 </div>`;
             });
-            initInteract();
+            initDrag();
         }
 
-        function initInteract() {
-            interact('.item-container:not(.sold-out)').draggable({
+        function initDrag() {
+            interact('.item-container').draggable({
                 listeners: {
+                    start(event) { event.target.style.zIndex = 30000; },
                     move(event) {
                         const t = event.target;
                         const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
@@ -170,10 +211,18 @@
                         t.setAttribute('data-x', x); t.setAttribute('data-y', y);
                     },
                     end(event) {
-                        event.target.style.transform = 'translate(0,0)';
-                        event.target.setAttribute('data-x', 0);
-                        event.target.setAttribute('data-y', 0);
+                        const t = event.target; t.style.transition = '0.3s'; t.style.transform = 'translate(0,0)';
+                        t.setAttribute('data-x', 0); t.setAttribute('data-y', 0);
+                        setTimeout(() => t.style.transition = '', 300);
                     }
+                }
+            }).dropzone({
+                accept: '.item-container',
+                ondrop: function(event) {
+                    const fromIdx = event.relatedTarget.getAttribute('data-index');
+                    const toIdx = event.target.getAttribute('data-index');
+                    const temp = itemsData[fromIdx]; itemsData[fromIdx] = itemsData[toIdx]; itemsData[toIdx] = temp;
+                    renderShop();
                 }
             });
 
@@ -181,74 +230,69 @@
                 accept: '.item-container:not(.sold-out)',
                 ondrop: function(event) {
                     const idx = event.relatedTarget.getAttribute('data-index');
-                    const item = itemsData[idx];
-                    playGnam();
-                    if(!cart[idx]) cart[idx] = {...item, qty: 1};
-                    else cart[idx].qty++;
-                    tank.classList.add('masticando');
-                    setTimeout(() => tank.classList.remove('masticando'), 500);
+                    const item = itemsData[idx]; playGnam();
+                    if(!cart[idx]) cart[idx] = {...item, qty: 1}; else cart[idx].qty++;
+                    tank.classList.add('masticando'); setTimeout(()=>tank.classList.remove('masticando'), 600);
                     updateUI();
                 }
             });
+
+            interact('#checkout-panel').draggable({
+                listeners: { move(event) {
+                    const t = event.target;
+                    const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
+                    const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
+                    t.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                    t.setAttribute('data-x', x); t.setAttribute('data-y', y);
+                }}
+            });
+        }
+
+        function toggleMaint() { isMaint = !isMaint; document.getElementById('maint-toggle').innerText = isMaint ? 'ON' : 'OFF'; }
+
+        function openAdmin() {
+            const list = document.getElementById('db-list'); list.innerHTML = '';
+            itemsData.forEach((item, i) => {
+                list.innerHTML += `<div style="font-size:6px; margin-bottom:10px;">IMG: <input id="db-i-${i}" value="${item.img}" style="width:60px;"> €: <input id="db-p-${i}" value="${item.price}" style="width:25px;"> STK: <input id="db-s-${i}" value="${item.stock}" style="width:20px;"> <button onclick="itemsData.splice(${i},1); openAdmin();">X</button></div>`;
+            });
+            showPage('page-admin');
+        }
+
+        function saveDB() {
+            itemsData.forEach((item, i) => {
+                item.img = document.getElementById(`db-i-${i}`).value;
+                item.price = parseInt(document.getElementById(`db-p-${i}`).value);
+                item.stock = parseInt(document.getElementById(`db-s-${i}`).value);
+            });
+            const newBg = document.getElementById('db-bg-url').value;
+            if(newBg) document.getElementById('bg-layer').style.backgroundImage = `url('${newBg}')`;
+            document.getElementById('maintenance-screen').style.display = isMaint ? 'flex' : 'none';
+            renderShop(); closePages(); alert("DROP AGGIORNATO!");
         }
 
         function updateUI() {
             let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
             document.getElementById('temp-total').innerText = total;
+            document.getElementById('final-total').innerText = total;
             document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
         }
 
-        function toggleMaint() {
-            isMaintenance = !isMaintenance;
-            document.getElementById('btn-maint').innerText = isMaintenance ? 'ON' : 'OFF';
-            document.getElementById('btn-maint').style.background = isMaintenance ? 'red' : 'grey';
-        }
-
-        function saveDatabase() {
-            // Aggiorna dati da input admin
-            itemsData.forEach((item, i) => {
-                item.img = document.getElementById(`db-img-${i}`).value;
-                item.price = parseInt(document.getElementById(`db-pr-${i}`).value);
-                item.stock = parseInt(document.getElementById(`db-st-${i}`).value);
-            });
-            
-            // Gestione Manutenzione
-            document.getElementById('maintenance-screen').style.display = isMaintenance ? 'flex' : 'none';
-            
-            renderShop();
-            closePages();
-            alert("SITO AGGIORNATO!");
-        }
-
-        function openAdmin() {
-            const list = document.getElementById('admin-items-list');
-            list.innerHTML = '';
-            itemsData.forEach((item, i) => {
-                list.innerHTML += `
-                <div class="admin-entry">
-                    IMG: <input id="db-img-${i}" value="${item.img}" style="width:70px;">
-                    €: <input id="db-pr-${i}" value="${item.price}" style="width:30px;">
-                    STK: <input id="db-st-${i}" value="${item.stock}" style="width:25px;">
-                    <button onclick="itemsData.splice(${i},1); openAdmin();" style="color:red;">X</button>
-                </div>`;
-            });
-            showPage('page-admin');
-        }
-
-        function addItem() {
-            itemsData.push({ id: Date.now(), name: 'NEW', price: 0, stock: 1, img: 'placeholder.png' });
-            openAdmin();
-        }
-
-        // Trigger Admin (3 tocchi sui fuochi)
-        let clicks = 0;
-        document.getElementById('master-logo').addEventListener('click', () => {
-            clicks++;
-            if(clicks >= 3) {
-                if(prompt("PASSWORD") === "FRIENDLYFIRE26") openAdmin();
-                clicks = 0;
+        function showCheckout() {
+            const list = document.getElementById('cart-list'); list.innerHTML = '';
+            for(let k in cart) {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${cart[k].name}</span><div style="display:flex; gap:5px;"><button class="btn-qty" onclick="changeQty('${k}',-1)">-</button><span>${cart[k].qty}</span><button class="btn-qty" onclick="changeQty('${k}',1)">+</button></div><span>${cart[k].price * cart[k].qty}€</span></div>`;
             }
-        });
+            showPage('checkout-page');
+        }
+
+        function changeQty(id, delta) {
+            cart[id].qty += delta;
+            if(cart[id].qty <= 0) { delete cart[id]; }
+            updateUI(); if(Object.keys(cart).length === 0) closePages(); else showCheckout();
+        }
+
+        function spitOutItems() { cart = {}; playGnam(); tank.classList.add('vomitando'); setTimeout(()=>tank.classList.remove('vomitando'), 700); updateUI(); }
+        function addItem() { itemsData.push({ id: Date.now(), name: 'NEW', price: 0, stock: 1, img: 'placeholder.png' }); openAdmin(); }
 
         renderShop();
     </script>
