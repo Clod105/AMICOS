@@ -17,55 +17,58 @@
             background-size: 450px;
         }
 
-        /* RIMOZIONE TOTALE RESIDUI */
-        iframe, [id*="gemini"], [class*="gemini"], .google-material-icons { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+        /* RIMOZIONE TOTALE ROMBO GEMINI E RESIDUI ESTERNI */
+        iframe, [id*="gemini"], [class*="gemini"], .google-material-icons, svg { 
+            display: none !important; opacity: 0 !important; pointer-events: none !important; 
+        }
 
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .input-form, .price-tag, #checkout-panel { 
+        .header-btn, .brand-pongo-float, .draggable-img, .btn-black, .btn-clear, .btn-qty, .input-form, .price-tag, #checkout-panel { 
             pointer-events: auto !important; 
         }
 
-        /* HEADER */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 10px 25px; position: fixed; top: 0; left: 0; right: 0; 
             z-index: 10000; height: 100px;
         }
         .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s; object-fit: contain; }
-        .header-btn:active { transform: scale(1.2) rotate(5deg); }
 
-        /* SHOP AREA - RAGGIO TRASCINAMENTO OTTIMIZZATO */
+        /* SHOP AREA - JEANS ALZATI PER NON TOCCARE IL LOGO */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 500; }
-        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 600; cursor: grab; padding: 20px; }
-        .item-container img { width: 125px; height: auto; }
+        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 600; cursor: grab; padding: 15px; }
+        .item-container img { width: 120px; height: auto; }
         .price-tag { font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
-        .sold-out { filter: grayscale(1) !important; opacity: 0.5; pointer-events: none !important; }
 
+        /* ANIMAZIONI TANK */
         @keyframes pacVomit { 0% { transform: scale(1); } 30% { transform: scale(2.6) rotate(15deg); } 60% { transform: scale(2.6) rotate(-15deg); } 100% { transform: scale(1); } }
         .vomitando { animation: pacVomit 0.7s ease-in-out; }
+        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.4) rotate(-20deg); } 100% { transform: scale(1); } }
+        .masticando { animation: tankEat 0.6s ease-out; }
 
-        /* BRAND NAME & COPYRIGHT - INDIPENDENTI */
+        /* BRAND NAME & COPYRIGHT - ATTACCATI IN BASSO */
         .brand-pongo-float { 
-            position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
-            width: 280px; cursor: pointer; transition: 0.2s; 
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 250px; cursor: pointer; transition: 0.2s; 
             z-index: 20000; pointer-events: auto;
         }
-        .brand-pongo-float:active { transform: translateX(-50%) scale(1.15) rotate(-3deg); }
+        .brand-pongo-float:active { transform: translateX(-50%) scale(1.1) rotate(-2deg); }
 
-        .legal-ticker { position: fixed; bottom: 8px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 19000; font-size: 6px; color: var(--legal-gray); }
+        .legal-ticker { position: fixed; bottom: 2px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 19000; font-size: 6px; color: var(--legal-gray); }
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* CHECKOUT PANEL TRASCINABILE */
+        /* CHECKOUT PANEL TRASCINABILE - PIXEL STYLE */
         #checkout-panel { 
-            display: none; position: fixed; bottom: 150px; left: 50%; 
+            display: none; position: fixed; bottom: 130px; left: 50%; 
             transform: translateX(-50%); z-index: 15000; text-align: center; 
             cursor: move; touch-action: none;
         }
         .panel-box { background:#fff; border:4px solid #000; padding:10px; box-shadow: 6px 6px 0 var(--brand-red); }
+        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer; }
+        .btn-clear { background: #fff; color: #000; padding: 15px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; box-shadow: 3px 3px 0 #000; cursor: pointer; }
 
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 30000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
-        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -79,13 +82,13 @@
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" id="item-0" style="top:25%; left:10%;" data-stock="10" data-price="45" data-id="0" data-name="CAP">
+        <div class="item-container" id="item-0" style="top:22%; left:10%;" data-stock="10" data-price="45" data-id="0" data-name="CAP">
             <img src="image_cap.PNG" class="draggable-img"><span class="price-tag">45€</span>
         </div>
-        <div class="item-container" id="item-1" style="top:40%; left:55%;" data-stock="5" data-price="65" data-id="1" data-name="TEE">
+        <div class="item-container" id="item-1" style="top:38%; left:55%;" data-stock="5" data-price="65" data-id="1" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img"><span class="price-tag">65€</span>
         </div>
-        <div class="item-container" id="item-2" style="top:60%; left:25%;" data-stock="15" data-price="90" data-id="2" data-name="JEANS">
+        <div class="item-container" id="item-2" style="top:55%; left:25%;" data-stock="15" data-price="90" data-id="2" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img"><span class="price-tag">90€</span>
         </div>
     </main>
@@ -94,28 +97,27 @@
         <div class="panel-box">
             <div style="font-size:9px; margin-bottom:10px;">CONTO: <span id="temp-total">0</span>€</div>
             <div style="display:flex; gap:10px;">
-                <button class="btn-clear" onclick="spitOutItems()" style="padding:10px; font-family:'Press Start 2P'; font-size:8px; cursor:pointer; background:#fff; border:3px solid #000;">SVUOTA</button>
-                <button class="btn-black" onclick="showCheckout()" style="padding:10px; font-size:9px;">PROCEDI</button>
+                <button class="btn-clear" onclick="spitOutItems()">SVUOTA</button>
+                <button class="btn-black" onclick="showCheckout()">PROCEDI</button>
             </div>
         </div>
     </div>
 
-    <img src="brand_name.png" class="brand-pongo-float gnam-hover" id="brand-anim">
+    <img src="brand_name.png" class="brand-pongo-float gnam-hover" id="brand-logo">
     <div class="legal-ticker">
         <div class="ticker-content">All rights reserved fuocoamico (friendlyfire) copyright ©️ 2026-2036. Made in Italy to the World. Win alone</div>
     </div>
 
     <div id="checkout-page" class="overlay-page">
-        <div style="font-size:10px; margin-bottom:15px;">RIEPILOGO</div>
+        <div style="font-size:10px; margin-bottom:15px;">CHECKOUT</div>
         <div id="cart-list" style="width:90%; border:2px solid #000; padding:10px; font-size:7px; margin-bottom:15px;"></div>
-        <input type="text" placeholder="DATI SPEDIZIONE COMPLETI" style="width:85%; padding:12px; border:3px solid #000; font-family:'Press Start 2P'; font-size:8px; margin-bottom:10px;">
-        <button class="btn-black" onclick="alert('OK!')">PAGA <span id="final-total">0</span>€</button>
-        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">CHIUDI</p>
+        <input type="text" placeholder="DATI COMPLETI" style="width:85%; padding:12px; border:3px solid #000; font-family:'Press Start 2P'; font-size:8px; margin-bottom:10px;">
+        <button class="btn-black" onclick="alert('ORDINE INVIATO!')">PAGA <span id="final-total">0</span>€</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">BACK</p>
     </div>
 
     <div id="page-contatti" class="overlay-page">
-        <div>MONDO PONGO</div>
-        <p style="font-size:8px; margin-top:20px;">IG: @FUOCOAMICO</p>
+        <div>IG: @FUOCOAMICO</div>
         <button class="btn-black" onclick="closePages()" style="margin-top:20px;">BACK</button>
     </div>
 
@@ -139,7 +141,7 @@
             logoClicks++;
             if(logoClicks >= 3) {
                 const pass = prompt("PASSWORD:");
-                if(pass === "FRIENDLYFIRE26") alert("Pannello Admin accessibile tramite codice sorgente.");
+                if(pass === "FRIENDLYFIRE26") alert("Accesso Database");
                 logoClicks = 0;
             } else {
                 setTimeout(() => { if(logoClicks > 0 && logoClicks < 3) { alert("RARITÀ IN ARRIVO!"); logoClicks = 0; } }, 400);
@@ -172,18 +174,19 @@
             }}
         });
 
+        // DROPZONE TANK CON SUONO E ANIMAZIONE
         interact('#tank-cart').dropzone({
             accept: '.item-container', 
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const id = item.getAttribute('data-id');
-                playGnam();
+                playGnam(); // Suono gnam ad ogni articolo
                 if(cart[id]) { cart[id].qty++; } else { 
                     cart[id] = {name: item.getAttribute('data-name'), price: parseInt(item.getAttribute('data-price')), qty: 1}; 
                 }
                 item.style.opacity = '0'; item.style.pointerEvents = 'none';
                 updateUI();
-                tank.classList.add('masticando');
+                tank.classList.add('masticando'); // Animazione masticazione
                 setTimeout(() => tank.classList.remove('masticando'), 600);
             }
         });
