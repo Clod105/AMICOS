@@ -17,11 +17,11 @@
             background-size: 450px;
         }
 
-        /* PULIZIA TOTALE LOGHI ESTERNI */
-        [id*="gemini"], [class*="gemini"] { display: none !important; }
+        /* RIMOZIONE RADICALE LAYER GEMINI/ESTERNI */
+        [id*="gemini"], [class*="gemini"], iframe { display: none !important; opacity: 0 !important; pointer-events: none !important; }
 
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .admin-input, .price-tag, .input-form { pointer-events: auto !important; }
+        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .input-form, .price-tag { pointer-events: auto !important; }
 
         header { 
             display: flex; justify-content: space-between; align-items: center; 
@@ -31,32 +31,28 @@
         .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         .header-btn:active { transform: scale(1.2) rotate(5deg); }
 
-        /* AREA SHOP - VESTITI POCKET SIZE */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 500; }
         .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 600; cursor: grab; }
-        .item-container img { width: 130px; height: auto; transition: opacity 0.3s; }
+        .item-container img { width: 125px; height: auto; transition: opacity 0.3s; }
         .price-tag { font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
 
         @keyframes pacVomit { 0% { transform: scale(1); } 30% { transform: scale(2.6) rotate(15deg); } 60% { transform: scale(2.6) rotate(-15deg); } 100% { transform: scale(1); } }
         .vomitando { animation: pacVomit 0.7s ease-in-out; }
 
-        /* FOOTER BRAND: SBLOCCATO PER SUONO E TRASCINAMENTO */
-        footer { position: fixed; bottom: 50px; left: 0; right: 0; text-align: center; z-index: 100; pointer-events: none; }
-        .brand-pongo { width: 290px; max-width: 85%; cursor: pointer; transition: 0.2s; display: inline-block; pointer-events: auto; }
+        /* BRAND NAME - POSIZIONE PIÙ BASSA E ANIMATA */
+        footer { position: fixed; bottom: 35px; left: 0; right: 0; text-align: center; z-index: 100; pointer-events: none; }
+        .brand-pongo { width: 280px; max-width: 80%; cursor: pointer; transition: 0.2s; display: inline-block; pointer-events: auto; }
         .brand-pongo:active { transform: scale(1.15) rotate(-3deg); }
 
         .legal-ticker { position: fixed; bottom: 5px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 40; font-size: 7px; color: var(--legal-gray); }
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* OVERLAYS & PANELS */
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 30000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
-        #checkout-panel { display: none; position: fixed; bottom: 160px; left: 50%; transform: translateX(-50%); z-index: 15000; text-align: center; cursor: move; touch-action: none; }
-        
+        #checkout-panel { display: none; position: fixed; bottom: 140px; left: 50%; transform: translateX(-50%); z-index: 15000; text-align: center; cursor: move; }
         .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
         .btn-clear { background: #fff; color: #000; padding: 15px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; box-shadow: 3px 3px 0 #000; cursor: pointer; }
-        
-        .cart-row { display: flex; justify-content: space-between; align-items: center; font-size: 8px; margin-bottom: 12px; border-bottom: 2px solid #000; padding-bottom: 8px; width: 100%; }
+
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 30000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
         .input-form { width: 85%; padding: 12px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; margin-bottom: 8px; }
     </style>
 </head>
@@ -66,7 +62,7 @@
 
     <header>
         <img src="mondo_pongo.PNG" class="header-btn gnam-hover" onclick="showPage('page-contatti')">
-        <img src="fuochini_centrali.png" class="header-btn logo-central gnam-hover" id="admin-trigger">
+        <img src="fuochini_centrali.png" class="header-btn logo-central gnam-hover" id="central-logo">
         <img src="tank_header.PNG" class="header-btn gnam-hover" id="tank-cart">
     </header>
 
@@ -77,13 +73,13 @@
         <div class="item-container" id="item-1" style="top:40%; left:55%;" data-price="65" data-id="1" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img"><span class="price-tag">65€</span>
         </div>
-        <div class="item-container" id="item-2" style="top:62%; left:30%;" data-price="90" data-id="2" data-name="JEANS">
+        <div class="item-container" id="item-2" style="top:60%; left:30%;" data-price="90" data-id="2" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img"><span class="price-tag">90€</span>
         </div>
     </main>
 
     <div id="checkout-panel">
-        <div style="background:#fff; border:4px solid #000; padding:8px; font-size:9px; margin-bottom:10px; box-shadow: 4px 4px 0 #000;">CONTO: <span id="temp-total">0</span>€</div>
+        <div style="background:#fff; border:4px solid #000; padding:8px; font-size:9px; margin-bottom:10px;">CONTO: <span id="temp-total">0</span>€</div>
         <div style="display:flex; gap:10px;">
             <button class="btn-clear" onclick="spitOutItems()">SVUOTA</button>
             <button class="btn-black" onclick="showCheckout()">PROCEDI</button>
@@ -91,29 +87,25 @@
     </div>
 
     <div id="checkout-page" class="overlay-page">
-        <div style="font-size:12px; margin-bottom:15px;">IL TUO ORDINE</div>
-        <div id="cart-list" style="width:90%; max-height:200px; overflow-y:auto; margin-bottom:20px;"></div>
-        <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
-            <input type="text" class="input-form" placeholder="NOME E COGNOME">
-            <input type="text" class="input-form" placeholder="INDIRIZZO FATTURAZIONE">
-            <input type="text" class="input-form" placeholder="CARTA DI CREDITO">
-            <button class="btn-black" onclick="alert('ORDINE RICEVUTO, FRIENDLYFIRE!')" style="width:85%;">PAGA <span id="final-total">0</span>€</button>
-            <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">ANNULLA</p>
-        </div>
+        <div style="font-size:10px; margin-bottom:15px;">CHECKOUT</div>
+        <div id="cart-list" style="width:90%; max-height:180px; overflow-y:auto; margin-bottom:15px; border:2px solid #000; padding:10px;"></div>
+        <input type="text" class="input-form" placeholder="NOME E COGNOME">
+        <input type="text" class="input-form" placeholder="INDIRIZZO FATTURAZIONE">
+        <button class="btn-black" onclick="alert('ORDINE RICEVUTO!')" style="width:85%;">PAGA <span id="final-total">0</span>€</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">INDIETRO</p>
+    </div>
+
+    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff;">
+        <div style="color:var(--brand-red);">ADMIN PANEL</div>
+        <div id="admin-fields" style="width:100%; margin-top:20px;"></div>
+        <button class="btn-black" onclick="saveAdminChanges()" style="background:green; margin-top:10px;">SALVA</button>
+        <button class="btn-clear" onclick="closePages()">ESCI</button>
     </div>
 
     <div id="page-contatti" class="overlay-page">
         <div style="font-size:12px;">MONDO PONGO</div>
-        <p style="font-size:8px; margin:20px 0; line-height:1.6;">CONTATTI IN AGGIORNAMENTO<br>PER IL PROSSIMO DROP.</p>
-        <div style="font-size:7px; color:var(--brand-red);">IG: @FUOCOAMICO</div>
-        <button class="btn-clear" onclick="closePages()" style="margin-top:30px;">CHIUDI</button>
-    </div>
-
-    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff;">
-        <div style="color:var(--brand-red); font-size:12px;">ADMIN PANEL</div>
-        <div id="admin-fields" style="width:100%; margin-top:20px;"></div>
-        <button class="btn-black" onclick="saveAdminChanges()" style="background:green; margin-top:20px;">SALVA</button>
-        <button class="btn-clear" onclick="closePages()">ESCI</button>
+        <p style="font-size:8px; margin:20px 0;">CONTATTI IN AGGIORNAMENTO.</p>
+        <button class="btn-clear" onclick="closePages()">CHIUDI</button>
     </div>
 
     <footer><img src="brand_name.png" class="brand-pongo gnam-hover" id="footer-brand"></footer>
@@ -133,26 +125,28 @@
         function showPage(id) { document.getElementById(id).style.display = 'flex'; playGnam(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
-        // Suono e animazione Header & Footer
+        // Suono per Header & Footer
         document.querySelectorAll('.gnam-hover').forEach(el => {
             el.addEventListener('touchstart', playGnam);
             el.addEventListener('mouseenter', playGnam);
         });
 
-        // Admin Trigger (Password: FRIENDLYFIRE26)
-        document.getElementById('admin-trigger').addEventListener('click', () => {
+        // Logo Centrale: Alert + Admin
+        document.getElementById('central-logo').addEventListener('click', () => {
             adminClicks++;
             if(adminClicks >= 3) {
-                const pass = prompt("PASSWORD ADMIN:");
+                const pass = prompt("PASSWORD:");
                 if(pass === "FRIENDLYFIRE26") openAdmin();
                 adminClicks = 0;
+            } else {
+                setTimeout(() => { if(adminClicks > 0 && adminClicks < 3) { alert("OGGETTI RARI IN AGGIORNAMENTO"); adminClicks = 0; } }, 400);
             }
         });
 
-        // TRASCINAMENTO VESTITI
+        // Drag & Drop
         interact('.item-container').draggable({
             listeners: { 
-                start(event) { event.target.style.transition = "none"; event.target.style.zIndex = 2000; },
+                start(event) { event.target.style.transition = "none"; event.target.style.zIndex = 99999; },
                 move(event) {
                     const t = event.target;
                     const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
@@ -162,17 +156,6 @@
                 },
                 end(event) { event.target.style.transition = "transform 0.4s ease, opacity 0.3s"; event.target.style.zIndex = 600; }
             }
-        });
-
-        // TRASCINAMENTO CHECKOUT PANEL
-        interact('#checkout-panel').draggable({
-            listeners: { move(event) {
-                const t = event.target;
-                const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
-                const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
-                t.style.transform = `translate(calc(-50% + ${x}px), ${y}px)`;
-                t.setAttribute('data-x', x); t.setAttribute('data-y', y);
-            }}
         });
 
         interact('#tank-cart').dropzone({
@@ -191,25 +174,12 @@
             }
         });
 
-        function changeQty(id, delta) {
-            cart[id].qty += delta;
-            if(cart[id].qty <= 0) {
-                delete cart[id];
-                const el = document.getElementById('item-' + id);
-                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.transform = 'translate(0,0)';
-                el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
-            }
-            updateUI();
-            if(Object.keys(cart).length === 0) closePages(); else showCheckout();
-        }
-
         function spitOutItems() {
-            cart = {}; playGnam();
+            cart = {}; playGnam(); // Suono svuota attivato
             tank.classList.add('vomitando');
             setTimeout(() => tank.classList.remove('vomitando'), 700);
             document.querySelectorAll('.item-container').forEach(el => {
-                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; 
-                el.style.transform = 'translate(0,0)';
+                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.transform = 'translate(0,0)';
                 el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
             });
             updateUI();
@@ -226,9 +196,9 @@
             const list = document.getElementById('cart-list'); list.innerHTML = '';
             for(let k in cart) {
                 list.innerHTML += `
-                <div class="cart-row">
+                <div style="display:flex; justify-content:space-between; font-size:7px; margin-bottom:8px;">
                     <span>${cart[k].name}</span>
-                    <div style="display:flex; gap:8px;">
+                    <div style="display:flex; gap:5px;">
                         <button class="btn-qty" onclick="changeQty('${k}',-1)">-</button>
                         <span>${cart[k].qty}</span>
                         <button class="btn-qty" onclick="changeQty('${k}',1)">+</button>
@@ -239,11 +209,22 @@
             showPage('checkout-page');
         }
 
+        function changeQty(id, delta) {
+            cart[id].qty += delta;
+            if(cart[id].qty <= 0) {
+                delete cart[id];
+                const el = document.getElementById('item-' + id);
+                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.transform = 'translate(0,0)';
+            }
+            updateUI();
+            if(Object.keys(cart).length === 0) closePages(); else showCheckout();
+        }
+
         function openAdmin() {
             const fields = document.getElementById('admin-fields'); fields.innerHTML = '';
             for(let i=0; i<3; i++) {
                 const item = document.getElementById(`item-${i}`);
-                fields.innerHTML += `<div style="margin-bottom:10px; font-size:7px;">ART ${i+1}: <input id="ad-n-${i}" style="width:70px" value="${item.getAttribute('data-name')}"> <input id="ad-p-${i}" style="width:30px" value="${item.getAttribute('data-price')}"></div>`;
+                fields.innerHTML += `<div style="font-size:7px; margin-bottom:10px;">ART ${i+1}: <input id="ad-n-${i}" style="width:60px" value="${item.getAttribute('data-name')}"> <input id="ad-p-${i}" style="width:30px" value="${item.getAttribute('data-price')}"></div>`;
             }
             showPage('page-admin');
         }
@@ -256,7 +237,7 @@
                 item.setAttribute('data-name', n); item.setAttribute('data-price', p);
                 item.querySelector('.price-tag').innerText = p + '€';
             }
-            alert("DROP SALVATO!"); closePages();
+            alert("OK!"); closePages();
         }
     </script>
 </body>
