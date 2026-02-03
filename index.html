@@ -7,81 +7,93 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #ff3a3a; }
+        
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
-            overflow: hidden; background: #fff; font-family: sans-serif; 
+            overflow: hidden; font-family: sans-serif; 
             touch-action: none; -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
+            /* SFONDO MIMETICO PONGO */
+            background-color: #2e4a1e;
+            background-image: url('sfondo_pongo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
-        img { pointer-events: none; -webkit-user-drag: none; }
+        /* PROTEZIONE IMMAGINI E CONTRASTO */
+        img { 
+            pointer-events: none; -webkit-user-drag: none; 
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); /* Fa risaltare gli oggetti sullo sfondo mimetico */
+        }
         .header-btn, .brand-pongo, .draggable-img { pointer-events: auto !important; }
 
-        /* HEADER - ICONE PIÙ GRANDI */
+        /* HEADER: ICONE GIGANTI E ACCATTIVANTI */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 25px; position: fixed; top: 0; width: calc(100% - 50px); 
-            z-index: 9999; height: 100px; 
+            padding: 30px; position: fixed; top: 0; width: calc(100% - 60px); 
+            z-index: 9999; height: 130px; 
         }
         .header-btn { 
-            width: 85px; height: 85px; cursor: pointer; 
+            width: 110px; height: 110px; cursor: pointer; 
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             object-fit: contain;
         }
-        .header-btn:active { transform: scale(1.4) rotate(8deg); }
-        .logo-central { width: 150px; }
+        .header-btn:active { transform: scale(1.5) rotate(12deg); }
+        .logo-central { width: 190px; }
 
-        /* SHOP FLOOR - ARTICOLI CENTRATI */
+        /* SHOP FLOOR: ARTICOLI CENTRATI E GRANDI */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
         .item-container { 
             position: absolute; display: flex; flex-direction: column; 
-            align-items: center; z-index: 200; transform: translate3d(0,0,0); 
+            align-items: center; z-index: 200; transform: translate3d(0,0,0);
         }
-        .item-container img { width: 190px; height: auto; }
+        .item-container img { width: 220px; height: auto; }
         .price-tag { 
             font-family: 'Press Start 2P', cursive; font-size: 11px; margin-top: 10px; 
-            background: #000; color: #fff; padding: 7px 12px; border: 3px solid #000; 
+            background: #000; color: #fff; padding: 8px 14px; border: 4px solid #000; 
+            box-shadow: 4px 4px 0 var(--brand-red);
         }
 
         /* TANK ANIMATION */
-        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.2) rotate(-20deg); } 100% { transform: scale(1); } }
+        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.5) rotate(-30deg); } 100% { transform: scale(1); } }
         .masticando { animation: tankEat 0.6s ease-out; }
 
-        /* OVERLAYS */
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .form-content { width: 85%; display: flex; flex-direction: column; gap: 15px; }
-        input, select { padding: 18px; border: 4px solid #000; font-size: 16px; width: 100%; box-sizing: border-box; background: #fff; border-radius: 0; }
-        
-        /* TASTO CHECKOUT & COUNTER */
+        /* CARRELLO PERMANENTE & CHECKOUT */
         #checkout-panel { 
-            display: none; position: fixed; bottom: 130px; left: 50%; 
-            transform: translateX(-50%); z-index: 900; text-align: center;
+            display: none; position: fixed; bottom: 150px; left: 50%; 
+            transform: translateX(-50%); z-index: 9000; text-align: center;
+        }
+        .subtotal-box {
+            background: #fff; border: 4px solid #000; padding: 12px 24px;
+            font-family: 'Press Start 2P'; font-size: 11px; margin-bottom: 12px;
+            box-shadow: 6px 6px 0 #000;
         }
         .btn-black { 
-            background: #000; color: #fff; padding: 20px; border: none; 
-            font-family: 'Press Start 2P'; font-size: 12px; 
-            box-shadow: 7px 7px 0 var(--brand-red); width: 220px; cursor: pointer; 
-        }
-        .cart-counter {
-            font-family: 'Press Start 2P'; font-size: 10px; margin-bottom: 10px;
-            color: #000; display: block;
+            background: #000; color: #fff; padding: 22px; border: none; 
+            font-family: 'Press Start 2P'; font-size: 14px; 
+            box-shadow: 8px 8px 0 var(--brand-red); width: 260px; cursor: pointer; 
         }
 
-        /* FOOTER ANIMATO */
-        footer { position: fixed; bottom: 30px; width: 100%; text-align: center; z-index: 50; }
+        /* OVERLAYS */
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 50px; }
+        .cart-summary { width: 85%; max-height: 250px; overflow-y: auto; border: 4px solid #000; margin-bottom: 25px; background: #fff; padding: 15px; }
+        .cart-item { display: flex; justify-content: space-between; font-family: 'Press Start 2P'; font-size: 10px; margin: 15px 0; border-bottom: 2px solid #000; padding-bottom: 8px; }
+        .remove-btn { color: red; cursor: pointer; font-weight: bold; padding-left: 10px; }
+
+        /* FOOTER ANIMATO E GRANDE */
+        footer { position: fixed; bottom: 35px; width: 100%; text-align: center; z-index: 50; }
         .brand-pongo { 
-            width: 340px; transition: 0.3s;
-            animation: modeling 4s infinite ease-in-out;
+            width: 400px; cursor: pointer;
+            transition: 0.3s;
+            animation: modeling 5s infinite ease-in-out;
         }
-        .brand-pongo:active { transform: scale(1.15) rotate(-2deg); }
-        @keyframes modeling { 
-            0%, 100% { transform: scale(1) skew(0deg); } 
-            50% { transform: scale(1.06, 0.94) skew(2deg); } 
-        }
+        @keyframes modeling { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1, 0.95) rotate(1deg); } }
 
         /* LOADING */
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 20000; }
-        .bar { width: 240px; height: 22px; border: 4px solid #000; margin-top: 25px; }
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 25000; }
+        .bar { width: 260px; height: 25px; border: 5px solid #000; margin-top: 25px; }
         .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
     </style>
 </head>
@@ -96,50 +108,50 @@
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" style="top:28%; left:15%;" data-price="45">
+        <div class="item-container" style="top:28%; left:12%;" data-price="45" data-name="CAP">
             <img src="image_cap.PNG" class="draggable-img">
             <span class="price-tag">CAP 45€</span>
         </div>
-        <div class="item-container" style="top:32%; left:55%;" data-price="65">
+        <div class="item-container" style="top:32%; left:55%;" data-price="65" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img">
             <span class="price-tag">TEE 65€</span>
         </div>
-        <div class="item-container" style="top:62%; left:35%;" data-price="90">
+        <div class="item-container" style="top:62%; left:32%;" data-price="90" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img">
             <span class="price-tag">JEANS 90€</span>
         </div>
     </main>
 
     <div id="checkout-panel">
-        <span class="cart-counter">TOTAL: <span id="temp-total">0</span>€</span>
-        <button class="btn-black" onclick="showForm()">CHECKOUT OK</button>
+        <div class="subtotal-box">ARTICOLI: <span id="cart-count">0</span> | <span id="temp-total">0</span>€</div>
+        <button class="btn-black" onclick="showCheckout()">CHECKOUT OK</button>
     </div>
 
-    <div id="page-contatti" class="overlay-page">
+    <div id="checkout-page" class="overlay-page">
+        <h2 style="font-family:'Press Start 2P'; font-size:14px;">RIEPILOGO ORDINE</h2>
+        <div class="cart-summary" id="cart-list"></div>
+        <div class="form-content" style="width: 85%; display:flex; flex-direction:column; gap:12px;">
+            <input type="text" placeholder="NOME COMPLETO">
+            <input type="text" placeholder="INDIRIZZO">
+            <select id="pay-method">
+                <option value="paypal">PAYPAL</option>
+                <option value="card">CARTA / APPLE PAY</option>
+            </select>
+            <button class="btn-black" style="width:100%" onclick="finishOrder()">PAGA <span id="final-total">0</span>€</button>
+            <p onclick="closePages()" style="cursor:pointer; font-family:'Press Start 2P'; font-size:10px; text-align:center; margin-top:15px;">TORNA ALLO SHOP</p>
+        </div>
+    </div>
+
+    <div id="page-contatti" class="overlay-page" style="justify-content:center;">
         <h2 style="font-family:'Press Start 2P';">CONTACT</h2>
         <p>Instagram: @fuocoamico</p>
         <button class="btn-black" onclick="closePages()" style="width:200px">BACK</button>
     </div>
 
-    <div id="page-special" class="overlay-page">
+    <div id="page-special" class="overlay-page" style="justify-content:center;">
         <h2 style="font-family:'Press Start 2P'; color:red;">COLLECTION</h2>
-        <p>PRIVATE AREA</p>
-        <button class="btn-black" onclick="closePages()" style="width:200px">CLOSE</button>
-    </div>
-
-    <div id="order-form" class="overlay-page">
-        <div class="form-content">
-            <h2 style="font-family:'Press Start 2P'; font-size:14px;">TOTAL ORDER: <span id="final-total">0</span>€</h2>
-            <input type="text" placeholder="FULL NAME">
-            <input type="text" placeholder="SHIPPING ADDRESS">
-            <input type="email" placeholder="EMAIL">
-            <select id="pay-method">
-                <option value="paypal">PAYPAL</option>
-                <option value="card">CREDIT CARD</option>
-            </select>
-            <button class="btn-black" onclick="finishOrder()">PAY NOW</button>
-            <p onclick="location.reload()" style="cursor:pointer; font-size:12px;">Back to Shop</p>
-        </div>
+        <p>DROP LIMITATI</p>
+        <button class="btn-black" onclick="closePages()" style="width:200px">CHIUDI</button>
     </div>
 
     <footer>
@@ -154,22 +166,23 @@
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
         const gnam = document.getElementById('gnam-sound');
-        let total = 0;
+        let cart = [];
 
+        // Audio Unlock
         document.body.addEventListener('touchstart', () => {
             gnam.play().then(() => { gnam.pause(); gnam.currentTime = 0; });
         }, {once: true});
 
         function showPage(id) { document.getElementById(id).style.display = 'flex'; gnam.play(); }
-        function showForm() { document.getElementById('order-form').style.display = 'flex'; }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
-        document.querySelectorAll('.gnam-hover').forEach(el => {
-            const playG = () => { gnam.currentTime = 0; gnam.play().catch(()=>{}); };
-            el.addEventListener('mouseenter', playG);
-            el.addEventListener('touchstart', playG);
+        // Suoni per Header e Footer
+        document.querySelectorAll('.gnam-hover, .draggable-img').forEach(el => {
+            const p = () => { gnam.currentTime = 0; gnam.play().catch(()=>{}); };
+            el.addEventListener('mouseenter', p); el.addEventListener('touchstart', p);
         });
 
+        // Drag & Drop
         interact('.item-container').draggable({
             listeners: {
                 move(event) {
@@ -184,37 +197,67 @@
             }
         });
 
+        // Tank Dropzone con Risucchio Magnetico
         interact('#tank-cart').dropzone({
             accept: '.item-container',
-            overlap: 0.15,
+            overlap: 0.1, 
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const tank = event.target;
                 gnam.currentTime = 0; gnam.play();
                 
-                // SPARIRE IMMEDIATAMENTE
+                // Effetto Risucchio
                 item.style.transition = 'all 0.3s ease-in';
-                item.style.transform += ' scale(0)';
+                item.style.transform += ' scale(0) rotate(60deg)';
                 item.style.opacity = '0';
-                setTimeout(() => item.remove(), 300);
+                
+                const name = item.getAttribute('data-name');
+                const price = parseInt(item.getAttribute('data-price'));
+                cart.push({name, price});
+
+                setTimeout(() => { item.style.display = 'none'; updateCart(); }, 300);
 
                 tank.classList.add('masticando');
                 setTimeout(() => tank.classList.remove('masticando'), 600);
-                
-                total += parseInt(item.getAttribute('data-price'));
-                document.getElementById('temp-total').innerText = total;
-                document.getElementById('final-total').innerText = total;
-                document.getElementById('checkout-panel').style.display = 'block';
             }
         });
+
+        function updateCart() {
+            const total = cart.reduce((s, i) => s + i.price, 0);
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('temp-total').innerText = total;
+            document.getElementById('final-total').innerText = total;
+            if(cart.length > 0) document.getElementById('checkout-panel').style.display = 'block';
+        }
+
+        function showCheckout() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = '';
+            cart.forEach((item, index) => {
+                list.innerHTML += `<div class="cart-item"><span>${item.name}</span> <span>${item.price}€ <span class="remove-btn" onclick="removeItem(${index})">X</span></span></div>`;
+            });
+            document.getElementById('checkout-page').style.display = 'flex';
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+            if(cart.length === 0) {
+                closePages();
+                document.getElementById('checkout-panel').style.display = 'none';
+                location.reload(); // Reset per far tornare i vestiti
+            } else {
+                showCheckout();
+            }
+        }
 
         function finishOrder() {
             document.getElementById('loading-screen').style.display = 'flex';
             let w = 0;
             const inv = setInterval(() => {
                 w += 5; document.getElementById('fill-bar').style.width = w + '%';
-                if(w >= 100) { clearInterval(inv); alert("ORDER SENT!"); location.reload(); }
-            }, 50);
+                if(w >= 100) { clearInterval(inv); alert("ORDINE COMPLETATO!"); location.reload(); }
+            }, 60);
         }
     </script>
 </body>
