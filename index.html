@@ -3,97 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO | FRIENDLYFIRE TITANIUM</title>
+    <title>FRIENDLYFIRE</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        :root { --brand-red: #ff3a3a; }
-        
-        /* MOTORE GRAFICO ACCELERATO */
-        * { 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
-            touch-action: none; 
-            user-select: none;
-            will-change: transform, opacity;
-        }
+        :root { --brand-red: #ff3a3a; --pixel-border: 4px solid #000; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: none; user-select: none; }
 
         body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
-            overflow: hidden; font-family: 'Press Start 2P', cursive;
-            background: #2e4a1e url('sfondo_pongo.PNG') repeat fixed center;
-            background-size: 450px;
+            margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Press Start 2P', cursive;
+            background: #2e4a1e url('sfondo_pongo.PNG') repeat fixed center; background-size: 450px;
         }
 
-        /* KILLER RESIDUI SISTEMA */
-        iframe, [id*="gemini"], [class*="gemini"], .gc-icon, svg { display: none !important; }
+        header { display: flex; justify-content: space-between; padding: 10px 25px; position: fixed; top: 0; left: 0; right: 0; z-index: 10000; }
+        .header-btn { width: 85px; height: 85px; object-fit: contain; cursor: pointer; transition: 0.2s; }
+        .header-btn:active { transform: scale(1.1); }
 
-        header { 
-            display: flex; justify-content: space-between; padding: 10px 25px; 
-            position: fixed; top: 0; left: 0; right: 0; z-index: 10000;
-        }
-        .header-btn { width: 85px; height: 85px; object-fit: contain; cursor: pointer; transform: translate3d(0,0,0); }
+        /* SLIDER IPHONE GRID */
+        #main-slider { width: 300vw; height: 100vh; display: flex; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+        .shop-page { width: 100vw; height: 100vh; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); padding: 110px 15px 160px 15px; gap: 10px; }
 
-        /* SLIDER IPHONE GRID - 60 FPS */
-        #main-slider {
-            width: 300vw; height: 100vh; display: flex;
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translate3d(0,0,0);
-        }
-        .shop-page {
-            width: 100vw; height: 100vh; display: grid;
-            grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
-            padding: 105px 15px 155px 15px; gap: 10px;
-        }
-
-        .item-container { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transform: translate3d(0,0,0);
-        }
-        .item-container img { width: 92px; height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5)); pointer-events: none; }
+        .item-container { display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translate3d(0,0,0); }
+        .item-container img { width: 90px; height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5)); pointer-events: none; }
         .price-tag { font-size: 7px; margin-top: 5px; background: #000; color: #fff; padding: 4px; border: 2px solid #000; }
-        .sold-out { filter: grayscale(1) brightness(0.7); opacity: 0.6; pointer-events: none !important; }
+        .sold-out { filter: grayscale(1); opacity: 0.6; pointer-events: none !important; }
 
         /* NAV ARROWS PIXEL NERE */
-        .nav-btn {
-            position: fixed; top: 50%; transform: translateY(-50%) translate3d(0,0,0);
-            background: #000; color: #fff; border: 3px solid #fff; padding: 15px 10px;
-            z-index: 11000; font-family: 'Press Start 2P'; font-size: 14px;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.5); cursor: pointer; display: none;
-        }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); background: #000; color: #fff; border: 3px solid #fff; padding: 15px 10px; z-index: 11000; font-family: 'Press Start 2P'; font-size: 14px; cursor: pointer; display: none; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); }
 
-        .btn-pixel {
-            background: #000; color: #fff; border: none; padding: 12px;
-            font-family: 'Press Start 2P'; font-size: 10px;
-            box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer;
-        }
+        /* PIXEL UI */
+        .btn-pixel { background: #000; color: #fff; border: none; padding: 12px; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer; }
 
         footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; z-index: 10000; pointer-events: none; padding-bottom: 5px; }
-        .brand-pongo-float { width: 225px; pointer-events: auto; cursor: pointer; transform: translate3d(0,0,0); }
+        .brand-pongo-float { width: 220px; pointer-events: auto; cursor: pointer; }
         .legal-ticker { width: 100%; overflow: hidden; font-size: 6px; color: #eee; background: rgba(0,0,0,0.5); padding: 5px 0; }
         .ticker-content { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
         @keyframes ticker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* CHECKOUT PANEL TRASCINABILE */
-        #checkout-panel {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0);
-            z-index: 25000; background: #fff; border: 4px solid #000; padding: 25px;
-            box-shadow: 12px 12px 0 #000; text-align: center; cursor: move;
-        }
+        /* CHECKOUT POPUP TRASCINABILE */
+        #checkout-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 25000; background: #fff; border: var(--pixel-border); padding: 25px; box-shadow: 12px 12px 0 #000; text-align: center; cursor: move; }
 
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 35000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 35000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+
         @keyframes masticando { 0% { transform: scale(1); } 50% { transform: scale(2.4); } 100% { transform: scale(1); } }
         .masticando { animation: masticando 0.5s ease; }
         @keyframes vomitando { 0% { transform: scale(1); } 50% { transform: scale(3) rotate(10deg); } 100% { transform: scale(1); } }
         .vomitando { animation: vomitando 0.7s ease; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
 
     <header>
-        <img src="mondo_pongo.PNG" class="header-btn" onclick="showPage('page-contatti')">
+        <img src="mondo_pongo.PNG" class="header-btn" onclick="showPage('page-world')">
         <img src="fuochini_centrali.png" class="header-btn" id="master-logo">
         <img src="tank_header.PNG" class="header-btn" id="tank-cart">
     </header>
@@ -108,34 +71,40 @@
     </div>
 
     <div id="checkout-panel">
-        <div style="font-size:9px; margin-bottom:10px; color:#000; border-bottom:2px solid #000; padding-bottom:5px;">FRIENDLYFIRE SHOP</div>
+        <div style="font-size:9px; margin-bottom:10px; color:#000; border-bottom:3px solid #000; padding-bottom:10px;">FRIENDLYFIRE CART</div>
         <div style="font-size:14px; margin-bottom:15px; color:#000;">TOTALE: <span id="temp-total">0</span>€</div>
         <div style="display:flex; gap:10px; justify-content:center;">
-            <button class="btn-pixel" style="background:#fff; color:#000; border:2px solid #000; box-shadow:3px 3px 0 #000;" onclick="spitOutItems()">SVUOTA</button>
+            <button class="btn-pixel" style="background:#fff; color:#000; border:3px solid #000; box-shadow:3px 3px 0 #000;" onclick="spitOutItems()">SVUOTA</button>
             <button class="btn-pixel" onclick="showCheckout()">PAGA</button>
         </div>
     </div>
 
     <footer>
         <img src="brand_name.png" class="brand-pongo-float" id="brand-logo">
-        <div class="legal-ticker"><div class="ticker-content">Made in Italy for the world. Win alone ©️ 2026-2036. Friendlyfire copyright.</div></div>
+        <div class="legal-ticker"><div class="ticker-content">Made in Italy for the world. Win alone ©️ 2026. Friendlyfire copyright.</div></div>
     </footer>
 
-    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff; overflow-y:auto; text-align:left;">
-        <h3 style="color:red">TITANIUM DATABASE</h3>
-        <div style="border:1px solid #444; padding:10px; margin-bottom:15px;">
-            BG URL: <input type="text" id="db-bg-input" value="sfondo_pongo.PNG" style="width:130px; background:#222; color:#fff; border:none; padding:6px;">
-        </div>
-        <div id="db-list"></div>
-        <button class="btn-pixel" onclick="addItem()" style="background:blue; margin-top:10px; width:100%;">+ AGGIUNGI</button>
-        <button class="btn-pixel" onclick="saveDB()" style="background:green; margin-top:10px; width:100%;">SALVA DATABASE</button>
-        <button class="btn-pixel" onclick="closePages()" style="background:#fff; color:#000; margin-top:10px; width:100%;">ESCI</button>
+    <div id="page-world" class="overlay-page">
+        <h2 style="color:red; margin-bottom:20px;">FRIENDLYFIRE</h2>
+        <p style="font-size:10px; margin-bottom:20px; cursor:pointer;" onclick="window.open('https://instagram.com/fuocoamico', '_blank')">@FUOCOAMICO</p>
+        <input type="email" placeholder="NEWSLETTER" style="border:3px solid #000; padding:10px; font-family:'Press Start 2P'; font-size:8px; width:80%; margin-bottom:10px;">
+        <button class="btn-pixel" style="width:80%;" onclick="alert('ISCRITTO!')">ISCRIVITI</button>
+        <button class="btn-pixel" onclick="closePages()" style="margin-top:20px; background:#fff; color:#000; border:2px solid #000;">BACK</button>
     </div>
 
-    <div id="page-contatti" class="overlay-page">
-        <h1 style="color:red;">FRIENDLYFIRE</h1>
-        <p>IG: @FUOCOAMICO</p>
-        <button class="btn-pixel" onclick="closePages()">CHIUDI</button>
+    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff; overflow-y:auto; text-align:left;">
+        <h3 style="color:red">DATABASE (36 SLOTS)</h3>
+        <div style="margin-bottom:15px; padding:10px; border:1px solid #444;">BG URL: <input type="text" id="db-bg" value="sfondo_pongo.PNG" style="width:120px;"></div>
+        <div id="db-list"></div>
+        <button class="btn-pixel" onclick="addItem()" style="background:blue; width:100%; margin:10px 0;">[+] AGGIUNGI</button>
+        <button class="btn-pixel" onclick="saveDB()" style="background:green; width:100%;">SALVA</button>
+        <button class="btn-pixel" onclick="closePages()" style="background:#fff; color:#000; width:100%; margin-top:10px;">ESCI</button>
+    </div>
+
+    <div id="checkout-page" class="overlay-page">
+        <div id="cart-list" style="width:90%; border:3px solid #000; padding:10px; margin-bottom:15px; font-size:8px;"></div>
+        <button class="btn-pixel" style="width:80%;">ORDINA</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">CHIUDI</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
@@ -201,7 +170,7 @@
                     const from = event.relatedTarget.getAttribute('data-index');
                     const to = event.target.getAttribute('data-index');
                     const temp = itemsData[from]; itemsData[from] = itemsData[to]; itemsData[to] = temp;
-                    renderShop(); // Swap Instantaneo
+                    renderShop(); // Swap Outfit Builder
                 }
             });
 
@@ -221,7 +190,7 @@
                     const t = event.target;
                     const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
                     const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
-                    t.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), 0)`;
+                    t.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
                     t.setAttribute('data-x', x); t.setAttribute('data-y', y);
                 }}
             });
@@ -237,6 +206,16 @@
             let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
             document.getElementById('temp-total').innerText = total;
             document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
+        }
+
+        function showCheckout() {
+            const list = document.getElementById('cart-list'); list.innerHTML = '';
+            for(let k in cart) {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span>ITEM x${cart[k].qty}</span><span>${cart[k].price * cart[k].qty}€</span>
+                </div>`;
+            }
+            showPage('checkout-page');
         }
 
         let cl = 0;
@@ -260,7 +239,7 @@
             showPage('page-admin');
         }
 
-        function addItem() { itemsData.push({ id: Date.now(), price: 0, stock: 10, img: 'placeholder.png' }); openAdmin(); }
+        function addItem() { if(itemsData.length < 36) { itemsData.push({ id: Date.now(), price: 0, stock: 10, img: 'placeholder.png' }); openAdmin(); } }
         
         function saveDB() {
             itemsData.forEach((item, i) => {
@@ -268,9 +247,9 @@
                 item.price = parseInt(document.getElementById(`db-p-${i}`).value);
                 item.stock = parseInt(document.getElementById(`db-s-${i}`).value);
             });
-            const newBg = document.getElementById('db-bg-input').value;
+            const newBg = document.getElementById('db-bg').value;
             if(newBg) document.body.style.backgroundImage = `url('${newBg}')`;
-            renderShop(); closePages(); alert("SITO VELOCIZZATO!");
+            renderShop(); closePages(); alert("SITO TITANIO AGGIORNATO!");
         }
 
         renderShop();
