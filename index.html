@@ -17,12 +17,11 @@
             background-size: 450px;
         }
 
-        /* PULIZIA TOTALE */
+        /* PULIZIA TOTALE LOGHI ESTERNI */
         [id*="gemini"], [class*="gemini"] { display: none !important; }
 
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        /* Abilitiamo interazioni selettive */
-        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .admin-input, .price-tag { pointer-events: auto !important; }
+        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .admin-input, .price-tag, .input-form { pointer-events: auto !important; }
 
         header { 
             display: flex; justify-content: space-between; align-items: center; 
@@ -32,16 +31,16 @@
         .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         .header-btn:active { transform: scale(1.2) rotate(5deg); }
 
-        /* AREA SHOP: I VESTITI HANNO SEMPRE PRIORITÀ */
+        /* AREA SHOP - VESTITI POCKET SIZE */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 500; }
         .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 600; cursor: grab; }
         .item-container img { width: 130px; height: auto; transition: opacity 0.3s; }
         .price-tag { font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
 
-        @keyframes pacVomit { 0% { transform: scale(1); } 30% { transform: scale(2.5) rotate(15deg); } 60% { transform: scale(2.5) rotate(-15deg); } 100% { transform: scale(1); } }
+        @keyframes pacVomit { 0% { transform: scale(1); } 30% { transform: scale(2.6) rotate(15deg); } 60% { transform: scale(2.6) rotate(-15deg); } 100% { transform: scale(1); } }
         .vomitando { animation: pacVomit 0.7s ease-in-out; }
 
-        /* FOOTER BRAND: FISSO MA CLICCABILE SOLO SULL'IMMAGINE */
+        /* FOOTER BRAND: SBLOCCATO PER SUONO E TRASCINAMENTO */
         footer { position: fixed; bottom: 50px; left: 0; right: 0; text-align: center; z-index: 100; pointer-events: none; }
         .brand-pongo { width: 290px; max-width: 85%; cursor: pointer; transition: 0.2s; display: inline-block; pointer-events: auto; }
         .brand-pongo:active { transform: scale(1.15) rotate(-3deg); }
@@ -50,11 +49,15 @@
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* OVERLAYS */
+        /* OVERLAYS & PANELS */
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 30000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
-        #checkout-panel { display: none; position: fixed; bottom: 160px; left: 50%; transform: translateX(-50%); z-index: 15000; text-align: center; }
+        #checkout-panel { display: none; position: fixed; bottom: 160px; left: 50%; transform: translateX(-50%); z-index: 15000; text-align: center; cursor: move; touch-action: none; }
+        
         .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
-        .btn-clear { background: #fff; color: #000; padding: 15px; border: 4px solid #000; font-family: 'Press Start 2P'; font-size: 9px; box-shadow: 4px 4px 0 #000; cursor: pointer; }
+        .btn-clear { background: #fff; color: #000; padding: 15px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; box-shadow: 3px 3px 0 #000; cursor: pointer; }
+        
+        .cart-row { display: flex; justify-content: space-between; align-items: center; font-size: 8px; margin-bottom: 12px; border-bottom: 2px solid #000; padding-bottom: 8px; width: 100%; }
+        .input-form { width: 85%; padding: 12px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; margin-bottom: 8px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -80,25 +83,37 @@
     </main>
 
     <div id="checkout-panel">
-        <div style="background:#fff; border:4px solid #000; padding:8px; font-size:9px; margin-bottom:10px;">CONTO: <span id="temp-total">0</span>€</div>
+        <div style="background:#fff; border:4px solid #000; padding:8px; font-size:9px; margin-bottom:10px; box-shadow: 4px 4px 0 #000;">CONTO: <span id="temp-total">0</span>€</div>
         <div style="display:flex; gap:10px;">
             <button class="btn-clear" onclick="spitOutItems()">SVUOTA</button>
             <button class="btn-black" onclick="showCheckout()">PROCEDI</button>
         </div>
     </div>
 
-    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff;">
-        <div style="color:var(--brand-red); font-size:12px;">CREATOR PANEL</div>
-        <div id="admin-fields" style="width:100%; margin-top:20px;"></div>
-        <button class="btn-black" onclick="saveAdminChanges()" style="background:green; margin-top:20px;">SALVA DROP</button>
-        <button class="btn-clear" onclick="closePages()" style="margin-top:10px;">ESCI</button>
+    <div id="checkout-page" class="overlay-page">
+        <div style="font-size:12px; margin-bottom:15px;">IL TUO ORDINE</div>
+        <div id="cart-list" style="width:90%; max-height:200px; overflow-y:auto; margin-bottom:20px;"></div>
+        <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+            <input type="text" class="input-form" placeholder="NOME E COGNOME">
+            <input type="text" class="input-form" placeholder="INDIRIZZO FATTURAZIONE">
+            <input type="text" class="input-form" placeholder="CARTA DI CREDITO">
+            <button class="btn-black" onclick="alert('ORDINE RICEVUTO, FRIENDLYFIRE!')" style="width:85%;">PAGA <span id="final-total">0</span>€</button>
+            <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">ANNULLA</p>
+        </div>
     </div>
 
-    <div id="checkout-page" class="overlay-page">
-        <div>RIEPILOGO</div>
-        <div id="cart-list" style="margin:20px 0; width:90%; font-size:8px; border:2px solid #000; padding:10px;"></div>
-        <button class="btn-black" onclick="alert('OK, FRIENDLYFIRE!')">PAGA ORA</button>
-        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:20px;">INDIETRO</p>
+    <div id="page-contatti" class="overlay-page">
+        <div style="font-size:12px;">MONDO PONGO</div>
+        <p style="font-size:8px; margin:20px 0; line-height:1.6;">CONTATTI IN AGGIORNAMENTO<br>PER IL PROSSIMO DROP.</p>
+        <div style="font-size:7px; color:var(--brand-red);">IG: @FUOCOAMICO</div>
+        <button class="btn-clear" onclick="closePages()" style="margin-top:30px;">CHIUDI</button>
+    </div>
+
+    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff;">
+        <div style="color:var(--brand-red); font-size:12px;">ADMIN PANEL</div>
+        <div id="admin-fields" style="width:100%; margin-top:20px;"></div>
+        <button class="btn-black" onclick="saveAdminChanges()" style="background:green; margin-top:20px;">SALVA</button>
+        <button class="btn-clear" onclick="closePages()">ESCI</button>
     </div>
 
     <footer><img src="brand_name.png" class="brand-pongo gnam-hover" id="footer-brand"></footer>
@@ -114,32 +129,27 @@
         let cart = {};
         let adminClicks = 0;
 
-        // Admin Trigger con Password
-        document.getElementById('admin-trigger').addEventListener('click', () => {
-            adminClicks++;
-            if(adminClicks >= 3) {
-                const pass = prompt("INSERISCI CODICE SICUREZZA:");
-                if(pass === "FRIENDLYFIRE26") { // Cambia qui la tua password
-                    openAdmin();
-                } else {
-                    alert("CODICE ERRATO.");
-                }
-                adminClicks = 0;
-            } else {
-                setTimeout(() => { if(adminClicks > 0 && adminClicks < 3) { alert("AREA OGGETTI RARI IN AGGIORNAMENTO"); adminClicks = 0; } }, 400);
-            }
-        });
-
         function playGnam() { gnam.currentTime = 0; gnam.play().catch(()=>{}); }
         function showPage(id) { document.getElementById(id).style.display = 'flex'; playGnam(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
+        // Suono e animazione Header & Footer
         document.querySelectorAll('.gnam-hover').forEach(el => {
             el.addEventListener('touchstart', playGnam);
             el.addEventListener('mouseenter', playGnam);
         });
 
-        // DRAG VESTITI
+        // Admin Trigger (Password: FRIENDLYFIRE26)
+        document.getElementById('admin-trigger').addEventListener('click', () => {
+            adminClicks++;
+            if(adminClicks >= 3) {
+                const pass = prompt("PASSWORD ADMIN:");
+                if(pass === "FRIENDLYFIRE26") openAdmin();
+                adminClicks = 0;
+            }
+        });
+
+        // TRASCINAMENTO VESTITI
         interact('.item-container').draggable({
             listeners: { 
                 start(event) { event.target.style.transition = "none"; event.target.style.zIndex = 2000; },
@@ -152,6 +162,17 @@
                 },
                 end(event) { event.target.style.transition = "transform 0.4s ease, opacity 0.3s"; event.target.style.zIndex = 600; }
             }
+        });
+
+        // TRASCINAMENTO CHECKOUT PANEL
+        interact('#checkout-panel').draggable({
+            listeners: { move(event) {
+                const t = event.target;
+                const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
+                const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
+                t.style.transform = `translate(calc(-50% + ${x}px), ${y}px)`;
+                t.setAttribute('data-x', x); t.setAttribute('data-y', y);
+            }}
         });
 
         interact('#tank-cart').dropzone({
@@ -170,13 +191,25 @@
             }
         });
 
+        function changeQty(id, delta) {
+            cart[id].qty += delta;
+            if(cart[id].qty <= 0) {
+                delete cart[id];
+                const el = document.getElementById('item-' + id);
+                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.transform = 'translate(0,0)';
+                el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
+            }
+            updateUI();
+            if(Object.keys(cart).length === 0) closePages(); else showCheckout();
+        }
+
         function spitOutItems() {
             cart = {}; playGnam();
             tank.classList.add('vomitando');
             setTimeout(() => tank.classList.remove('vomitando'), 700);
             document.querySelectorAll('.item-container').forEach(el => {
                 el.style.opacity = '1'; el.style.pointerEvents = 'auto'; 
-                el.style.transform = `translate(0px, 0px)`;
+                el.style.transform = 'translate(0,0)';
                 el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
             });
             updateUI();
@@ -185,18 +218,29 @@
         function updateUI() {
             let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
             document.getElementById('temp-total').innerText = total;
+            document.getElementById('final-total').innerText = total;
             document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
         }
 
         function showCheckout() {
             const list = document.getElementById('cart-list'); list.innerHTML = '';
-            for(let k in cart) { list.innerHTML += `<div>${cart[k].name} x${cart[k].qty} - ${cart[k].price * cart[k].qty}€</div>`; }
+            for(let k in cart) {
+                list.innerHTML += `
+                <div class="cart-row">
+                    <span>${cart[k].name}</span>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-qty" onclick="changeQty('${k}',-1)">-</button>
+                        <span>${cart[k].qty}</span>
+                        <button class="btn-qty" onclick="changeQty('${k}',1)">+</button>
+                    </div>
+                    <span>${cart[k].price * cart[k].qty}€</span>
+                </div>`;
+            }
             showPage('checkout-page');
         }
 
         function openAdmin() {
-            const fields = document.getElementById('admin-fields');
-            fields.innerHTML = '';
+            const fields = document.getElementById('admin-fields'); fields.innerHTML = '';
             for(let i=0; i<3; i++) {
                 const item = document.getElementById(`item-${i}`);
                 fields.innerHTML += `<div style="margin-bottom:10px; font-size:7px;">ART ${i+1}: <input id="ad-n-${i}" style="width:70px" value="${item.getAttribute('data-name')}"> <input id="ad-p-${i}" style="width:30px" value="${item.getAttribute('data-price')}"></div>`;
@@ -209,11 +253,10 @@
                 const item = document.getElementById(`item-${i}`);
                 const n = document.getElementById(`ad-n-${i}`).value;
                 const p = document.getElementById(`ad-p-${i}`).value;
-                item.setAttribute('data-name', n);
-                item.setAttribute('data-price', p);
+                item.setAttribute('data-name', n); item.setAttribute('data-price', p);
                 item.querySelector('.price-tag').innerText = p + '€';
             }
-            alert("DROP AGGIORNATO!"); closePages();
+            alert("DROP SALVATO!"); closePages();
         }
     </script>
 </body>
