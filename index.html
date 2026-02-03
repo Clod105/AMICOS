@@ -18,76 +18,75 @@
         }
 
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .input-form, #checkout-panel { pointer-events: auto !important; }
+        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, #checkout-panel { pointer-events: auto !important; }
 
+        /* HEADER - ICONE PIÙ GRANDI */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 25px; position: fixed; top: 0; left: 0; right: 0; 
-            z-index: 10000; height: 100px;
+            padding: 15px 30px; position: fixed; top: 0; left: 0; right: 0; 
+            z-index: 10000; height: 110px;
         }
-        .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .header-btn:active { transform: scale(1.2); }
+        .header-btn { width: 115px; height: 115px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .header-btn:active { transform: scale(1.3); }
+        .logo-central { width: 180px; }
 
-        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
-        .item-container { 
-            position: absolute; display: flex; flex-direction: column; align-items: center; 
-            z-index: 500; /* Alzato per stare sopra al footer */
-            touch-action: none;
+        /* NUVOLETTE DI PONGO ESTETICHE */
+        .cloud {
+            position: absolute; width: 120px; height: 60px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            filter: blur(15px); /* Effetto morbido pongo */
+            z-index: 10;
+            pointer-events: none;
+            animation: moveClouds linear infinite;
         }
-        .item-container img { width: 160px; height: auto; }
+        .cloud::after {
+            content: ''; position: absolute; top: -20px; left: 20px;
+            width: 60px; height: 60px; background: inherit; border-radius: 50%;
+        }
+        @keyframes moveClouds {
+            from { transform: translateX(110vw); }
+            to { transform: translateX(-20vw); }
+        }
+
+        /* SHOP AREA */
+        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
+        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 500; }
+        .item-container img { width: 155px; height: auto; }
         .price-tag { font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
 
+        /* ANIMAZIONI TANK */
         @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.4) rotate(-20deg); } 100% { transform: scale(1); } }
         .masticando { animation: tankEat 0.6s ease-out; }
+        @keyframes tankSplitVomit { 0% { transform: scale(1); } 30% { transform: scale(2.8) rotate(10deg); } 100% { transform: scale(1); } }
+        .vomitando { animation: tankSplitVomit 0.8s ease-in-out; }
 
-        footer { 
-            position: fixed; bottom: 50px; left: 0; right: 0; 
-            text-align: center; z-index: 50; /* Abbassato per far passare i vestiti sopra */
-            pointer-events: none; 
-        }
-        .brand-pongo { 
-            width: 300px; max-width: 85%; cursor: pointer; 
-            transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: auto;
-        }
-        .brand-pongo:active { transform: scale(1.2) rotate(-3deg); }
+        /* FOOTER BRAND */
+        footer { position: fixed; bottom: 50px; left: 0; right: 0; text-align: center; z-index: 15000; }
+        .brand-pongo { width: 300px; max-width: 85%; cursor: pointer; transition: 0.2s ease; display: inline-block; }
+        .brand-pongo:active { transform: scale(1.2) rotate(-4deg); }
 
-        .legal-ticker {
-            position: fixed; bottom: 5px; width: 100%; white-space: nowrap;
-            overflow: hidden; z-index: 40; font-size: 7px; color: var(--legal-gray);
-        }
+        /* LEGAL TICKER */
+        .legal-ticker { position: fixed; bottom: 5px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 40; font-size: 7px; color: var(--legal-gray); }
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        #checkout-panel { 
-            display: none; position: fixed; bottom: 150px; left: 50%; 
-            transform: translateX(-50%); z-index: 15000; text-align: center; 
-            padding: 15px; cursor: move;
-        }
-        .subtotal-box { display: inline-block; background: #fff; border: 4px solid #000; padding: 8px 15px; font-size: 9px; margin-bottom: 10px; box-shadow: 4px 4px 0 #000; }
-        .panel-btns { display: flex; gap: 10px; justify-content: center; }
-        
-        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
-        .btn-clear { background: #fff; color: #000; padding: 15px; border: 4px solid #000; font-family: 'Press Start 2P'; font-size: 9px; box-shadow: 4px 4px 0 #000; cursor: pointer; }
+        /* CHECKOUT */
+        #checkout-panel { display: none; position: fixed; bottom: 160px; left: 50%; transform: translateX(-50%); z-index: 12000; text-align: center; cursor: move; }
+        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
+        .btn-clear { background: #fff; color: #000; padding: 15px; border: 4px solid #000; font-size: 9px; box-shadow: 4px 4px 0 #000; cursor: pointer; }
 
-        .overlay-page { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(255,255,255,0.98); z-index: 20000; 
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 20px; box-sizing: border-box;
-        }
-
-        .cart-summary { width: 90%; max-height: 250px; overflow-y: auto; border: 4px solid #000; background: #f2f2f2; padding: 10px; margin-bottom: 15px; }
-        .cart-row { display: flex; justify-content: space-between; align-items: center; font-size: 8px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-        .btn-qty { background: #000; color: #fff; border: none; padding: 4px 8px; font-family: 'Press Start 2P'; font-size: 10px; cursor: pointer; }
-        
-        .payment-form { width: 85%; display: flex; flex-direction: column; gap: 8px; }
-        .payment-form input { padding: 12px; border: 2px solid #000; font-family: 'Press Start 2P'; font-size: 8px; outline: none; }
+        /* OVERLAYS */
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 30000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
+
+    <div class="cloud" style="top: 15%; animation-duration: 40s;"></div>
+    <div class="cloud" style="top: 45%; animation-duration: 55s; opacity: 0.5;"></div>
+    <div class="cloud" style="top: 75%; animation-duration: 35s;"></div>
 
     <header>
         <img src="mondo_pongo.PNG" class="header-btn gnam-hover" onclick="showPage('page-contatti')">
@@ -108,36 +107,25 @@
     </main>
 
     <div id="checkout-panel">
-        <div class="subtotal-box">CONTO: <span id="temp-total">0</span>€</div>
-        <div class="panel-btns">
+        <div style="display:inline-block; background:#fff; border:4px solid #000; padding:8px; font-size:9px; margin-bottom:10px;">CONTO: <span id="temp-total">0</span>€</div>
+        <div style="display:flex; gap:10px;">
             <button class="btn-clear" onclick="spitOutItems()">SVUOTA</button>
             <button class="btn-black" onclick="showCheckout()">PROCEDI</button>
         </div>
     </div>
 
     <div id="checkout-page" class="overlay-page">
-        <div style="font-size:12px; margin-bottom:15px;">RIEPILOGO</div>
-        <div id="cart-list" class="cart-summary"></div>
-        <div class="payment-form">
-            <input type="text" id="cust-name" placeholder="NOME E COGNOME">
-            <input type="text" id="cust-addr" placeholder="INDIRIZZO">
-            <input type="text" id="cust-card" placeholder="NUMERO CARTA">
-            <button class="btn-black" onclick="alert('ORDINE RICEVUTO, FRIENDLYFIRE!')">PAGA <span id="final-total">0</span>€</button>
-            <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:10px;">TORNA</p>
-        </div>
+        <div>RIEPILOGO</div>
+        <div id="cart-list" style="margin:20px 0; font-size:10px; border:3px solid #000; padding:10px; width:90%;"></div>
+        <button class="btn-black" onclick="alert('ORDINE RICEVUTO!')">PAGA</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">BACK</p>
     </div>
 
     <div id="page-contatti" class="overlay-page">
         <div>NEWSLETTER</div>
-        <input type="email" placeholder="TU@EMAIL.IT" style="padding:12px; border:3px solid #000; margin: 20px 0; width: 250px; font-family:'Press Start 2P'; font-size:8px; text-align: center;">
-        <button class="btn-black" onclick="alert('OK!')">UNISCITI</button>
+        <input type="email" placeholder="TU@EMAIL.IT" style="padding:12px; border:3px solid #000; margin: 20px 0; width: 250px; text-align: center;">
+        <button class="btn-black" onclick="alert('ISCRITTO!')">ISCRIVITI</button>
         <button class="btn-clear" onclick="closePages()" style="margin-top:20px;">CHIUDI</button>
-    </div>
-
-    <div id="page-collezione" class="overlay-page">
-        <div style="color:red;">PRIVATE COLLECTION</div>
-        <p style="font-size:8px; margin-top:20px;">IN AGGIORNAMENTO...</p>
-        <button class="btn-black" onclick="closePages()" style="margin-top:30px;">TORNA</button>
     </div>
 
     <footer>
@@ -154,10 +142,10 @@
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
         const gnam = document.getElementById('gnam-sound');
+        const tank = document.getElementById('tank-cart');
         let cart = {};
 
         function playGnam() { gnam.currentTime = 0; gnam.play().catch(()=>{}); }
-
         function showPage(id) { document.getElementById(id).style.display = 'flex'; playGnam(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
@@ -166,7 +154,6 @@
             el.addEventListener('mouseenter', playGnam);
         });
 
-        // DRAG VESTITI - Velocizzato (rimossa transition durante drag)
         interact('.item-container').draggable({
             listeners: { 
                 start(event) { event.target.style.transition = "none"; },
@@ -177,11 +164,10 @@
                     t.style.transform = `translate(${x}px, ${y}px)`;
                     t.setAttribute('data-x', x); t.setAttribute('data-y', y);
                 },
-                end(event) { event.target.style.transition = "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"; }
+                end(event) { event.target.style.transition = "transform 0.4s ease, opacity 0.3s"; }
             }
         });
 
-        // DRAG CHECKOUT
         interact('#checkout-panel').draggable({
             listeners: { move(event) {
                 const t = event.target;
@@ -197,61 +183,41 @@
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const id = item.getAttribute('data-id');
-                const name = item.getAttribute('data-name');
-                const price = parseInt(item.getAttribute('data-price'));
                 playGnam();
-                if(cart[id]) { cart[id].qty++; } else { cart[id] = {name, price, qty: 1}; }
-                item.style.opacity = '0';
-                item.style.pointerEvents = 'none';
+                if(cart[id]) { cart[id].qty++; } else { 
+                    cart[id] = {name: item.getAttribute('data-name'), price: parseInt(item.getAttribute('data-price')), qty: 1}; 
+                }
+                item.style.opacity = '0'; item.style.pointerEvents = 'none';
                 updateUI();
-                event.target.classList.add('masticando');
-                setTimeout(() => event.target.classList.remove('masticando'), 600);
+                tank.classList.add('masticando');
+                setTimeout(() => tank.classList.remove('masticando'), 600);
             }
         });
+
+        function spitOutItems() {
+            cart = {}; playGnam();
+            tank.classList.add('vomitando');
+            setTimeout(() => tank.classList.remove('vomitando'), 800);
+            document.querySelectorAll('.item-container').forEach(el => {
+                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; 
+                el.style.transform = `translate(0px, 0px)`;
+                el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
+            });
+            updateUI();
+        }
 
         function updateUI() {
             let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
             document.getElementById('temp-total').innerText = total;
-            document.getElementById('final-total').innerText = total;
             document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
         }
 
         function showCheckout() {
             const list = document.getElementById('cart-list'); list.innerHTML = '';
             for(let k in cart) {
-                list.innerHTML += `
-                <div class="cart-row">
-                    <span>${cart[k].name}</span>
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <button class="btn-qty" onclick="changeQty('${k}', -1)">-</button>
-                        <span>${cart[k].qty}</span>
-                        <button class="btn-qty" onclick="changeQty('${k}', 1)">+</button>
-                    </div>
-                    <span>${cart[k].price * cart[k].qty}€</span>
-                </div>`;
+                list.innerHTML += `<div>${cart[k].name} x${cart[k].qty} - ${cart[k].price * cart[k].qty}€</div>`;
             }
             showPage('checkout-page');
-        }
-
-        function changeQty(id, delta) {
-            cart[id].qty += delta;
-            if(cart[id].qty <= 0) {
-                delete cart[id];
-                const el = document.getElementById('item-' + id);
-                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.transform = 'translate(0,0)';
-                el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
-            }
-            updateUI();
-            if(Object.keys(cart).length === 0) closePages(); else showCheckout();
-        }
-
-        function spitOutItems() {
-            cart = {}; playGnam();
-            document.querySelectorAll('.item-container').forEach(el => {
-                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.transform = `translate(0px, 0px)`;
-                el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
-            });
-            updateUI();
         }
     </script>
 </body>
