@@ -17,56 +17,55 @@
             background-size: 450px;
         }
 
-        img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, #checkout-panel { pointer-events: auto !important; }
+        /* RIMOZIONE RESIDUI */
+        [id*="gemini"], [class*="gemini"] { display: none !important; }
 
-        /* HEADER - ICONE PIÙ GRANDI */
+        img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
+        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, #checkout-panel { pointer-events: auto !important; }
+
+        /* HEADER */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 15px 30px; position: fixed; top: 0; left: 0; right: 0; 
             z-index: 10000; height: 110px;
         }
         .header-btn { width: 115px; height: 115px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .header-btn:active { transform: scale(1.3); }
         .logo-central { width: 180px; }
 
-        /* NUVOLETTE DI PONGO ESTETICHE */
-        .cloud {
-            position: absolute; width: 120px; height: 60px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50px;
-            filter: blur(15px); /* Effetto morbido pongo */
-            z-index: 10;
-            pointer-events: none;
-            animation: moveClouds linear infinite;
+        /* NUVOLE DI PONGO - SOLO LORO SI MUOVONO */
+        .cloud-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10; pointer-events: none; overflow: hidden;
         }
-        .cloud::after {
-            content: ''; position: absolute; top: -20px; left: 20px;
-            width: 60px; height: 60px; background: inherit; border-radius: 50%;
+        .pongo-cloud {
+            position: absolute; background: #d9d9d9; 
+            box-shadow: inset -8px -8px 0px rgba(0,0,0,0.15), 8px 8px 15px rgba(0,0,0,0.2);
+            border-radius: 50px; animation: moveClouds linear infinite;
         }
+        .pongo-cloud::before, .pongo-cloud::after {
+            content: ''; position: absolute; background: inherit; box-shadow: inherit; border-radius: 50%;
+        }
+        .c1 { width: 130px; height: 55px; }
+        .c1::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+        .c1::after { width: 55px; height: 55px; top: -25px; left: 65px; }
+        
         @keyframes moveClouds {
-            from { transform: translateX(110vw); }
-            to { transform: translateX(-20vw); }
+            from { left: 115%; }
+            to { left: -25%; }
         }
 
-        /* SHOP AREA */
+        /* SHOP FLOOR - I VESTITI PASSANO SOPRA IL BRAND */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
-        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 500; }
-        .item-container img { width: 155px; height: auto; }
+        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 500; cursor: grab; }
+        .item-container img { width: 160px; height: auto; }
         .price-tag { font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
 
-        /* ANIMAZIONI TANK */
-        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.4) rotate(-20deg); } 100% { transform: scale(1); } }
-        .masticando { animation: tankEat 0.6s ease-out; }
-        @keyframes tankSplitVomit { 0% { transform: scale(1); } 30% { transform: scale(2.8) rotate(10deg); } 100% { transform: scale(1); } }
-        .vomitando { animation: tankSplitVomit 0.8s ease-in-out; }
+        /* FOOTER BRAND - SOTTO I VESTITI (Z-INDEX 50) */
+        footer { position: fixed; bottom: 50px; left: 0; right: 0; text-align: center; z-index: 50; pointer-events: none; }
+        .brand-pongo { width: 310px; max-width: 85%; cursor: pointer; transition: 0.2s; pointer-events: auto; }
+        .brand-pongo:active { transform: scale(1.2) rotate(-3deg); }
 
-        /* FOOTER BRAND */
-        footer { position: fixed; bottom: 50px; left: 0; right: 0; text-align: center; z-index: 15000; }
-        .brand-pongo { width: 300px; max-width: 85%; cursor: pointer; transition: 0.2s ease; display: inline-block; }
-        .brand-pongo:active { transform: scale(1.2) rotate(-4deg); }
-
-        /* LEGAL TICKER */
+        /* TICKER NEWS TV */
         .legal-ticker { position: fixed; bottom: 5px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 40; font-size: 7px; color: var(--legal-gray); }
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
@@ -76,7 +75,6 @@
         .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
         .btn-clear { background: #fff; color: #000; padding: 15px; border: 4px solid #000; font-size: 9px; box-shadow: 4px 4px 0 #000; cursor: pointer; }
 
-        /* OVERLAYS */
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 30000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
     </style>
 </head>
@@ -84,9 +82,11 @@
 
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
 
-    <div class="cloud" style="top: 15%; animation-duration: 40s;"></div>
-    <div class="cloud" style="top: 45%; animation-duration: 55s; opacity: 0.5;"></div>
-    <div class="cloud" style="top: 75%; animation-duration: 35s;"></div>
+    <div class="cloud-container">
+        <div class="pongo-cloud c1" style="top: 15%; animation-duration: 35s;"></div>
+        <div class="pongo-cloud c1" style="top: 42%; animation-duration: 55s; transform: scale(0.7); opacity: 0.5;"></div>
+        <div class="pongo-cloud c1" style="top: 75%; animation-duration: 40s; transform: scale(1.1);"></div>
+    </div>
 
     <header>
         <img src="mondo_pongo.PNG" class="header-btn gnam-hover" onclick="showPage('page-contatti')">
@@ -98,16 +98,16 @@
         <div class="item-container" id="item-cap" style="top:25%; left:12%;" data-price="45" data-id="cap" data-name="CAP">
             <img src="image_cap.PNG" class="draggable-img"><span class="price-tag">45€</span>
         </div>
-        <div class="item-container" id="item-tee" style="top:40%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
+        <div class="item-container" id="item-tee" style="top:38%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img"><span class="price-tag">65€</span>
         </div>
-        <div class="item-container" id="item-jeans" style="top:62%; left:30%;" data-price="90" data-id="jeans" data-name="JEANS">
+        <div class="item-container" id="item-jeans" style="top:60%; left:30%;" data-price="90" data-id="jeans" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img"><span class="price-tag">90€</span>
         </div>
     </main>
 
     <div id="checkout-panel">
-        <div style="display:inline-block; background:#fff; border:4px solid #000; padding:8px; font-size:9px; margin-bottom:10px;">CONTO: <span id="temp-total">0</span>€</div>
+        <div style="background:#fff; border:4px solid #000; padding:8px; font-size:9px; margin-bottom:10px;">CONTO: <span id="temp-total">0</span>€</div>
         <div style="display:flex; gap:10px;">
             <button class="btn-clear" onclick="spitOutItems()">SVUOTA</button>
             <button class="btn-black" onclick="showCheckout()">PROCEDI</button>
@@ -116,15 +116,15 @@
 
     <div id="checkout-page" class="overlay-page">
         <div>RIEPILOGO</div>
-        <div id="cart-list" style="margin:20px 0; font-size:10px; border:3px solid #000; padding:10px; width:90%;"></div>
-        <button class="btn-black" onclick="alert('ORDINE RICEVUTO!')">PAGA</button>
-        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">BACK</p>
+        <div id="cart-list" style="margin:20px 0; font-size:10px; border:3px solid #000; padding:15px; width:90%;"></div>
+        <button class="btn-black" onclick="alert('OK, FRIENDLYFIRE!')">PAGA ORA</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:20px;">BACK</p>
     </div>
 
     <div id="page-contatti" class="overlay-page">
         <div>NEWSLETTER</div>
-        <input type="email" placeholder="TU@EMAIL.IT" style="padding:12px; border:3px solid #000; margin: 20px 0; width: 250px; text-align: center;">
-        <button class="btn-black" onclick="alert('ISCRITTO!')">ISCRIVITI</button>
+        <input type="email" placeholder="TU@EMAIL.IT" style="padding:12px; border:3px solid #000; margin: 20px 0; width: 250px; text-align: center; font-family:'Press Start 2P'; font-size:8px;">
+        <button class="btn-black" onclick="alert('ISCRITTO!')">UNISCITI</button>
         <button class="btn-clear" onclick="closePages()" style="margin-top:20px;">CHIUDI</button>
     </div>
 
@@ -154,6 +154,7 @@
             el.addEventListener('mouseenter', playGnam);
         });
 
+        // DRAG VESTITI
         interact('.item-container').draggable({
             listeners: { 
                 start(event) { event.target.style.transition = "none"; },
@@ -189,15 +190,15 @@
                 }
                 item.style.opacity = '0'; item.style.pointerEvents = 'none';
                 updateUI();
-                tank.classList.add('masticando');
-                setTimeout(() => tank.classList.remove('masticando'), 600);
+                tank.style.animation = "tankEat 0.6s ease-out";
+                setTimeout(() => tank.style.animation = "", 600);
             }
         });
 
         function spitOutItems() {
             cart = {}; playGnam();
-            tank.classList.add('vomitando');
-            setTimeout(() => tank.classList.remove('vomitando'), 800);
+            tank.style.animation = "tankSplitVomit 0.8s ease"; 
+            setTimeout(() => tank.style.animation = "", 800);
             document.querySelectorAll('.item-container').forEach(el => {
                 el.style.opacity = '1'; el.style.pointerEvents = 'auto'; 
                 el.style.transform = `translate(0px, 0px)`;
@@ -214,9 +215,7 @@
 
         function showCheckout() {
             const list = document.getElementById('cart-list'); list.innerHTML = '';
-            for(let k in cart) {
-                list.innerHTML += `<div>${cart[k].name} x${cart[k].qty} - ${cart[k].price * cart[k].qty}€</div>`;
-            }
+            for(let k in cart) { list.innerHTML += `<div>${cart[k].name} x${cart[k].qty} - ${cart[k].price * cart[k].qty}€</div>`; }
             showPage('checkout-page');
         }
     </script>
