@@ -10,62 +10,67 @@
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #fff; font-family: sans-serif; touch-action: none; }
 
         /* HEADER */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); z-index: 100; }
-        .header-btn { width: 70px; height: 70px; cursor: pointer; transition: transform 0.2s; object-fit: contain; }
-        .header-btn:active { transform: scale(1.4); }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); z-index: 1000; }
+        .header-btn { width: 70px; height: 70px; cursor: pointer; transition: 0.2s; object-fit: contain; }
         .logo-central { width: 120px; height: auto; }
 
         /* SHOP FLOOR */
-        #shop-floor { width: 100vw; height: 100vh; position: relative; }
-        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 10; touch-action: none; }
-        .item-container img { width: 160px; pointer-events: none; -webkit-user-drag: none; }
-        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 9px; margin-top: 8px; background: #000; color: #fff; padding: 5px 10px; border-radius: 2px; }
+        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 10; }
+        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: grab; }
+        .item-container img { width: 160px; height: auto; pointer-events: none; -webkit-user-drag: none; display: block; }
+        
+        /* PREZZI SEMPRE VISIBILI */
+        .price-tag { 
+            font-family: 'Press Start 2P', cursive; font-size: 9px; margin-top: 5px; 
+            background: #000; color: #fff; padding: 5px 8px; border: 2px solid #000;
+            z-index: 20; position: relative;
+        }
 
         /* TANK ANIMATION */
         @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(1.8) rotate(-15deg); } 100% { transform: scale(1); } }
         .masticando { animation: tankEat 0.6s ease-out; }
 
         /* OVERLAYS */
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 500; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         
         /* FORM & CHECKOUT */
-        #checkout-panel { display: none; position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%); z-index: 200; }
-        #order-form { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+        #checkout-panel { display: none; position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%); z-index: 100; }
+        #order-form { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 6000; flex-direction: column; align-items: center; justify-content: center; }
         input { margin: 10px; padding: 15px; width: 80%; border: 4px solid #000; font-size: 16px; }
         .btn-black { background: #000; color: #fff; padding: 18px; border: none; width: 85%; font-family: 'Press Start 2P'; font-size: 11px; margin-top: 15px; box-shadow: 6px 6px 0 var(--brand-red); }
 
         /* LOADING */
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; }
-        .bar { width: 220px; height: 20px; border: 4px solid #000; margin-top: 25px; padding: 2px; }
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9000; }
+        .bar { width: 220px; height: 20px; border: 4px solid #000; margin-top: 25px; }
         .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
         
-        footer { position: fixed; bottom: 25px; width: 100%; text-align: center; z-index: 40; }
-        .brand-pongo { width: 300px; transition: 0.3s; animation: pulse 3s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05) skew(1deg); } }
+        footer { position: fixed; bottom: 25px; width: 100%; text-align: center; z-index: 50; }
+        .brand-pongo { width: 300px; animation: pulse 3s infinite ease-in-out; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     </style>
 </head>
 <body>
 
-    <audio id="gnam-sound" src="https://clod105.github.io/fuocoamico/suono_gnam.mp3" preload="auto"></audio>
+    <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
 
     <header>
-        <img src="https://clod105.github.io/fuocoamico/mondo_pongo.png" class="header-btn" onclick="showPage('page-contatti')">
-        <img src="https://clod105.github.io/fuocoamico/fuochini_centrali.png" class="header-btn logo-central" onclick="showPage('page-special')">
-        <img src="https://clod105.github.io/fuocoamico/tank_header.png" class="header-btn" id="tank-cart">
+        <img src="mondo_pongo.png" class="header-btn" onclick="showPage('page-contatti')">
+        <img src="fuochini_centrali.png" class="header-btn logo-central" onclick="showPage('page-special')">
+        <img src="tank_header.png" class="header-btn" id="tank-cart">
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" style="top:22%; left:12%;" data-price="45">
-            <img src="https://clod105.github.io/fuocoamico/image_cap.png">
-            <span class="price-tag">CAP - 45€</span>
+        <div class="item-container" style="top:25%; left:15%;" data-price="45">
+            <img src="image_cap.png">
+            <span class="price-tag">CAP 45€</span>
         </div>
-        <div class="item-container" style="top:38%; left:52%;" data-price="65">
-            <img src="https://clod105.github.io/fuocoamico/image_tee.png">
-            <span class="price-tag">TEE - 65€</span>
+        <div class="item-container" style="top:40%; left:55%;" data-price="65">
+            <img src="image_tee.png">
+            <span class="price-tag">TEE 65€</span>
         </div>
-        <div class="item-container" style="top:62%; left:22%;" data-price="90">
-            <img src="https://clod105.github.io/fuocoamico/image_jeans.png">
-            <span class="price-tag">JEANS - 90€</span>
+        <div class="item-container" style="top:65%; left:20%;" data-price="90">
+            <img src="image_jeans.png">
+            <span class="price-tag">JEANS 90€</span>
         </div>
     </main>
 
@@ -74,31 +79,30 @@
     </div>
 
     <div id="page-contatti" class="overlay-page">
-        <h2 style="font-family:'Press Start 2P'; font-size:14px;">CONTACT</h2>
+        <h2 style="font-family:'Press Start 2P';">CONTACT</h2>
         <p>Instagram: @fuocoamico</p>
         <button class="btn-black" onclick="closePages()">BACK</button>
     </div>
 
     <div id="page-special" class="overlay-page">
-        <h2 style="font-family:'Press Start 2P'; font-size:14px; color:red;">COLLECTION</h2>
-        <p>AREA RISERVATA</p>
+        <h2 style="font-family:'Press Start 2P'; color:red;">COLLECTION</h2>
+        <p>COMING SOON</p>
         <button class="btn-black" onclick="closePages()">CLOSE</button>
     </div>
 
     <div id="order-form">
         <h2 style="font-family:'Press Start 2P'; font-size:12px;">TOTAL: <span id="total-price">0</span>€</h2>
-        <input type="text" id="cust-name" placeholder="FULL NAME">
-        <input type="text" id="cust-addr" placeholder="SHIPPING ADDRESS">
+        <input type="text" placeholder="NAME">
+        <input type="text" placeholder="ADDRESS">
         <button class="btn-black" onclick="finishOrder()">SEND ORDER</button>
-        <p onclick="location.reload()" style="margin-top:20px; text-decoration:underline;">Cancel</p>
     </div>
 
     <footer>
-        <img src="https://clod105.github.io/fuocoamico/brand_name.png" class="brand-pongo">
+        <img src="brand_name.png" class="brand-pongo">
     </footer>
 
     <div id="loading-screen">
-        <div style="font-family:'Press Start 2P'; font-size:11px; text-align:center; padding:20px; line-height:1.6;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
+        <div style="font-family:'Press Start 2P'; font-size:11px; text-align:center;">IL FUOCO AMICO<br>NON È TOLLERATO!</div>
         <div class="bar"><div id="fill-bar" class="fill"></div></div>
     </div>
 
@@ -111,12 +115,7 @@
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
         function showForm() { document.getElementById('order-form').style.display = 'flex'; }
 
-        // Suono al tocco icone e brand
-        document.querySelectorAll('.header-btn, .brand-pongo').forEach(el => {
-            el.addEventListener('touchstart', () => { gnam.currentTime = 0; gnam.play(); });
-        });
-
-        // DRAG & DROP
+        // Drag & Drop
         interact('.item-container').draggable({
             listeners: { move(event) {
                 const t = event.target;
@@ -125,8 +124,8 @@
                 t.style.transform = `translate(${x}px, ${y}px)`;
                 t.setAttribute('data-x', x);
                 t.setAttribute('data-y', y);
-                t.style.zIndex = 100;
-            }, end(event) { event.target.style.zIndex = 10; }}
+                t.style.zIndex = 2000;
+            }, end(event) { event.target.style.zIndex = 20; }}
         });
 
         interact('#tank-cart').dropzone({
@@ -134,14 +133,11 @@
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const tank = event.target;
-                const price = parseInt(item.getAttribute('data-price'));
-                
                 gnam.play();
                 item.style.display = 'none';
                 tank.classList.add('masticando');
                 setTimeout(() => tank.classList.remove('masticando'), 600);
-                
-                total += price;
+                total += parseInt(item.getAttribute('data-price'));
                 document.getElementById('total-price').innerText = total;
                 document.getElementById('checkout-panel').style.display = 'block';
             }
@@ -151,9 +147,9 @@
             document.getElementById('loading-screen').style.display = 'flex';
             let w = 0;
             const inv = setInterval(() => {
-                w += 2; document.getElementById('fill-bar').style.width = w + '%';
+                w += 5; document.getElementById('fill-bar').style.width = w + '%';
                 if(w >= 100) { clearInterval(inv); alert("ORDINE INVIATO!"); location.reload(); }
-            }, 40);
+            }, 50);
         }
     </script>
 </body>
