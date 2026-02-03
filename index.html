@@ -11,17 +11,12 @@
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             overflow: hidden; font-family: 'Press Start 2P', cursive; 
-            touch-action: none; background: #2e4a1e;
+            touch-action: none;
+            background: #2e4a1e url('sfondo_pongo.PNG') repeat fixed center;
+            background-size: 450px;
         }
 
-        /* LAYER BACKGROUND DINAMICO */
-        #bg-layer {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: url('sfondo_pongo.PNG') repeat fixed center;
-            background-size: 450px; z-index: -1;
-        }
-
-        /* KILLER RESIDUI SISTEMA */
+        /* KILLER RESIDUI SISTEMA (ROMBO GEMINI) */
         iframe, [id*="gemini"], [class*="gemini"], .gc-icon, svg { display: none !important; opacity: 0 !important; pointer-events: none !important; }
 
         header { 
@@ -30,11 +25,13 @@
             z-index: 10000; height: 100px;
         }
         .header-btn { width: 90px; height: 90px; object-fit: contain; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .header-btn:active { transform: scale(1.2) rotate(5deg); }
 
-        /* GRID IPHONE STYLE */
+        /* SLIDER IPHONE GRID */
         #main-slider {
             width: 300vw; height: 100vh; display: flex;
             transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            background: transparent;
         }
         .shop-page {
             width: 100vw; height: 100vh; display: grid;
@@ -47,11 +44,11 @@
             display: flex; flex-direction: column; align-items: center; 
             justify-content: center; position: relative; z-index: 600;
         }
-        .item-container img { width: 95px; height: auto; pointer-events: none; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
+        .item-container img { width: 95px; height: auto; pointer-events: none; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
         .price-tag { font-size: 7px; margin-top: 5px; background: #000; color: #fff; padding: 4px; border: 2px solid #000; }
         .sold-out { filter: grayscale(1) !important; opacity: 0.5; pointer-events: none !important; }
 
-        /* NAV ARROWS PIXEL NERE */
+        /* NAV ARROWS PIXEL */
         .nav-btn {
             position: fixed; top: 50%; transform: translateY(-50%);
             background: #000; color: #fff; border: 3px solid #fff; padding: 15px 10px;
@@ -66,36 +63,38 @@
             box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer;
         }
 
+        /* FOOTER BRAND & COPYRIGHT */
         footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; z-index: 10000; pointer-events: none; padding-bottom: 5px; }
-        .brand-pongo-float { width: 230px; pointer-events: auto; cursor: pointer; margin-bottom: -5px; }
-        .legal-ticker { width: 100%; overflow: hidden; font-size: 6px; color: #a0a0a0; background: rgba(0,0,0,0.4); padding: 5px 0; pointer-events: auto; }
+        .brand-pongo-float { width: 230px; pointer-events: auto; cursor: pointer; margin-bottom: -5px; transition: 0.2s; }
+        .brand-pongo-float:active { transform: scale(1.1) rotate(-3deg); }
+        .legal-ticker { width: 100%; overflow: hidden; font-size: 6px; color: #eee; background: rgba(0,0,0,0.5); padding: 5px 0; pointer-events: auto; }
         .ticker-content { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
         @keyframes ticker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* POPUP CHECKOUT */
+        /* CHECKOUT POPUP TRASCINABILE */
         #checkout-panel {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 25000; background: #fff; border: var(--pixel-border); padding: 25px;
-            box-shadow: 10px 10px 0 #000; text-align: center; cursor: move;
+            box-shadow: 15px 15px 0 #000; text-align: center; cursor: move;
         }
 
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 35000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
 
+        /* ANIMAZIONI TANK */
         @keyframes masticando { 0% { transform: scale(1); } 50% { transform: scale(2.4); } 100% { transform: scale(1); } }
         .masticando { animation: masticando 0.5s ease; }
         @keyframes vomitando { 0% { transform: scale(1); } 50% { transform: scale(2.8) rotate(10deg); } 100% { transform: scale(1); } }
         .vomitando { animation: vomitando 0.7s ease; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
-    <div id="bg-layer"></div>
 
     <header>
-        <img src="mondo_pongo.PNG" class="header-btn" onclick="showPage('page-contatti')">
-        <img src="fuochini_centrali.png" class="header-btn" id="master-logo">
-        <img src="tank_header.PNG" class="header-btn" id="tank-cart">
+        <img src="mondo_pongo.PNG" class="header-btn gnam-hover" onclick="showPage('page-contatti')">
+        <img src="fuochini_centrali.png" class="header-btn gnam-hover" id="master-logo">
+        <img src="tank_header.PNG" class="header-btn gnam-hover" id="tank-cart">
     </header>
 
     <button id="prev-btn" class="nav-btn" onclick="moveSlide(-1)">&lt;</button>
@@ -108,16 +107,16 @@
     </div>
 
     <div id="checkout-panel">
-        <div style="font-size:10px; margin-bottom:15px; border-bottom:3px solid #000; padding-bottom:10px; color:#000;">CARRELLO PIENO</div>
+        <div style="font-size:10px; margin-bottom:15px; border-bottom:3px solid #000; padding-bottom:10px; color:#000;">FRIENDLYFIRE CART</div>
         <div style="font-size:14px; margin-bottom:20px; color:#000;">TOTALE: <span id="temp-total">0</span>€</div>
         <div style="display:flex; gap:10px; justify-content:center;">
-            <button class="btn-pixel" style="background:#fff; color:#000; border:2px solid #000; box-shadow:3px 3px 0 #000;" onclick="spitOutItems()">SVUOTA</button>
+            <button class="btn-pixel" style="background:#fff; color:#000; border:2px solid #000; box-shadow:4px 4px 0 #000;" onclick="spitOutItems()">SVUOTA</button>
             <button class="btn-pixel" onclick="showCheckout()">PAGA</button>
         </div>
     </div>
 
     <footer>
-        <img src="brand_name.png" class="brand-pongo-float" id="brand-anim">
+        <img src="brand_name.png" class="brand-pongo-float gnam-hover" id="brand-logo">
         <div class="legal-ticker">
             <div class="ticker-content">All rights reserved fuocoamico (friendlyfire) copyright ©️ 2026-2036. Made in Italy for the world. Win alone</div>
         </div>
@@ -126,8 +125,7 @@
     <div id="page-admin" class="overlay-page" style="background:#111; color:#fff; overflow-y:auto; text-align:left;">
         <h3 style="color:var(--brand-red)">DATABASE</h3>
         <div style="margin-bottom:15px; padding:10px; border:1px solid #444;">
-            BG URL (es: sfondo.png): <input type="text" id="db-bg-url" value="sfondo_pongo.PNG" style="width:130px;"><br><br>
-            MANUTENZIONE: <button onclick="isMaint = !isMaint; this.innerText = isMaint ? 'ON':'OFF';" style="padding:5px;">OFF</button>
+            BG URL (es: sfondo.png): <input type="text" id="db-bg-url" value="sfondo_pongo.PNG" style="width:130px;">
         </div>
         <div id="db-list"></div>
         <button class="btn-pixel" onclick="addItem()" style="background:blue; width:100%; margin-top:10px;">[+] AGGIUNGI ICONA</button>
@@ -136,11 +134,16 @@
     </div>
 
     <div id="checkout-page" class="overlay-page">
-        <div style="font-size:10px; margin-bottom:15px;">RIEPILOGO</div>
         <div id="cart-list" style="width:90%; border:3px solid #000; padding:10px; margin-bottom:15px; font-size:8px;"></div>
         <input type="text" class="btn-pixel" placeholder="INDIRIZZO COMPLETO" style="width:85%; background:#fff; color:#000; text-align:left; cursor:text; box-shadow:none; border:2px solid #000;">
-        <button class="btn-pixel" style="width:85%; margin-top:10px;">ORDINA</button>
-        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">BACK</p>
+        <button class="btn-pixel" style="width:85%; margin-top:10px;">CONFERMA</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px;">CHIUDI</p>
+    </div>
+
+    <div id="page-contatti" class="overlay-page">
+        <h1 style="color:var(--brand-red);">FRIENDLYFIRE</h1>
+        <p>IG: @FUOCOAMICO</p>
+        <button class="btn-pixel" onclick="closePages()">BACK</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
@@ -148,7 +151,7 @@
         const gnam = document.getElementById('gnam-sound');
         const tank = document.getElementById('tank-cart');
         const slider = document.getElementById('main-slider');
-        let cart = {}; let currentSlide = 0; let isMaint = false;
+        let cart = {}; let currentSlide = 0;
         let itemsData = [
             { id: 0, name: 'CAP', price: 45, stock: 10, img: 'image_cap.PNG' },
             { id: 1, name: 'TEE', price: 65, stock: 5, img: 'image_tee.PNG' },
@@ -159,7 +162,10 @@
         function showPage(id) { document.getElementById(id).style.display = 'flex'; playGnam(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
-        document.querySelectorAll('.header-btn, .brand-pongo-float').forEach(el => el.addEventListener('click', playGnam));
+        // Gestore Suoni & Animazioni
+        document.querySelectorAll('.gnam-hover').forEach(el => {
+            el.addEventListener('click', playGnam);
+        });
 
         function renderShop() {
             [1,2,3].forEach(p => document.getElementById(`p${p}`).innerHTML = '');
@@ -167,9 +173,10 @@
                 const pNum = Math.floor(i / 12) + 1;
                 if(pNum > 3) return;
                 const sold = item.stock <= 0 ? 'sold-out' : '';
-                const vis = cart[i] ? 'display:none;' : 'display:flex;';
+                const risucchiato = cart[i] ? 'display:none;' : 'display:flex;';
+                
                 document.getElementById(`p${pNum}`).innerHTML += `
-                <div class="item-container ${sold}" id="item-${i}" data-index="${i}" style="${vis}">
+                <div class="item-container ${sold}" id="item-${i}" data-index="${i}" style="${risucchiato}">
                     <img src="${item.img}">
                     <span class="price-tag">${item.price}€</span>
                 </div>`;
@@ -199,7 +206,11 @@
                         t.style.transform = `translate(${x}px, ${y}px)`;
                         t.setAttribute('data-x', x); t.setAttribute('data-y', y);
                     },
-                    end(event) { event.target.style.transform = 'translate(0,0)'; event.target.setAttribute('data-x', 0); event.target.setAttribute('data-y', 0); }
+                    end(event) {
+                        event.target.style.transform = 'translate(0,0)';
+                        event.target.setAttribute('data-x', 0);
+                        event.target.setAttribute('data-y', 0);
+                    }
                 }
             }).dropzone({
                 accept: '.item-container',
@@ -207,7 +218,7 @@
                     const from = event.relatedTarget.getAttribute('data-index');
                     const to = event.target.getAttribute('data-index');
                     const temp = itemsData[from]; itemsData[from] = itemsData[to]; itemsData[to] = temp;
-                    renderShop(); // LOGICA SWAP OUTFIT
+                    renderShop(); // Swap per Outfit
                 }
             });
 
@@ -218,7 +229,8 @@
                     playGnam();
                     if(!cart[idx]) cart[idx] = {...itemsData[idx], qty: 1}; else cart[idx].qty++;
                     tank.classList.add('masticando'); setTimeout(()=>tank.classList.remove('masticando'), 500);
-                    renderShop(); updateUI();
+                    renderShop(); // Risucchio
+                    updateUI();
                 }
             });
 
@@ -256,17 +268,25 @@
             showPage('checkout-page');
         }
 
+        // Trigger Fuochi
+        let clicks = 0;
         document.getElementById('master-logo').addEventListener('click', () => {
-            if(prompt("PASSWORD") === "FRIENDLYFIRE26") openAdmin();
+            clicks++;
+            if(clicks >= 3) {
+                if(prompt("PASSWORD DATABASE") === "FRIENDLYFIRE26") openAdmin();
+                clicks = 0;
+            } else {
+                setTimeout(() => { if(clicks > 0 && clicks < 3) { alert("RARITÀ IN ARRIVO!"); clicks = 0; } }, 400);
+            }
         });
 
         function openAdmin() {
             const list = document.getElementById('db-list'); list.innerHTML = '';
             itemsData.forEach((item, i) => {
-                list.innerHTML += `<div style="font-size:6px; margin-bottom:10px; border-bottom:1px solid #444;">
+                list.innerHTML += `<div style="font-size:6px; margin-bottom:10px; border-bottom:1px solid #444; padding-bottom:5px;">
                     IMG: <input id="db-i-${i}" value="${item.img}" style="width:60px;"> €: <input id="db-p-${i}" value="${item.price}" style="width:25px;"> 
                     STK: <input id="db-s-${i}" value="${item.stock}" style="width:20px;"> 
-                    <button onclick="itemsData.splice(${i},1); openAdmin();" style="color:red; background:none; border:none;">[X]</button>
+                    <button onclick="itemsData.splice(${i},1); openAdmin();" style="color:red;">[X]</button>
                 </div>`;
             });
             showPage('page-admin');
@@ -281,7 +301,7 @@
                 item.stock = parseInt(document.getElementById(`db-s-${i}`).value);
             });
             const newBg = document.getElementById('db-bg-url').value;
-            if(newBg) document.getElementById('bg-layer').style.backgroundImage = `url('${newBg}')`;
+            if(newBg) document.body.style.backgroundImage = `url('${newBg}')`;
             renderShop(); closePages(); alert("DROP AGGIORNATO!");
         }
 
