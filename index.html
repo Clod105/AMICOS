@@ -9,44 +9,45 @@
         :root { --brand-red: #ff3a3a; }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #fff; font-family: sans-serif; touch-action: none; }
 
-        /* HEADER */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); z-index: 1000; }
-        .header-btn { width: 70px; height: 70px; cursor: pointer; transition: 0.2s; object-fit: contain; }
-        .logo-central { width: 120px; height: auto; }
+        /* HEADER FIX */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; position: fixed; top: 0; width: calc(100% - 40px); z-index: 1000; height: 80px; }
+        .header-btn { width: 75px; height: 75px; cursor: pointer; transition: 0.2s; z-index: 1100; position: relative; }
+        .logo-central { width: 130px; height: auto; }
 
-        /* SHOP FLOOR */
-        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 10; }
-        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: grab; }
-        .item-container img { width: 160px; height: auto; pointer-events: none; -webkit-user-drag: none; display: block; }
+        /* SHOP FLOOR & VESTITI */
+        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 10; visibility: visible !important; }
+        .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: grab; z-index: 50; }
+        .item-container img { width: 180px; height: auto; pointer-events: none; -webkit-user-drag: none; border-radius: 10px; }
         
-        /* PREZZI SEMPRE VISIBILI */
         .price-tag { 
-            font-family: 'Press Start 2P', cursive; font-size: 9px; margin-top: 5px; 
-            background: #000; color: #fff; padding: 5px 8px; border: 2px solid #000;
-            z-index: 20; position: relative;
+            font-family: 'Press Start 2P', cursive; font-size: 10px; margin-top: 10px; 
+            background: #000; color: #fff; padding: 6px 10px; border: 2px solid #000;
         }
 
         /* TANK ANIMATION */
-        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(1.8) rotate(-15deg); } 100% { transform: scale(1); } }
-        .masticando { animation: tankEat 0.6s ease-out; }
+        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2) rotate(-20deg); } 100% { transform: scale(1); } }
+        .masticando { animation: tankEat 0.7s ease-out; }
+
+        /* FORM CHECKOUT ORIGINALE */
+        #order-form { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: white; z-index: 6000; flex-direction: column; align-items: center; justify-content: center; 
+        }
+        .form-content { width: 85%; display: flex; flex-direction: column; gap: 10px; }
+        input { padding: 15px; border: 4px solid #000; font-size: 16px; width: 100%; box-sizing: border-box; }
+        .btn-black { background: #000; color: #fff; padding: 18px; border: none; font-family: 'Press Start 2P'; font-size: 11px; margin-top: 15px; box-shadow: 6px 6px 0 var(--brand-red); cursor: pointer; }
 
         /* OVERLAYS */
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        
-        /* FORM & CHECKOUT */
-        #checkout-panel { display: none; position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%); z-index: 100; }
-        #order-form { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 6000; flex-direction: column; align-items: center; justify-content: center; }
-        input { margin: 10px; padding: 15px; width: 80%; border: 4px solid #000; font-size: 16px; }
-        .btn-black { background: #000; color: #fff; padding: 18px; border: none; width: 85%; font-family: 'Press Start 2P'; font-size: 11px; margin-top: 15px; box-shadow: 6px 6px 0 var(--brand-red); }
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        #checkout-panel { display: none; position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); z-index: 100; }
 
         /* LOADING */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9000; }
         .bar { width: 220px; height: 20px; border: 4px solid #000; margin-top: 25px; }
         .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
-        
+
         footer { position: fixed; bottom: 25px; width: 100%; text-align: center; z-index: 50; }
-        .brand-pongo { width: 300px; animation: pulse 3s infinite ease-in-out; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .brand-pongo { width: 320px; transition: 0.3s; }
     </style>
 </head>
 <body>
@@ -60,15 +61,15 @@
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" style="top:25%; left:15%;" data-price="45">
+        <div class="item-container" style="top:25%; left:10%;" data-price="45">
             <img src="image_cap.png">
             <span class="price-tag">CAP 45€</span>
         </div>
-        <div class="item-container" style="top:40%; left:55%;" data-price="65">
+        <div class="item-container" style="top:38%; left:55%;" data-price="65">
             <img src="image_tee.png">
             <span class="price-tag">TEE 65€</span>
         </div>
-        <div class="item-container" style="top:65%; left:20%;" data-price="90">
+        <div class="item-container" style="top:65%; left:15%;" data-price="90">
             <img src="image_jeans.png">
             <span class="price-tag">JEANS 90€</span>
         </div>
@@ -78,23 +79,27 @@
         <button class="btn-black" onclick="showForm()">CHECKOUT OK</button>
     </div>
 
+    <div id="order-form">
+        <div class="form-content">
+            <h2 style="font-family:'Press Start 2P'; font-size:12px; text-align:center;">TOTAL: <span id="total-price">0</span>€</h2>
+            <input type="text" placeholder="NOME E COGNOME">
+            <input type="text" placeholder="INDIRIZZO SPEDIZIONE">
+            <input type="text" placeholder="CITTA' E CAP">
+            <input type="email" placeholder="EMAIL">
+            <button class="btn-black" onclick="finishOrder()">INVIA ORDINE</button>
+            <p onclick="location.reload()" style="text-align:center; cursor:pointer;">Annulla</p>
+        </div>
+    </div>
+
     <div id="page-contatti" class="overlay-page">
         <h2 style="font-family:'Press Start 2P';">CONTACT</h2>
-        <p>Instagram: @fuocoamico</p>
+        <p>@fuocoamico</p>
         <button class="btn-black" onclick="closePages()">BACK</button>
     </div>
 
     <div id="page-special" class="overlay-page">
         <h2 style="font-family:'Press Start 2P'; color:red;">COLLECTION</h2>
-        <p>COMING SOON</p>
         <button class="btn-black" onclick="closePages()">CLOSE</button>
-    </div>
-
-    <div id="order-form">
-        <h2 style="font-family:'Press Start 2P'; font-size:12px;">TOTAL: <span id="total-price">0</span>€</h2>
-        <input type="text" placeholder="NAME">
-        <input type="text" placeholder="ADDRESS">
-        <button class="btn-black" onclick="finishOrder()">SEND ORDER</button>
     </div>
 
     <footer>
@@ -115,7 +120,7 @@
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
         function showForm() { document.getElementById('order-form').style.display = 'flex'; }
 
-        // Drag & Drop
+        // Drag & Drop con Fix Visibilità
         interact('.item-container').draggable({
             listeners: { move(event) {
                 const t = event.target;
@@ -124,8 +129,8 @@
                 t.style.transform = `translate(${x}px, ${y}px)`;
                 t.setAttribute('data-x', x);
                 t.setAttribute('data-y', y);
-                t.style.zIndex = 2000;
-            }, end(event) { event.target.style.zIndex = 20; }}
+                t.style.zIndex = 3000;
+            }, end(event) { event.target.style.zIndex = 50; }}
         });
 
         interact('#tank-cart').dropzone({
@@ -136,7 +141,7 @@
                 gnam.play();
                 item.style.display = 'none';
                 tank.classList.add('masticando');
-                setTimeout(() => tank.classList.remove('masticando'), 600);
+                setTimeout(() => tank.classList.remove('masticando'), 700);
                 total += parseInt(item.getAttribute('data-price'));
                 document.getElementById('total-price').innerText = total;
                 document.getElementById('checkout-panel').style.display = 'block';
