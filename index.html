@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO | SHOP FINAL</title>
+    <title>FUOCO AMICO | OFFICIAL SHOP</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #ff3a3a; }
@@ -12,74 +12,64 @@
             margin: 0; padding: 0; width: 100%; height: 100%; 
             overflow: hidden; font-family: sans-serif; 
             touch-action: none; -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
-            background-color: #2e4a1e;
-            /* FIX SFONDO: Pattern proporzionato e ripetuto */
-            background-image: url('sfondo_pongo.PNG'); 
-            background-size: 450px; /* Dimensione fissa del pattern per non farlo sembrare gigante */
-            background-position: center; 
-            background-repeat: repeat; /* Si ripete armoniosamente */
-            background-attachment: fixed;
+            user-select: none; -webkit-user-select: none;
+            background: #2e4a1e url('sfondo_pongo.PNG') repeat fixed;
+            background-size: 450px;
         }
 
-        img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.6)); }
-        .header-btn, .brand-pongo, .draggable-img, .btn-qty, .btn-black, .btn-clear, .apple-pay-btn { pointer-events: auto !important; }
+        /* FIX VISIBILITÀ */
+        img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
+        .header-btn, .brand-pongo, .draggable-img, .btn-qty, .btn-black, .btn-clear { pointer-events: auto !important; }
 
-        /* HEADER BLOCCATO IN ALTO */
+        /* HEADER: SIMMETRICO E PULITO */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 20px; position: fixed; top: 0; left: 0; right: 0; 
-            z-index: 9999; height: 100px;
+            padding: 15px 25px; position: fixed; top: 0; left: 0; right: 0; 
+            z-index: 9999; height: 110px;
         }
-        .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .header-btn:active { transform: scale(1.3) rotate(8deg); }
-        .logo-central { width: 160px; }
+        .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
+        .header-btn:active { transform: scale(1.25); }
+        .logo-central { width: 170px; height: auto; }
 
-        /* AREA CENTRALE MASSIMIZZATA */
+        /* ARTICOLI: RIMPICCIOLITI E DISTANZIATI */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
         .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 200; }
-        .item-container img { width: 210px; height: auto; }
-        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 10px; margin-top: 5px; background: #000; color: #fff; padding: 5px 10px; border: 3px solid #000; }
+        .item-container img { width: 190px; height: auto; }
+        .price-tag { font-family: 'Press Start 2P', cursive; font-size: 9px; margin-top: 5px; background: #000; color: #fff; padding: 5px 10px; border: 3px solid #000; }
 
-        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.4) rotate(-20deg); } 100% { transform: scale(1); } }
+        /* TANK ANIMATION */
+        @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.4) rotate(-15deg); } 100% { transform: scale(1); } }
         .masticando { animation: tankEat 0.6s ease-out; }
 
-        /* FOOTER BLOCCATO IN BASSO */
-        footer { 
-            position: fixed; bottom: 0; left: 0; right: 0; 
-            text-align: center; z-index: 50; padding-bottom: 5px;
-        }
-        .brand-pongo { width: 360px; max-width: 90%; cursor: pointer; transition: 0.2s; }
-        /* Animazione e suono al tocco della scritta */
-        .brand-pongo:active { transform: scale(1.15) rotate(-3deg); filter: drop-shadow(0 0 10px var(--brand-red)); }
+        /* FOOTER: REATTIVO AL TOCCO */
+        footer { position: fixed; bottom: 5px; left: 0; right: 0; text-align: center; z-index: 50; }
+        .brand-pongo { width: 340px; max-width: 85%; cursor: pointer; transition: 0.2s ease; }
+        .brand-pongo:active { transform: scale(1.1) rotate(-2deg); filter: drop-shadow(0 0 12px var(--brand-red)); }
 
-        /* PANNELLO COMANDI SOPRA IL FOOTER */
+        /* PANEL CHECKOUT: RIMPICCIOLITO E ORDINATO */
         #checkout-panel { 
-            display: none; position: fixed; bottom: 90px; left: 50%; 
-            transform: translateX(-50%); z-index: 9000; text-align: center; width: 100%;
+            display: none; position: fixed; bottom: 80px; left: 50%; 
+            transform: translateX(-50%); z-index: 9000; text-align: center; width: 90%;
         }
         .subtotal-box { 
-            display: inline-block; background: #fff; border: 4px solid #000; 
-            padding: 8px 15px; font-family: 'Press Start 2P'; font-size: 10px; 
+            display: inline-block; background: #fff; border: 3px solid #000; 
+            padding: 6px 12px; font-family: 'Press Start 2P'; font-size: 9px; 
             margin-bottom: 8px; box-shadow: 4px 4px 0 #000; 
         }
-        .panel-buttons { display: flex; gap: 10px; justify-content: center; align-items: center; }
+        .panel-buttons { display: flex; gap: 8px; justify-content: center; }
         
-        .btn-black { background: #000; color: #fff; padding: 18px; border: none; font-family: 'Press Start 2P'; font-size: 11px; box-shadow: 6px 6px 0 var(--brand-red); width: 170px; }
-        .btn-clear { background: #fff; color: #000; padding: 18px; border: 4px solid #000; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 4px 4px 0 #000; width: 110px; }
+        .btn-black { background: #000; color: #fff; padding: 16px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); width: 160px; cursor: pointer; }
+        .btn-clear { background: #fff; color: #000; padding: 16px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 9px; box-shadow: 4px 4px 0 #000; width: 100px; cursor: pointer; }
 
-        /* OVERLAYS */
+        /* OVERLAY PAGAMENTO */
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 20000; display: none; flex-direction: column; align-items: center; padding-top: 40px; }
-        .cart-summary { width: 90%; border: 4px solid #000; background: #f2f2f2; padding: 15px; margin-bottom: 20px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; font-family: 'Press Start 2P'; font-size: 9px; margin: 10px 0; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        .cart-summary { width: 90%; border: 3px solid #000; background: #f2f2f2; padding: 15px; margin-bottom: 20px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; font-family: 'Press Start 2P'; font-size: 9px; margin: 8px 0; border-bottom: 2px solid #000; padding-bottom: 8px; }
+        .btn-qty { background: #000; color: #fff; border: none; padding: 6px 10px; font-family: 'Press Start 2P'; font-size: 10px; }
         
-        .payment-form { width: 85%; display: flex; flex-direction: column; gap: 12px; }
-        .payment-form input { padding: 15px; border: 3px solid #000; font-size: 16px; border-radius: 0; }
-        .apple-pay-btn { background: #000; color: #fff; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 20px; display: flex; align-items: center; justify-content: center; border: none; }
-
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 30000; display: none; flex-direction: column; justify-content: center; align-items: center; }
-        .bar { width: 220px; height: 22px; border: 5px solid #000; margin-top: 20px; }
-        .fill { width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear; }
+        .payment-form { width: 85%; display: flex; flex-direction: column; gap: 10px; }
+        .payment-form input { padding: 14px; border: 3px solid #000; font-size: 14px; }
+        .apple-pay-btn { background: #000; color: #fff; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 18px; border: none; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -93,13 +83,13 @@
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" style="top:22%; left:10%;" data-price="45" data-id="cap" data-name="CAP">
+        <div class="item-container" style="top:20%; left:12%;" data-price="45" data-id="cap" data-name="CAP">
             <img src="image_cap.PNG" class="draggable-img"><span class="price-tag">45€</span>
         </div>
-        <div class="item-container" style="top:32%; left:52%;" data-price="65" data-id="tee" data-name="TEE">
+        <div class="item-container" style="top:35%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img"><span class="price-tag">65€</span>
         </div>
-        <div class="item-container" style="top:55%; left:28%;" data-price="90" data-id="jeans" data-name="JEANS">
+        <div class="item-container" style="top:58%; left:32%;" data-price="90" data-id="jeans" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img"><span class="price-tag">90€</span>
         </div>
     </main>
@@ -120,7 +110,7 @@
             <input type="text" placeholder="NUMERO CARTA">
             <button class="btn-black" style="width:100%" onclick="finishOrder()">PAGA <span id="final-total">0</span>€</button>
             <button class="apple-pay-btn" onclick="finishOrder()"> Pay</button>
-            <p onclick="closePages()" style="cursor:pointer; font-family:'Press Start 2P'; font-size:10px; text-align:center; margin-top:15px;">INDIETRO</p>
+            <p onclick="closePages()" style="cursor:pointer; font-family:'Press Start 2P'; font-size:9px; text-align:center;">INDIETRO</p>
         </div>
     </div>
 
@@ -132,27 +122,18 @@
 
     <footer><img src="brand_name.png" class="brand-pongo gnam-hover"></footer>
 
-    <div id="loading-screen">
-        <div style="font-family:'Press Start 2P'; font-size:12px; text-align:center;">ELABORAZIONE...</div>
-        <div class="bar"><div id="fill-bar" class="fill"></div></div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
         const gnam = document.getElementById('gnam-sound');
         let cart = {};
 
-        document.body.addEventListener('touchstart', () => {
-            gnam.play().then(() => { gnam.pause(); gnam.currentTime = 0; });
-        }, {once: true});
-
         function showPage(id) { document.getElementById(id).style.display = 'flex'; gnam.play(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
         document.querySelectorAll('.gnam-hover').forEach(el => {
-            const playG = () => { gnam.currentTime = 0; gnam.play(); };
-            el.addEventListener('touchstart', playG);
-            el.addEventListener('mouseenter', playG);
+            const playSound = () => { gnam.currentTime = 0; gnam.play().catch(()=>{}); };
+            el.addEventListener('touchstart', playSound);
+            el.addEventListener('mouseenter', playSound);
         });
 
         interact('.item-container').draggable({
@@ -210,13 +191,7 @@
             updateUI(); if(Object.keys(cart).length === 0) { closePages(); clearCart(); } else { showCheckout(); }
         }
 
-        function finishOrder() {
-            document.getElementById('loading-screen').style.display = 'flex';
-            let w = 0; const inv = setInterval(() => {
-                w += 5; document.getElementById('fill-bar').style.width = w + '%';
-                if(w >= 100) { clearInterval(inv); alert("ORDINE RICEVUTO!"); location.reload(); }
-            }, 60);
-        }
+        function finishOrder() { alert("ORDINE INVIATO!"); location.reload(); }
     </script>
 </body>
 </html>
