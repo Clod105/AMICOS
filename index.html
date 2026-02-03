@@ -17,14 +17,13 @@
             background-size: 450px;
         }
 
-        /* KILLER TOTALE PER IL ROMBO GEMINI E RESIDUI ESTERNI */
-        #gc-wrapper, .gc-icon, [id*="gemini"], [class*="gemini"], 
-        iframe, svg, .google-material-icons, [style*="z-index: 2147483647"] { 
+        /* KILLER PER ROMBO GEMINI E RESIDUI */
+        #gc-wrapper, .gc-icon, [id*="gemini"], [class*="gemini"], iframe, svg, .google-material-icons { 
             display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; 
         }
 
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        .header-btn, .brand-pongo-float, .draggable-img, .btn-black, .btn-clear, .btn-qty, .input-form, .price-tag, #checkout-panel { 
+        .header-btn, .brand-pongo-float, .draggable-img, .btn-black, .btn-clear, .btn-qty, .input-form, .price-tag, #checkout-panel, .pay-btn { 
             pointer-events: auto !important; 
         }
 
@@ -33,43 +32,47 @@
             padding: 10px 25px; position: fixed; top: 0; left: 0; right: 0; 
             z-index: 10000; height: 100px;
         }
-        .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s; object-fit: contain; }
+        .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
+        .header-btn:active { transform: scale(1.2) rotate(5deg); }
 
-        /* SHOP AREA - JEANS MOLTO ALTI */
+        /* SHOP AREA - POSIZIONI OTTIMIZZATE */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 500; }
         .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 600; cursor: grab; padding: 15px; }
         .item-container img { width: 120px; height: auto; }
         .price-tag { font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
 
-        /* ANIMAZIONI TANK */
-        @keyframes pacVomit { 0% { transform: scale(1); } 30% { transform: scale(2.6) rotate(15deg); } 60% { transform: scale(2.6) rotate(-15deg); } 100% { transform: scale(1); } }
-        .vomitando { animation: pacVomit 0.7s ease-in-out; }
+        /* ANIMAZIONI */
         @keyframes tankEat { 0% { transform: scale(1); } 50% { transform: scale(2.4) rotate(-20deg); } 100% { transform: scale(1); } }
         .masticando { animation: tankEat 0.6s ease-out; }
+        @keyframes pacVomit { 0% { transform: scale(1); } 30% { transform: scale(2.6) rotate(15deg); } 100% { transform: scale(1); } }
+        .vomitando { animation: pacVomit 0.7s ease-in-out; }
 
-        /* BRAND NAME & COPYRIGHT */
+        /* BRAND & COPYRIGHT */
         .brand-pongo-float { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 250px; cursor: pointer; transition: 0.2s; 
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 240px; cursor: pointer; transition: 0.2s; 
             z-index: 20000; pointer-events: auto;
         }
-        .brand-pongo-float:active { transform: translateX(-50%) scale(1.1) rotate(-2deg); }
+        .brand-pongo-float:active { transform: translateX(-50%) scale(1.1) rotate(-3deg); }
 
-        .legal-ticker { position: fixed; bottom: 2px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 19000; font-size: 6px; color: var(--legal-gray); }
+        .legal-ticker { position: fixed; bottom: 5px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 19000; font-size: 6px; color: var(--legal-gray); }
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* CHECKOUT PANEL - CENTRATO E TRASCINABILE */
+        /* PANNELLO CARRELLO TRASCINABILE */
         #checkout-panel { 
             display: none; position: fixed; top: 50%; left: 50%; 
             transform: translate(-50%, -50%); z-index: 25000; text-align: center; 
             cursor: move; touch-action: none;
         }
-        .panel-box { background:#fff; border:5px solid #000; padding:20px; box-shadow: 10px 10px 0 var(--brand-red); }
-        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer; }
-        .btn-clear { background: #fff; color: #000; padding: 15px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; box-shadow: 3px 3px 0 #000; cursor: pointer; }
+        .panel-box { background:#fff; border:5px solid #000; padding:20px; box-shadow: 10px 10px 0 var(--brand-red); min-width: 220px; }
 
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 35000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
+        /* OVERLAYS */
+        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 35000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .input-form { width: 85%; padding: 12px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; margin-bottom: 8px; outline: none; }
+        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer; }
+        .btn-qty { background: #000; color: #fff; border: none; padding: 5px 10px; font-family: 'Press Start 2P'; font-size: 10px; cursor: pointer; }
+        .pay-btn { padding: 10px; background: #eee; border: 3px solid #000; font-size: 8px; cursor: pointer; margin: 5px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -83,13 +86,13 @@
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" id="item-0" style="top:20%; left:10%;" data-price="45" data-id="0" data-name="CAP">
+        <div class="item-container" id="item-0" style="top:18%; left:12%;" data-price="45" data-id="0" data-name="CAP" data-stock="10">
             <img src="image_cap.PNG" class="draggable-img"><span class="price-tag">45€</span>
         </div>
-        <div class="item-container" id="item-1" style="top:32%; left:55%;" data-price="65" data-id="1" data-name="TEE">
+        <div class="item-container" id="item-1" style="top:32%; left:55%;" data-price="65" data-id="1" data-name="TEE" data-stock="10">
             <img src="image_tee.PNG" class="draggable-img"><span class="price-tag">65€</span>
         </div>
-        <div class="item-container" id="item-2" style="top:45%; left:25%;" data-price="90" data-id="2" data-name="JEANS">
+        <div class="item-container" id="item-2" style="top:48%; left:25%;" data-price="90" data-id="2" data-name="JEANS" data-stock="10">
             <img src="image_jeans.PNG" class="draggable-img"><span class="price-tag">90€</span>
         </div>
     </main>
@@ -98,29 +101,46 @@
         <div class="panel-box">
             <div style="font-size:10px; margin-bottom:15px; border-bottom:3px solid #000; padding-bottom:10px;">CARRELLO PIENO</div>
             <div style="font-size:12px; margin-bottom:20px;">TOTALE: <span id="temp-total">0</span>€</div>
-            <div style="display:flex; gap:15px; justify-content:center;">
-                <button class="btn-clear" onclick="spitOutItems()">SVUOTA</button>
+            <div style="display:flex; gap:10px; justify-content:center;">
+                <button onclick="spitOutItems()" style="padding:10px; font-family:'Press Start 2P'; font-size:7px; cursor:pointer;">SVUOTA</button>
                 <button class="btn-black" onclick="showCheckout()">PAGA</button>
             </div>
         </div>
     </div>
 
-    <img src="brand_name.png" class="brand-pongo-float gnam-hover" id="brand-logo">
+    <img src="brand_name.png" class="brand-pongo-float gnam-hover" id="footer-logo">
     <div class="legal-ticker">
         <div class="ticker-content">All rights reserved fuocoamico (friendlyfire) copyright ©️ 2026-2036. Made in Italy to the World. Win alone</div>
     </div>
 
     <div id="checkout-page" class="overlay-page">
         <div style="font-size:12px; margin-bottom:20px;">RIEPILOGO ORDINE</div>
-        <div id="cart-list" style="width:90%; border:4px solid #000; padding:15px; font-size:8px; margin-bottom:20px; background:#f9f9f9;"></div>
-        <button class="btn-black" onclick="alert('ORDINE INVIATO!')">CONFERMA ACQUISTO</button>
-        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:20px; color:red;">TORNA ALLO SHOP</p>
+        <div id="cart-list" style="width:90%; border:4px solid #000; padding:15px; font-size:7px; margin-bottom:15px; background:#fff;"></div>
+        
+        <input type="text" class="input-form" placeholder="NOME E COGNOME">
+        <input type="text" class="input-form" placeholder="NAZIONE - CITTÀ">
+        <input type="text" class="input-form" placeholder="INDIRIZZO RESIDENZA">
+        
+        <div style="display:flex; margin:10px 0;">
+            <div class="pay-btn" onclick="alert(' Pay Selezionato')"> PAY</div>
+            <div class="pay-btn" onclick="alert('Carta Selezionata')">CARTE</div>
+        </div>
+
+        <button class="btn-black" onclick="alert('ORDINE INVIATO!')" style="width:90%;">CONFERMA <span id="final-total">0</span>€</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:15px; color:red;">ANNULLA</p>
     </div>
 
     <div id="page-contatti" class="overlay-page">
-        <div style="font-size:14px;">CONTATTI</div>
-        <p style="font-size:10px; margin-top:30px;">IG: @FUOCOAMICO</p>
-        <button class="btn-black" onclick="closePages()" style="margin-top:30px;">ESCI</button>
+        <div style="font-size:18px; color:var(--brand-red);">FRIENDLYFIRE</div>
+        <p style="font-size:9px; margin:30px 0; line-height:1.5;">MONDO PONGO<br>IG: @FUOCOAMICO<br>INFO@FUOCOAMICO.IT</p>
+        <button class="btn-black" onclick="closePages()">CHIUDI</button>
+    </div>
+
+    <div id="page-admin" class="overlay-page" style="background:#111; color:#fff;">
+        <div style="color:var(--brand-red); margin-bottom:20px;">DATABASE GESTIONE</div>
+        <div id="admin-fields" style="width:100%;"></div>
+        <button onclick="saveAdminChanges()" style="background:green; color:#fff; padding:15px; font-family:'Press Start 2P'; border:none; margin-top:20px;">SALVA MODIFICHE</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:20px;">ESCI</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
@@ -134,11 +154,17 @@
         function showPage(id) { document.getElementById(id).style.display = 'flex'; playGnam(); }
         function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
 
+        // SUONO E ANIMAZIONE ELEMENTI HEADER E BRAND
+        document.querySelectorAll('.gnam-hover').forEach(el => {
+            el.addEventListener('pointerdown', playGnam);
+        });
+
+        // LOGICA FUOCHI / DATABASE
         document.getElementById('master-logo').addEventListener('click', () => {
             logoClicks++;
             if(logoClicks >= 3) {
                 const pass = prompt("PASSWORD:");
-                if(pass === "FRIENDLYFIRE26") alert("Database sbloccato");
+                if(pass === "FRIENDLYFIRE26") openAdmin();
                 logoClicks = 0;
             } else {
                 setTimeout(() => { if(logoClicks > 0 && logoClicks < 3) { alert("RARITÀ IN ARRIVO!"); logoClicks = 0; } }, 400);
@@ -160,7 +186,7 @@
             }
         });
 
-        // DRAG CHECKOUT (Inizia centrato)
+        // DRAG CHECKOUT
         interact('#checkout-panel').draggable({
             listeners: { move(event) {
                 const t = event.target;
@@ -171,12 +197,13 @@
             }}
         });
 
+        // DROPZONE TANK
         interact('#tank-cart').dropzone({
             accept: '.item-container', 
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const id = item.getAttribute('data-id');
-                playGnam(); // SUONO GNAM AL DROP
+                playGnam();
                 if(cart[id]) { cart[id].qty++; } else { 
                     cart[id] = {name: item.getAttribute('data-name'), price: parseInt(item.getAttribute('data-price')), qty: 1}; 
                 }
@@ -186,6 +213,40 @@
                 setTimeout(() => tank.classList.remove('masticando'), 600);
             }
         });
+
+        function updateUI() {
+            let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
+            document.getElementById('temp-total').innerText = total;
+            document.getElementById('final-total').innerText = total;
+            document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
+        }
+
+        function showCheckout() {
+            const list = document.getElementById('cart-list'); list.innerHTML = '';
+            for(let k in cart) {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span>${cart[k].name}</span>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <button class="btn-qty" onclick="changeQty('${k}',-1)">-</button>
+                        <span>${cart[k].qty}</span>
+                        <button class="btn-qty" onclick="changeQty('${k}',1)">+</button>
+                    </div>
+                    <span>${cart[k].price * cart[k].qty}€</span>
+                </div>`;
+            }
+            showPage('checkout-page');
+        }
+
+        function changeQty(id, delta) {
+            cart[id].qty += delta;
+            if(cart[id].qty <= 0) {
+                delete cart[id];
+                const el = document.getElementById('item-' + id);
+                el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.transform = 'translate(0,0)';
+            }
+            updateUI();
+            if(Object.keys(cart).length === 0) closePages(); else showCheckout();
+        }
 
         function spitOutItems() {
             cart = {}; playGnam();
@@ -198,18 +259,29 @@
             updateUI();
         }
 
-        function updateUI() {
-            let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
-            document.getElementById('temp-total').innerText = total;
-            document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
+        // DATABASE ADMIN FUNCTIONS
+        function openAdmin() {
+            const fields = document.getElementById('admin-fields'); fields.innerHTML = '';
+            for(let i=0; i<3; i++) {
+                const item = document.getElementById(`item-${i}`);
+                fields.innerHTML += `<div style="font-size:7px; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px;">
+                    NOME: <input id="ad-n-${i}" style="width:80px" value="${item.getAttribute('data-name')}"> 
+                    PREZZO: <input id="ad-p-${i}" style="width:30px" value="${item.getAttribute('data-price')}">€ 
+                    STOCK: <input id="ad-s-${i}" style="width:30px" value="${item.getAttribute('data-stock')}">
+                </div>`;
+            }
+            showPage('page-admin');
         }
 
-        function showCheckout() {
-            const list = document.getElementById('cart-list'); list.innerHTML = '';
-            for(let k in cart) {
-                list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${cart[k].name} x${cart[k].qty}</span><span>${cart[k].price * cart[k].qty}€</span></div>`;
+        function saveAdminChanges() {
+            for(let i=0; i<3; i++) {
+                const item = document.getElementById(`item-${i}`);
+                item.setAttribute('data-name', document.getElementById(`ad-n-${i}`).value);
+                item.setAttribute('data-price', document.getElementById(`ad-p-${i}`).value);
+                item.setAttribute('data-stock', document.getElementById(`ad-s-${i}`).value);
+                item.querySelector('.price-tag').innerText = item.getAttribute('data-price') + '€';
             }
-            showPage('checkout-page');
+            alert("DATABASE AGGIORNATO!"); closePages();
         }
     </script>
 </body>
