@@ -7,68 +7,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #ff3a3a; }
-        
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
-            overflow: hidden; background: #ffffff; font-family: sans-serif;
-            touch-action: none; -webkit-overflow-scrolling: touch;
+            overflow: hidden; background: #ffffff; touch-action: none;
         }
 
-        /* HEADER & LOGHI */
+        /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 30px; position: fixed; top: 0; width: calc(100% - 60px); z-index: 100;
         }
-        .header-item { width: 60px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .header-item:hover { transform: scale(1.2) rotate(5deg); }
-        .logo-central { width: 120px; }
+        .header-item { width: 70px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+        .header-item:hover { transform: scale(1.3) rotate(8deg); }
+        .logo-central { width: 130px; }
 
-        /* AREA DI GIOCO */
-        #shop-floor { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
-
+        /* AREA SHOP E VESTITI */
+        #shop-floor { width: 100vw; height: 100vh; position: relative; }
         .draggable-item { 
             position: absolute; cursor: grab; touch-action: none; z-index: 10;
-            transition: transform 0.2s ease, filter 0.2s ease;
+            transition: transform 0.3s ease;
         }
-        
-        /* Effetto quando passi sopra con il cursore o tocchi */
-        .draggable-item:active { cursor: grabbing; transform: scale(1.1); filter: brightness(1.1); }
-        .draggable-item img { width: 160px; pointer-events: none; -webkit-user-drag: none; }
+        .draggable-item img { width: 170px; pointer-events: none; }
 
-        /* ANIMAZIONE TANK GNAM */
-        @keyframes tankGnam {
+        /* SCRITTA BRAND MODELLANTE */
+        footer { position: fixed; bottom: 20px; width: 100%; text-align: center; z-index: 50; }
+        .brand-name { 
+            width: 300px; transition: 0.4s ease-in-out; 
+            animation: modeling 3s infinite ease-in-out;
+        }
+        @keyframes modeling {
+            0%, 100% { transform: scale(1) skew(0deg); }
+            50% { transform: scale(1.15) skew(-3deg); filter: drop-shadow(0 0 15px rgba(255,58,58,0.4)); }
+        }
+
+        /* TANK ANIMATION */
+        @keyframes tankEat {
             0% { transform: scale(1); }
-            40% { transform: scale(1.8) rotate(-15deg); filter: hue-rotate(20deg); }
+            50% { transform: scale(1.8) rotate(-15deg); }
             100% { transform: scale(1); }
         }
-        .tank-masticando { animation: tankGnam 0.7s ease-in-out; }
+        .tank-masticando { animation: tankEat 0.6s ease-out; }
 
-        /* FOOTER */
-        footer { position: fixed; bottom: 20px; width: 100%; text-align: center; z-index: 50; }
-        .brand-name { width: 250px; transition: 0.3s; }
-        .brand-name:hover { filter: drop-shadow(0 0 10px var(--brand-red)); }
-
-        /* LOADING SCREEN PERFETTO */
+        /* LOADING SCREEN */
         #loading-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; display: none; 
-            flex-direction: column; justify-content: center; align-items: center; z-index: 1000;
+            background: white; display: none; flex-direction: column; 
+            justify-content: center; align-items: center; z-index: 1000;
         }
-        .pixel-anim {
-            width: 100px; margin-bottom: 20px;
-            animation: jump 0.4s infinite alternate ease-in-out;
-        }
-        @keyframes jump { from { transform: translateY(0); } to { transform: translateY(-20px); } }
-        
-        .loading-bar-container {
-            width: 200px; height: 12px; border: 3px solid #000; padding: 2px; background: white;
-        }
-        .loading-bar-fill {
-            width: 0%; height: 100%; background: var(--brand-red); transition: width 0.1s linear;
-        }
-        .loading-text {
-            font-family: 'Press Start 2P', cursive; font-size: 10px; color: #000; margin-top: 15px;
-        }
+        .bar-container { width: 220px; height: 15px; border: 4px solid #000; background: #fff; margin-top: 20px; }
+        .bar-fill { width: 0%; height: 100%; background: var(--brand-red); }
     </style>
 </head>
 <body>
@@ -76,9 +63,9 @@
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
 
     <header>
-        <img src="mondo_pongo.png" class="header-item">
-        <img src="fuochini_centrali.png" class="header-item logo-central">
-        <img src="tank_header.png" class="header-item" id="tank-cart">
+        <img src="mondo_pongo.png" class="header-item gnam-only-icons">
+        <img src="fuochini_centrali.png" class="header-item logo-central gnam-only-icons">
+        <img src="tank_header.png" class="header-item gnam-only-icons" id="tank-cart">
     </header>
 
     <main id="shop-floor">
@@ -88,70 +75,62 @@
     </main>
 
     <footer>
-        <img src="brand_name.png" class="brand-name">
+        <img src="brand_name.png" class="brand-name gnam-only-icons">
     </footer>
 
     <div id="loading-screen">
-        <img src="fuochini_centrali.png" class="pixel-anim">
-        <div class="loading-bar-container">
-            <div id="progress-fill" class="loading-bar-fill"></div>
-        </div>
-        <div class="loading-text">AGGIUNGENDO AL CARRELLO...</div>
+        <img src="fuochini_centrali.png" style="width:80px; animation: modeling 1s infinite;">
+        <div class="bar-container"><div id="fill" class="bar-fill"></div></div>
+        <p style="font-family:'Press Start 2P'; font-size:10px; margin-top:15px;">MASTICANDO...</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
-        // TRASCINAMENTO
+        const gnam = document.getElementById('gnam-sound');
+
+        // GNAM SOLO PER ICONE E BRAND (No vestiti)
+        document.querySelectorAll('.gnam-only-icons').forEach(el => {
+            const playGnam = () => {
+                gnam.currentTime = 0;
+                gnam.play().catch(() => {});
+            };
+            el.addEventListener('mouseenter', playGnam);
+            el.addEventListener('touchstart', playGnam);
+        });
+
         interact('.draggable-item').draggable({
             listeners: {
                 move(event) {
-                    const target = event.target;
-                    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-                    target.style.transform = `translate(${x}px, ${y}px)`;
-                    target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
+                    const t = event.target;
+                    const x = (parseFloat(t.getAttribute('data-x')) || 0) + event.dx;
+                    const y = (parseFloat(t.getAttribute('data-y')) || 0) + event.dy;
+                    t.style.transform = `translate(${x}px, ${y}px)`;
+                    t.setAttribute('data-x', x);
+                    t.setAttribute('data-y', y);
                 }
             }
         });
 
-        // RILASCIO NEL TANK (CARRELLO)
         interact('#tank-cart').dropzone({
             accept: '.draggable-item',
-            overlap: 0.15,
+            overlap: 0.1,
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const tank = event.target;
-                const audio = document.getElementById('gnam-sound');
-
-                // Effetto sonoro
-                audio.currentTime = 0;
-                audio.play().catch(e => console.log("Audio attivo dopo primo tocco"));
-
-                // Animazione vestito mangiato
-                item.style.transition = 'all 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19)';
-                item.style.transform += ' scale(0) rotate(180deg)';
-                item.style.opacity = '0';
-
-                // Animazione Tank
-                tank.classList.add('tank-masticando');
-                setTimeout(() => tank.classList.remove('tank-masticando'), 700);
                 
-                // Avvio Loading Perfetto
+                gnam.play(); // Gnam finale quando mangia il vestito
+                
+                item.style.transition = '0.4s';
+                item.style.transform += ' scale(0)';
+                tank.classList.add('tank-masticando');
+
                 setTimeout(() => {
-                    const ls = document.getElementById('loading-screen');
-                    const fill = document.getElementById('progress-fill');
-                    ls.style.display = 'flex';
-                    
-                    let width = 0;
-                    const interval = setInterval(() => {
-                        if (width >= 100) {
-                            clearInterval(interval);
-                            setTimeout(() => { location.reload(); }, 500);
-                        } else {
-                            width += 2;
-                            fill.style.width = width + '%';
-                        }
+                    document.getElementById('loading-screen').style.display = 'flex';
+                    let w = 0;
+                    const inv = setInterval(() => {
+                        w += 5;
+                        document.getElementById('fill').style.width = w + '%';
+                        if(w >= 100) { clearInterval(inv); location.reload(); }
                     }, 50);
                 }, 500);
             }
