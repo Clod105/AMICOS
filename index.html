@@ -17,11 +17,15 @@
             background-size: 450px;
         }
 
-        /* KILLER PER LAYER ESTERNI */
-        [id*="gemini"], [class*="gemini"], iframe { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+        /* RIMOZIONE CHIRURGICA SIMBOLO E RESIDUI */
+        iframe, [id*="gemini"], [class*="gemini"], [style*="z-index: 2147483647"], .google-material-icons { 
+            display: none !important; opacity: 0 !important; pointer-events: none !important; 
+        }
 
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .admin-input, .input-form, .price-tag, .pay-choice { pointer-events: auto !important; }
+        .header-btn, .brand-pongo, .draggable-img, .btn-black, .btn-clear, .btn-qty, .input-form, .price-tag, .pay-btn { 
+            pointer-events: auto !important; 
+        }
 
         header { 
             display: flex; justify-content: space-between; align-items: center; 
@@ -31,31 +35,34 @@
         .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         .header-btn:active { transform: scale(1.2) rotate(5deg); }
 
-        #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 500; }
+        /* SHOP FLOOR: LIMITATO PER NON COPRIRE IL FOOTER */
+        #shop-floor { width: 100vw; height: calc(100vh - 120px); position: relative; z-index: 500; }
         .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 600; cursor: grab; }
-        .item-container img { width: 130px; height: auto; }
+        .item-container img { width: 125px; height: auto; transition: opacity 0.3s; }
         .price-tag { font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
         .sold-out { filter: grayscale(1) !important; opacity: 0.5; pointer-events: none !important; }
 
         @keyframes pacVomit { 0% { transform: scale(1); } 30% { transform: scale(2.6) rotate(15deg); } 60% { transform: scale(2.6) rotate(-15deg); } 100% { transform: scale(1); } }
         .vomitando { animation: pacVomit 0.7s ease-in-out; }
 
-        /* FOOTER BRAND: POSIZIONE FINALE E ANIMAZIONE SBLOCCATA */
-        footer { position: fixed; bottom: 32px; left: 0; right: 0; text-align: center; z-index: 100; pointer-events: none; }
-        .brand-pongo { width: 260px; max-width: 80%; cursor: pointer; transition: 0.2s; display: inline-block; pointer-events: auto; }
+        /* BRAND NAME: LAYER SUPERIORE PER EVITARE BUG */
+        footer { position: fixed; bottom: 35px; left: 0; right: 0; text-align: center; z-index: 20000; pointer-events: none; }
+        .brand-pongo { 
+            width: 280px; max-width: 80%; cursor: pointer; transition: 0.2s; 
+            display: inline-block; pointer-events: auto; 
+        }
         .brand-pongo:active { transform: scale(1.15) rotate(-3deg); }
 
         .legal-ticker { position: fixed; bottom: 5px; width: 100%; white-space: nowrap; overflow: hidden; z-index: 40; font-size: 6px; color: var(--legal-gray); }
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* CHECKOUT & ADMIN */
+        /* PANNELLI */
         #checkout-panel { display: none; position: fixed; bottom: 140px; left: 50%; transform: translateX(-50%); z-index: 15000; text-align: center; cursor: move; }
         .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 30000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
-        .input-form { width: 90%; padding: 12px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; margin-bottom: 6px; outline: none; }
-        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 4px 4px 0 var(--brand-red); cursor: pointer; }
-        .pay-choice { display: flex; gap: 10px; margin-top: 10px; }
-        .pay-btn { padding: 10px; background: #eee; border: 2px solid #000; font-size: 8px; cursor: pointer; }
+        .input-form { width: 85%; padding: 12px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; margin-bottom: 8px; }
+        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
+        .pay-btn { padding: 10px; background: #eee; border: 2px solid #000; font-size: 8px; cursor: pointer; margin: 5px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -90,23 +97,20 @@
 
     <div id="checkout-page" class="overlay-page">
         <div style="font-size:10px; margin-bottom:15px;">CHECKOUT</div>
-        <div id="cart-list" style="width:90%; max-height:140px; overflow-y:auto; margin-bottom:10px; border:2px solid #000; padding:10px; font-size:7px;"></div>
-        <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
-            <input type="text" class="input-form" placeholder="NOME E COGNOME">
-            <input type="text" class="input-form" placeholder="NAZIONE E CITTÀ">
-            <input type="text" class="input-form" placeholder="VIA E RESIDENZA">
-            <div class="pay-choice">
-                <div class="pay-btn" onclick="alert('Apple Pay Selezionato')"> PAY</div>
-                <div class="pay-btn" onclick="alert('Carta Selezionata')">CARTE</div>
-            </div>
-            <button class="btn-black" onclick="alert('ORDINE INVIATO!')" style="width:90%; margin-top:15px;">PAGA <span id="final-total">0</span>€</button>
-            <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:10px;">ANNULLA</p>
+        <div id="cart-list" style="width:90%; max-height:130px; overflow-y:auto; margin-bottom:10px; border:2px solid #000; padding:10px; font-size:7px;"></div>
+        <input type="text" class="input-form" placeholder="NOME E COGNOME">
+        <input type="text" class="input-form" placeholder="CITTA - RESIDENZA">
+        <div style="display:flex; justify-content:center;">
+            <div class="pay-btn" onclick="alert(' Pay')"> PAY</div>
+            <div class="pay-btn" onclick="alert('Carta')">CARTE</div>
         </div>
+        <button class="btn-black" onclick="alert('ORDINE INVIATO!')" style="width:90%; margin-top:10px;">PAGA <span id="final-total">0</span>€</button>
+        <p onclick="closePages()" style="cursor:pointer; font-size:8px; margin-top:10px;">ANNULLA</p>
     </div>
 
     <div id="page-contatti" class="overlay-page">
         <div style="font-size:12px;">MONDO PONGO</div>
-        <p style="font-size:8px; margin:20px 0;">EMAIL: INFO@FUOCOAMICO.IT<br>IG: @FUOCOAMICO</p>
+        <p style="font-size:8px; margin:20px 0;">IG: @FUOCOAMICO</p>
         <button class="btn-black" onclick="closePages()">CHIUDI</button>
     </div>
 
@@ -114,10 +118,9 @@
         <div style="color:var(--brand-red);">DATABASE</div>
         <div id="admin-fields" style="width:100%; margin-top:20px;"></div>
         <button onclick="saveAdminChanges()" style="background:green; color:#fff; padding:15px; font-family:'Press Start 2P'; border:none;">SALVA</button>
-        <button onclick="closePages()" style="margin-top:10px; background:#fff; font-family:'Press Start 2P'; border:none; padding:5px;">ESCI</button>
     </div>
 
-    <footer><img src="brand_name.png" class="brand-pongo gnam-hover"></footer>
+    <footer><img src="brand_name.png" class="brand-pongo gnam-hover" id="footer-brand"></footer>
 
     <div class="legal-ticker">
         <div class="ticker-content">All rights reserved fuocoamico (friendlyfire) copyright ©️ 2026-2036. Made in Italy to the World. Win alone</div>
@@ -150,15 +153,6 @@
             }
         });
 
-        function checkStock() {
-            for(let i=0; i<3; i++) {
-                const el = document.getElementById(`item-${i}`);
-                if(parseInt(el.getAttribute('data-stock')) <= 0) el.classList.add('sold-out');
-                else el.classList.remove('sold-out');
-            }
-        }
-        checkStock();
-
         interact('.item-container').draggable({
             listeners: { 
                 start(event) { event.target.style.transition = "none"; event.target.style.zIndex = 99999; },
@@ -184,7 +178,7 @@
         });
 
         interact('#tank-cart').dropzone({
-            accept: '.item-container:not(.sold-out)', 
+            accept: '.item-container', 
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const id = item.getAttribute('data-id');
@@ -261,7 +255,7 @@
                 item.setAttribute('data-stock', document.getElementById(`ad-s-${i}`).value);
                 item.querySelector('.price-tag').innerText = item.getAttribute('data-price') + '€';
             }
-            checkStock(); alert("AGGIORNATO!"); closePages();
+            alert("AGGIORNATO!"); closePages();
         }
     </script>
 </body>
