@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO | SHOP</title>
+    <title>FUOCO AMICO | OFFICIAL SHOP</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        :root { --brand-red: #ff3a3a; }
+        :root { --brand-red: #ff3a3a; --light-gray: #a0a0a0; }
         
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
@@ -18,7 +18,7 @@
         }
 
         img { pointer-events: none; -webkit-user-drag: none; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); }
-        .header-btn, .brand-pongo, .draggable-img, .btn-qty, .btn-black, .btn-clear { pointer-events: auto !important; }
+        .header-btn, .brand-pongo, .draggable-img, .btn-black, .input-newsletter { pointer-events: auto !important; }
 
         /* HEADER */
         header { 
@@ -26,40 +26,50 @@
             padding: 10px 25px; position: fixed; top: 0; left: 0; right: 0; 
             z-index: 9999; height: 100px;
         }
-        .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
-        .header-btn:active { transform: scale(1.25); }
+        .header-btn { width: 100px; height: 100px; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .header-btn:active { transform: scale(1.2); }
         .logo-central { width: 160px; height: auto; }
 
-        /* VESTITI RIMPICCIOLITI */
+        /* SHOP FLOOR */
         #shop-floor { width: 100vw; height: 100vh; position: relative; z-index: 100; }
         .item-container { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 200; }
-        .item-container img { width: 175px; height: auto; }
+        .item-container img { width: 170px; height: auto; }
         .price-tag { font-family: 'Press Start 2P', cursive; font-size: 8px; margin-top: 5px; background: #000; color: #fff; padding: 4px 8px; border: 2px solid #000; }
 
-        /* FOOTER BRAND NAME */
-        footer { position: fixed; bottom: 2px; left: 0; right: 0; text-align: center; z-index: 50; }
-        .brand-pongo { width: 320px; max-width: 80%; cursor: pointer; transition: 0.2s ease; }
-        /* Animazione al tocco/passaggio cursore */
-        .brand-pongo:active, .brand-pongo:hover { transform: scale(1.2) rotate(-2deg); }
+        /* FOOTER & COPYRIGHT */
+        footer { 
+            position: fixed; bottom: 45px; left: 0; right: 0; 
+            text-align: center; z-index: 50; 
+        }
+        .brand-pongo { width: 300px; max-width: 80%; cursor: pointer; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .brand-pongo:active { transform: scale(1.2) rotate(-2deg); }
 
-        /* PANEL CHECKOUT */
+        .copyright-area {
+            position: fixed; bottom: 8px; left: 0; right: 0;
+            text-align: center; font-family: 'Press Start 2P';
+            font-size: 6px; color: var(--light-gray); line-height: 1.6;
+            z-index: 40; pointer-events: none;
+        }
+
+        /* CHECKOUT PANEL - SPOSTATO PIÙ SU */
         #checkout-panel { 
-            display: none; position: fixed; bottom: 95px; left: 50%; 
+            display: none; position: fixed; bottom: 130px; left: 50%; 
             transform: translateX(-50%); z-index: 9000; text-align: center; width: 90%;
         }
-        .subtotal-box { 
-            display: inline-block; background: #fff; border: 3px solid #000; 
-            padding: 6px 12px; font-family: 'Press Start 2P'; font-size: 9px; 
-            margin-bottom: 8px; box-shadow: 4px 4px 0 #000; 
-        }
-        .panel-buttons { display: flex; gap: 8px; justify-content: center; }
-        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); width: 150px; cursor: pointer; }
-        .btn-clear { background: #fff; color: #000; padding: 15px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 9px; box-shadow: 4px 4px 0 #000; width: 90px; cursor: pointer; }
+        .subtotal-box { display: inline-block; background: #fff; border: 3px solid #000; padding: 6px 12px; font-family: 'Press Start 2P'; font-size: 9px; margin-bottom: 8px; box-shadow: 4px 4px 0 #000; }
+        .btn-black { background: #000; color: #fff; padding: 15px; border: none; font-family: 'Press Start 2P'; font-size: 10px; box-shadow: 5px 5px 0 var(--brand-red); cursor: pointer; }
 
+        /* NEWSLETTER FORM */
+        .newsletter-form { margin-top: 25px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .input-newsletter { padding: 12px; border: 3px solid #000; font-family: 'Press Start 2P'; font-size: 8px; width: 220px; outline: none; }
+        
         /* OVERLAYS */
-        .overlay-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 20000; display: none; flex-direction: column; align-items: center; padding-top: 40px; }
-        .cart-summary { width: 90%; border: 3px solid #000; background: #f2f2f2; padding: 15px; margin-bottom: 20px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; font-family: 'Press Start 2P'; font-size: 9px; margin: 8px 0; border-bottom: 2px solid #000; padding-bottom: 8px; }
+        .overlay-page { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(255,255,255,0.98); z-index: 20000; 
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20px;
+        }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -68,57 +78,74 @@
 
     <header>
         <img src="mondo_pongo.PNG" class="header-btn gnam-hover" onclick="showPage('page-contatti')">
-        <img src="fuochini_centrali.png" class="header-btn logo-central gnam-hover">
+        <img src="fuochini_centrali.png" class="header-btn logo-central gnam-hover" onclick="showPage('page-collezione')">
         <img src="tank_header.PNG" class="header-btn gnam-hover" id="tank-cart">
     </header>
 
     <main id="shop-floor">
-        <div class="item-container" style="top:22%; left:12%;" data-price="45" data-id="cap" data-name="CAP">
+        <div class="item-container" style="top:25%; left:12%;" data-price="45" data-id="cap" data-name="CAP">
             <img src="image_cap.PNG" class="draggable-img"><span class="price-tag">45€</span>
         </div>
-        <div class="item-container" style="top:38%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
+        <div class="item-container" style="top:40%; left:55%;" data-price="65" data-id="tee" data-name="TEE">
             <img src="image_tee.PNG" class="draggable-img"><span class="price-tag">65€</span>
         </div>
-        <div class="item-container" style="top:60%; left:30%;" data-price="90" data-id="jeans" data-name="JEANS">
+        <div class="item-container" style="top:62%; left:30%;" data-price="90" data-id="jeans" data-name="JEANS">
             <img src="image_jeans.PNG" class="draggable-img"><span class="price-tag">90€</span>
         </div>
     </main>
 
+    <div id="page-contatti" class="overlay-page">
+        <div style="font-family:'Press Start 2P'; font-size:14px;">NEWSLETTER</div>
+        <div class="newsletter-form">
+            <input type="email" class="input-newsletter" placeholder="TUA@EMAIL.IT">
+            <button class="btn-black" onclick="alert('Iscrizione salvata!')">UNISCITI AL MONDO</button>
+        </div>
+        <hr style="width:60%; margin:30px 0; border:1px solid #ddd;">
+        <div style="font-family:'Press Start 2P'; font-size:10px;">@FUOCOAMICO</div>
+        <button class="btn-black" onclick="closePages()" style="margin-top:30px; background:#fff; color:#000; border:3px solid #000; box-shadow: 4px 4px 0 #000;">CHIUDI</button>
+    </div>
+
+    <div id="page-collezione" class="overlay-page">
+        <div style="font-family:'Press Start 2P';">SECRET DROP<br>COMING SOON</div>
+        <button class="btn-black" onclick="closePages()" style="margin-top:40px;">TORNA</button>
+    </div>
+
     <div id="checkout-panel">
         <div class="subtotal-box">CONTO: <span id="temp-total">0</span>€</div>
         <div class="panel-buttons">
-            <button class="btn-clear" onclick="clearCart()">SVUOTA</button>
-            <button class="btn-black" onclick="showCheckout()">CHECKOUT OK</button>
+            <button class="btn-black" onclick="alert('ORDINE INVIATO!')" style="width:200px">PAGA <span id="final-total">0</span>€</button>
         </div>
     </div>
 
-    <div id="checkout-page" class="overlay-page">
-        <h2 style="font-family:'Press Start 2P'; font-size:12px;">CARRELLO</h2>
-        <div class="cart-summary" id="cart-list"></div>
-        <div style="width:85%; display:flex; flex-direction:column; gap:10px;">
-            <button class="btn-black" style="width:100%" onclick="alert('ORDINE INVIATO!')">PAGA <span id="final-total">0</span>€</button>
-            <p onclick="closePages()" style="cursor:pointer; font-family:'Press Start 2P'; font-size:9px; text-align:center;">INDIETRO</p>
-        </div>
-    </div>
+    <footer>
+        <img src="brand_name.png" class="brand-pongo gnam-hover">
+    </footer>
 
-    <div id="page-contatti" class="overlay-page" style="justify-content:center; text-align:center;">
-        <h2 style="font-family:'Press Start 2P';">INFO</h2>
-        <p>IG: @fuocoamico</p>
-        <button class="btn-black" onclick="closePages()" style="width:200px">BACK</button>
+    <div class="copyright-area">
+        All rights reserved fuocoamico (firefriend) copyright ©️ 2026-2036.<br>
+        Made in Italy to the World. Win alone
     </div>
-
-    <footer><img src="brand_name.png" class="brand-pongo gnam-hover"></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
         const gnam = document.getElementById('gnam-sound');
         let cart = {};
 
-        function showPage(id) { document.getElementById(id).style.display = 'flex'; gnam.play(); }
-        function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
+        function showPage(id) { 
+            document.getElementById(id).style.display = 'flex'; 
+            playSound();
+        }
+        
+        function closePages() { 
+            document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); 
+        }
+
+        function playSound() {
+            gnam.currentTime = 0;
+            gnam.play().catch(()=>{});
+        }
 
         document.querySelectorAll('.gnam-hover').forEach(el => {
-            const playSound = () => { gnam.currentTime = 0; gnam.play().catch(()=>{}); };
             el.addEventListener('touchstart', playSound);
             el.addEventListener('mouseenter', playSound);
         });
@@ -139,22 +166,14 @@
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const id = item.getAttribute('data-id');
-                gnam.currentTime = 0; gnam.play();
+                playSound();
                 if(cart[id]) { cart[id].qty++; } else { 
-                    cart[id] = {name: item.getAttribute('data-name'), price: parseInt(item.getAttribute('data-price')), qty: 1}; 
+                    cart[id] = {price: parseInt(item.getAttribute('data-price')), qty: 1}; 
                 }
-                item.style.display = 'none'; updateUI();
+                item.style.display = 'none';
+                updateUI();
             }
         });
-
-        function clearCart() {
-            cart = {};
-            document.querySelectorAll('.item-container').forEach(el => {
-                el.style.display = 'flex'; el.style.transform = 'translate3d(0,0,0)';
-                el.setAttribute('data-x', 0); el.setAttribute('data-y', 0);
-            });
-            updateUI();
-        }
 
         function updateUI() {
             let total = 0; for(let k in cart) total += cart[k].price * cart[k].qty;
@@ -162,16 +181,6 @@
             document.getElementById('final-total').innerText = total;
             document.getElementById('checkout-panel').style.display = total > 0 ? 'block' : 'none';
         }
-
-        function showCheckout() {
-            const list = document.getElementById('cart-list'); list.innerHTML = '';
-            for(let k in cart) {
-                list.innerHTML += `<div class="cart-item"><span>${cart[k].name}</span> <span>${cart[k].qty}x</span> <span>${cart[k].price * cart[k].qty}€</span></div>`;
-            }
-            document.getElementById('checkout-page').style.display = 'flex';
-        }
-
-        function closePages() { document.querySelectorAll('.overlay-page').forEach(p => p.style.display = 'none'); }
     </script>
 </body>
 </html>
