@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FUOCO AMICO</title>
+    <title>AMICOS</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #ff3a3a; }
@@ -17,27 +17,31 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 30px; position: fixed; top: 0; width: calc(100% - 60px); z-index: 100;
         }
-        .header-item { width: 70px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
-        .header-item:hover { transform: scale(1.3) rotate(8deg); }
-        .logo-central { width: 130px; }
-
-        /* AREA SHOP E VESTITI */
-        #shop-floor { width: 100vw; height: 100vh; position: relative; }
-        .draggable-item { 
-            position: absolute; cursor: grab; touch-action: none; z-index: 10;
-            transition: transform 0.3s ease;
-        }
-        .draggable-item img { width: 170px; pointer-events: none; }
-
-        /* SCRITTA BRAND MODELLANTE */
-        footer { position: fixed; bottom: 20px; width: 100%; text-align: center; z-index: 50; }
-        .brand-name { 
-            width: 300px; transition: 0.4s ease-in-out; 
+        
+        /* EFFETTO MODELLANTE PER LOGHI E BRAND */
+        .pongo-element { 
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            cursor: pointer;
             animation: modeling 3s infinite ease-in-out;
         }
+        .pongo-element:hover, .pongo-element:active { 
+            transform: scale(1.3) rotate(5deg); 
+        }
+
+        .header-item { width: 70px; }
+        .logo-central { width: 130px; }
+
+        /* VESTITI (Senza Gnam al passaggio) */
+        .draggable-item { position: absolute; cursor: grab; touch-action: none; z-index: 10; }
+        .draggable-item img { width: 170px; pointer-events: none; }
+
+        /* FOOTER BRAND GIAPPONESE (Senza ombra fluo) */
+        footer { position: fixed; bottom: 25px; width: 100%; text-align: center; z-index: 50; }
+        .brand-name { width: 300px; display: inline-block; }
+
         @keyframes modeling {
             0%, 100% { transform: scale(1) skew(0deg); }
-            50% { transform: scale(1.15) skew(-3deg); filter: drop-shadow(0 0 15px rgba(255,58,58,0.4)); }
+            50% { transform: scale(1.1) skew(3deg); }
         }
 
         /* TANK ANIMATION */
@@ -46,9 +50,9 @@
             50% { transform: scale(1.8) rotate(-15deg); }
             100% { transform: scale(1); }
         }
-        .tank-masticando { animation: tankEat 0.6s ease-out; }
+        .masticando { animation: tankEat 0.6s ease-out; }
 
-        /* LOADING SCREEN */
+        /* LOADING */
         #loading-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; display: none; flex-direction: column; 
@@ -63,9 +67,9 @@
     <audio id="gnam-sound" src="suono_gnam.mp3" preload="auto"></audio>
 
     <header>
-        <img src="mondo_pongo.png" class="header-item gnam-only-icons">
-        <img src="fuochini_centrali.png" class="header-item logo-central gnam-only-icons">
-        <img src="tank_header.png" class="header-item gnam-only-icons" id="tank-cart">
+        <img src="mondo_pongo.png" class="header-item pongo-element gnam-hover">
+        <img src="fuochini_centrali.png" class="header-item logo-central pongo-element gnam-hover">
+        <img src="tank_header.png" class="header-item pongo-element gnam-hover" id="tank-cart">
     </header>
 
     <main id="shop-floor">
@@ -75,27 +79,27 @@
     </main>
 
     <footer>
-        <img src="brand_name.png" class="brand-name gnam-only-icons">
+        <img src="brand_name.png" class="brand-name pongo-element gnam-hover">
     </footer>
 
     <div id="loading-screen">
         <img src="fuochini_centrali.png" style="width:80px; animation: modeling 1s infinite;">
         <div class="bar-container"><div id="fill" class="bar-fill"></div></div>
-        <p style="font-family:'Press Start 2P'; font-size:10px; margin-top:15px;">MASTICANDO...</p>
+        <p style="font-family:'Press Start 2P'; font-size:10px; margin-top:15px;">DIIEGO IS COOKING...</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
         const gnam = document.getElementById('gnam-sound');
 
-        // GNAM SOLO PER ICONE E BRAND (No vestiti)
-        document.querySelectorAll('.gnam-only-icons').forEach(el => {
-            const playGnam = () => {
+        // Gnam su icone e brand
+        document.querySelectorAll('.gnam-hover').forEach(el => {
+            const playSound = () => {
                 gnam.currentTime = 0;
                 gnam.play().catch(() => {});
             };
-            el.addEventListener('mouseenter', playGnam);
-            el.addEventListener('touchstart', playGnam);
+            el.addEventListener('mouseenter', playSound);
+            el.addEventListener('touchstart', playSound);
         });
 
         interact('.draggable-item').draggable({
@@ -117,12 +121,11 @@
             ondrop: function (event) {
                 const item = event.relatedTarget;
                 const tank = event.target;
-                
-                gnam.play(); // Gnam finale quando mangia il vestito
+                gnam.play();
                 
                 item.style.transition = '0.4s';
                 item.style.transform += ' scale(0)';
-                tank.classList.add('tank-masticando');
+                tank.classList.add('masticando');
 
                 setTimeout(() => {
                     document.getElementById('loading-screen').style.display = 'flex';
